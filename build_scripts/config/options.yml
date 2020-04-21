@@ -1,0 +1,11 @@
+---
+build_dir:       ~/BUILD
+
+product_name:    manageiq
+github_url:      https://github.com/ManageIQ
+git_tag:         master
+version:         11.0.0
+release:         Kasparov
+rpm_repo_name:
+
+bundler_version: 2.1.4
