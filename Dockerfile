@@ -41,7 +41,6 @@ RUN npm install yarn -g
 
 RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
 
-COPY build_scripts /build_scripts
-COPY user-entrypoint.sh /
+COPY . /build_scripts
 
-ENTRYPOINT ["/user-entrypoint.sh"]
+ENTRYPOINT ["/build_scripts/container-assets/user-entrypoint.sh"]
