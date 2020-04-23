@@ -28,3 +28,7 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
 ## Artifacts
 
 manageiq, manageiq-gemset and manageiq-appliance .tar.gz will be created in `~/BUILD/rpm_spec/<rpm name>/` (`~/BUILD` is configurable in options.yml)
+
+## License
+
+This code is available as open source under the terms of the [Apache License 2.0](LICENSE).
