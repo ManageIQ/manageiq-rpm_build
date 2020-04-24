@@ -5,13 +5,13 @@ require 'yaml'
 module ManageIQ
   module RPMBuild
     class SetupSourceRepos
-      attr_reader :git_tag, :github_url
+      attr_reader :git_ref, :github_url
 
-      def initialize
+      def initialize(ref)
         puts "\n---> #{self.class.name}::#{__method__}"
         options = YAML.load_file(CONFIG_DIR.join("options.yml"))
 
-        @git_tag      = options["git_tag"]
+        @git_ref      = ref || options["git_ref"]
         @github_url   = options["github_url"]
       end
 
@@ -54,7 +54,7 @@ module ManageIQ
 
       def git_clone(repo_url, destination = nil)
         destination ||= File.basename(repo_url, ".git")
-        exit $?.exitstatus unless system("git clone --depth 1 -b #{git_tag} #{repo_url} #{destination}")
+        exit $?.exitstatus unless system("git clone --depth 1 -b #{git_ref} #{repo_url} #{destination}")
       end
     end
   end

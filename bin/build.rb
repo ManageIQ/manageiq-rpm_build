@@ -3,9 +3,19 @@
 $LOAD_PATH << File.expand_path("../lib", __dir__)
 
 require 'manageiq/rpm_build'
+require 'optimist'
+
+opts = Optimist.options do
+  opt :build_type, "nightly or release", :type => :string, :default => "nightly"
+  opt :git_ref,    "Git ref to use (default: git_ref specified in options.yml)", :type => :string
+end
+Optimist.die "build type must be either nightly or release" unless %w[nightly release].include?(opts[:build_type])
+
+build_type = opts[:build_type]
+git_ref    = opts[:git_ref]
 
 # Clone source repos
-ManageIQ::RPMBuild::SetupSourceRepos.new.populate
+ManageIQ::RPMBuild::SetupSourceRepos.new(git_ref).populate
 
 # Generate gemset
 gemset = ManageIQ::RPMBuild::GenerateGemSet.new
@@ -30,9 +40,10 @@ puts "\n\nTARBALL BUILT SUCCESSFULLY"
 
 # Build RPMs
 if ENV['COPR_RPM_BUILD']
-  ManageIQ::RPMBuild::BuildCopr.new("manageiq").generate_rpm
-  ManageIQ::RPMBuild::BuildCopr.new("manageiq-gemset").generate_rpm
-  ManageIQ::RPMBuild::BuildCopr.new("manageiq-appliance").generate_rpm
+  release_name = build_type == "release" ? git_ref : ""
+  ManageIQ::RPMBuild::BuildCopr.new("manageiq", release_name).generate_rpm
+  ManageIQ::RPMBuild::BuildCopr.new("manageiq-gemset", release_name).generate_rpm
+  ManageIQ::RPMBuild::BuildCopr.new("manageiq-appliance", release_name).generate_rpm
 end
 
 puts "\n\nRPM BUILT SUCCESSFULLY"

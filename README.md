@@ -21,9 +21,17 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
 
 3. Set options and run the script
 
-   - Modify `config/options.yml` as needed. If building RPMs in Copr, `repo_repo_name` must be set
+   - Modify `config/options.yml` as needed. If building RPMs in Copr, `repo_name` must be set
 
    - Run `bin/build.rb`
+
+
+Alternatively, build can be started by passing 'build' to docker run command:
+
+`docker run <miq-rpm_build image> build [--build-type <type>] [--git-ref <ref>]`
+
+The container will exit after build is completed. Use `-v <dir>:/root/BUILD` to mount a volume if artifacts need to be
+accessed later.
 
 ## Artifacts
 
