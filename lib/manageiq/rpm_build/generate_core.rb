@@ -18,13 +18,9 @@ module ManageIQ
       def build_file
         Dir.chdir(miq_dir) do
           git_sha = `git rev-parse --short HEAD`
-          build   = "#{VERSION}-#{BUILD_DATE}_#{git_sha}"
+          build   = "#{BUILD_DATE}_#{git_sha}"
           File.write("BUILD", build)
         end
-      end
-
-      def version_file
-        File.write(miq_dir.join("VERSION"), VERSION)
       end
 
       def release_file
@@ -59,7 +55,6 @@ module ManageIQ
       end
 
       def tar_prep
-        version_file
         build_file
         release_file
         precompile_assets
