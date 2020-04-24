@@ -5,17 +5,17 @@ $LOAD_PATH << File.expand_path("../lib", __dir__)
 require 'manageiq/rpm_build'
 
 # Clone source repos
-ManageIQ::RPMBuild::SourceRepos.new.populate
+ManageIQ::RPMBuild::SetupSourceRepos.new.populate
 
 # Generate gemset
-gemset = ManageIQ::RPMBuild::GemSet.new
+gemset = ManageIQ::RPMBuild::GenerateGemSet.new
 gemset.backup_environment_variables
 gemset.set_environment_variables
 gemset.recreate_gem_home
 gemset.populate_gem_home
 
 # Create 'manageiq' tarballs
-tar_build = ManageIQ::RPMBuild::MakeTarFile.new
+tar_build = ManageIQ::RPMBuild::GenerateTarFiles.new
 tar_build.create_manageiq_tarball
 
 # Scrub the gemset only after it is used to generate the tarfile.
@@ -30,9 +30,9 @@ puts "\n\nTARBALL BUILT SUCCESSFULLY"
 
 # Build RPMs
 if ENV['COPR_RPM_BUILD']
-  ManageIQ::RPMBuild::RpmBuild.new("manageiq").generate_rpm
-  ManageIQ::RPMBuild::RpmBuild.new("manageiq-gemset").generate_rpm
-  ManageIQ::RPMBuild::RpmBuild.new("manageiq-appliance").generate_rpm
+  ManageIQ::RPMBuild::BuildCopr.new("manageiq").generate_rpm
+  ManageIQ::RPMBuild::BuildCopr.new("manageiq-gemset").generate_rpm
+  ManageIQ::RPMBuild::BuildCopr.new("manageiq-appliance").generate_rpm
 end
 
 puts "\n\nRPM BUILT SUCCESSFULLY"

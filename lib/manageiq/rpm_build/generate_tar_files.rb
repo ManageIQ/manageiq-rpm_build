@@ -1,10 +1,10 @@
 require 'fileutils'
 require 'pathname'
-require_relative 'manageiq_tar_build'
+require 'manageiq/rpm_build/generate_core'
 
 module ManageIQ
   module RPMBuild
-    class MakeTarFile
+    class GenerateTarFiles
       attr_reader :gem_home
 
       def initialize
@@ -53,7 +53,7 @@ module ManageIQ
         gem_home_rake = gem_home.join("bin/rake").to_s
         raise "Error: #{gem_home_rake} should be used, but #{rake_path} is being used instead." unless rake_path == gem_home_rake
 
-        tar_build = ManageIQTarBuild.new
+        tar_build = GenerateCore.new
         tar_build.tar_prep
 
         if ENV["NPM_REGISTRY_OVERRIDE"]

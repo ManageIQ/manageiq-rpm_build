@@ -3,7 +3,7 @@ require 'yaml'
 
 module ManageIQ
   module RPMBuild
-    class ManageIQTarBuild
+    class GenerateCore
       attr_reader :miq_dir
 
       def initialize

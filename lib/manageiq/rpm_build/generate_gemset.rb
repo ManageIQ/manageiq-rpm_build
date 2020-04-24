@@ -5,7 +5,7 @@ require 'yaml'
 
 module ManageIQ
   module RPMBuild
-    class GemSet
+    class GenerateGemSet
       attr_reader :gem_home, :current_env, :bundler_version
 
       def initialize

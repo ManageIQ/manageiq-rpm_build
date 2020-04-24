@@ -4,7 +4,7 @@ require 'yaml'
 
 module ManageIQ
   module RPMBuild
-    class SourceRepos
+    class SetupSourceRepos
       attr_reader :git_tag, :github_url
 
       def initialize

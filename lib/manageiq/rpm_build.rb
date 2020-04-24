@@ -1,10 +1,10 @@
 require 'pathname'
 require 'yaml'
 
-require 'manageiq/rpm_build/clone_repos'
+require 'manageiq/rpm_build/build_copr'
 require 'manageiq/rpm_build/generate_gemset'
-require 'manageiq/rpm_build/make_tar_files'
-require 'manageiq/rpm_build/rpm_build'
+require 'manageiq/rpm_build/generate_tar_files'
+require 'manageiq/rpm_build/setup_source_repos'
 
 module ManageIQ
   module RPMBuild

@@ -4,7 +4,7 @@ require 'yaml'
 
 module ManageIQ
   module RPMBuild
-    class RpmBuild
+    class BuildCopr
       attr_reader :rpm_name, :rpm_release, :rpm_repo_name
 
       def initialize(name)
