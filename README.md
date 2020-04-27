@@ -23,7 +23,13 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
 
    - Modify `config/options.yml` as needed. If building RPMs in Copr, `repo_name` must be set
 
-   - Run `bin/build.rb`
+   - Run `bin/build.rb`, optionally overriding git ref (branch or tag) and release type
+     ```
+     bin/build.rb --git-ref jansa
+     ```
+     ```
+     bin/build.rb --build-type release --git-ref jansa-1-alpha1
+     ```
 
 
 Alternatively, build can be started by passing 'build' to docker run command:
