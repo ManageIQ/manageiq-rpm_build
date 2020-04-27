@@ -37,12 +37,17 @@ module ManageIQ
         spec_text = File.read(spec_file)
 
         spec_text.sub!("RPM_VERSION", VERSION)
-        spec_text.sub!("RPM_RELEASE", update_spec_release)
+        spec_text.sub!("RPM_RELEASE", spec_release)
         File.write(spec_file, spec_text)
       end
 
-      def update_spec_release
-        release_name.empty? ? "#{rpm_release}.#{BUILD_DATE}" : "#{rpm_release}.#{git_ref}"
+      def spec_release
+        if release_name.empty?
+          "#{rpm_release}.#{BUILD_DATE}"
+        else
+          pre_build = release_name.split("-")[2]
+          pre_build ? "#{rpm_release}.#{pre_build}" : "#{rpm_release}"
+        end
       end
     end
   end
