@@ -1,0 +1,28 @@
+%package core
+Summary:  ManageIQ Management Engine Core
+
+Requires: ruby
+Requires: manageiq-gemset = %{version}-%{release}
+
+Requires: ansible
+Requires: ansible-runner
+Requires: cockpit
+Requires: cockpit-ssh
+Requires: cockpit-ws
+Requires: insights-client
+Requires: net-snmp
+Requires: net-snmp-libs
+Requires: net-snmp-utils
+Requires: redhat-support-tool
+Requires: socat
+
+%description core
+ManageIQ Management Engine Core
+
+%post core
+%{__cp} -f %{app_root}/config/cable.yml.sample %{app_root}/config/cable.yml
+
+%files core
+%defattr(-,root,root,-)
+%{app_root}
+%config(noreplace) %{app_root}/certs

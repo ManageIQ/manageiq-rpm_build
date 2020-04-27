@@ -1,0 +1,53 @@
+%package gemset
+Summary:   ManageIQ Management Engine Gemset
+BuildRequires: /usr/bin/pathfix.py
+
+Requires: cifs-utils
+Requires: nfs-utils
+Requires: openscap-scanner
+Requires: nodejs
+Requires: wmi
+
+# For Miq IPMI (gems-pending)
+Requires: OpenIPMI
+Requires: freeipmi
+Requires: ipmitool
+
+# For Nuage
+Requires: cyrus-sasl
+Requires: cyrus-sasl-plain
+
+# For IMS
+Requires: v2v-conversion-host-ansible
+
+# For Appliance Console
+Requires: network-scripts
+
+%description gemset
+ManageIQ Management Engine Gemset
+
+%posttrans gemset
+# 'bin' needs to be copied, not symlinked
+[[ -e /var/www/miq/vmdb/bin ]] && rm -rf /var/www/miq/vmdb/bin
+cp -r %{gemset_root}/vmdb/bin /var/www/miq/vmdb/bin
+
+files=".bundle Gemfile.lock public/assets public/packs"
+for file in ${files}
+do
+  [[ -e /var/www/miq/vmdb/${file} ]] && rm -rf /var/www/miq/vmdb/${file}
+  ln -s %{gemset_root}/vmdb/${file} /var/www/miq/vmdb/${file}
+done
+
+%files gemset
+%defattr(-,root,root,-)
+%dir %{gemset_root}
+%{gemset_root}/bin
+%{gemset_root}/build_info
+%{gemset_root}/bundler
+%{gemset_root}/cache
+%{gemset_root}/doc
+%{gemset_root}/extensions
+%{gemset_root}/gems
+%{gemset_root}/specifications
+%{gemset_root}/vmdb
+%{gemset_root}/enable
