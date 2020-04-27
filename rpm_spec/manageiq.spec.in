@@ -1,0 +1,106 @@
+%global app_root /var/www/miq/vmdb
+%global appliance_root /opt/manageiq/manageiq-appliance
+%global gemset_root /opt/manageiq/manageiq-gemset
+
+%global appliance_builddir manageiq-appliance-%{version}
+%global core_builddir manageiq-core-%{version}
+%global gemset_builddir manageiq-gemset-%{version}
+
+%global debug_package %{nil}
+
+Name:     manageiq
+Version:  RPM_VERSION
+Release:  RPM_RELEASE%{?dist}
+Summary:  ManageIQ Management Engine
+
+License:  Apache-2.0
+URL:      https://github.com/ManageIQ/manageiq
+
+Source0:  %{name}-core-%{version}.tar.gz
+Source1:  %{name}-gemset-%{version}.tar.gz
+Source2:  %{name}-appliance-%{version}.tar.gz
+
+%description
+ManageIQ Management Engine
+
+%prep
+%setup -q -c -n %{core_builddir}
+%setup -q -T -D -a 1 -n %{gemset_builddir}
+%setup -q -T -D -a 2 -n %{appliance_builddir}
+pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{gemset_builddir}
+
+%build
+cat <<"EOF" > %{gemset_builddir}/enable
+export APPLIANCE="true"
+export GEM_HOME=%{gemset_root}
+export GEM_PATH=%{gemset_root}:$(gem env path)
+export PATH=%{gemset_root}/bin:$PATH
+EOF
+
+%install
+### from core
+%{__mkdir} -p %{buildroot}%{app_root}
+%{__cp} -r %{core_builddir}/* %{buildroot}%{app_root}
+
+### from appliance
+%{__mkdir} -p %{buildroot}%{appliance_root}
+%{__cp} -r %{appliance_builddir}/* %{buildroot}%{appliance_root}
+%{__mkdir} -p %{buildroot}/etc/httpd/conf.d
+%{__mkdir} -p %{buildroot}%{app_root}/log/apache
+
+### from gemset
+%{__mkdir} -p %{buildroot}%{gemset_root}
+%{__cp} -r %{gemset_builddir}/bin %{buildroot}%{gemset_root}
+%{__cp} -r %{gemset_builddir}/build_info %{buildroot}%{gemset_root}
+%{__cp} -r %{gemset_builddir}/bundler %{buildroot}%{gemset_root}
+%{__cp} -r %{gemset_builddir}/cache %{buildroot}%{gemset_root}
+%{__cp} -r %{gemset_builddir}/doc %{buildroot}%{gemset_root}
+%{__cp} -r %{gemset_builddir}/extensions %{buildroot}%{gemset_root}
+%{__cp} -r %{gemset_builddir}/gems %{buildroot}%{gemset_root}
+%{__cp} -r %{gemset_builddir}/specifications %{buildroot}%{gemset_root}
+%{__cp} -r %{gemset_builddir}/vmdb %{buildroot}%{gemset_root}
+install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
+
+# workaround
+%{__rm} -rf %{buildroot}/%{gemset_root}/gems/ffi-*/ext
+
+## from appliance
+#symlink some executables
+%{__mkdir} -p %{buildroot}/%{_bindir}
+pushd ./%{appliance_builddir}/LINK/usr/bin
+  for filename in `ls`; do
+    ln -s %{appliance_builddir}/%{appliance_root}/LINK/usr/bin/$filename %{buildroot}/%{_bindir}/$filename
+  done
+popd
+
+#symlink some configuration files
+pushd ./%{appliance_builddir}/LINK/etc
+  for dirname in `ls`; do
+    pushd ./$dirname
+      %{__mkdir} -p %{buildroot}/%{_sysconfdir}/$dirname
+      for filename in `ls`; do
+        ln -s %{appliance_builddir}/%{appliance_root}/LINK/etc/$dirname/$filename %{buildroot}/%{_sysconfdir}/$dirname/$filename
+      done
+    popd
+  done
+popd
+
+%{__mkdir} -p %{buildroot}/root
+pushd ./%{appliance_builddir}/LINK/root
+  ln -s %{appliance_root}/LINK/root/.ansible.cfg %{buildroot}/root/.ansible.cfg
+popd
+
+pushd ./%{appliance_builddir}/LINK
+  ln -s %{appliance_root}/LINK/.toprc %{buildroot}/.toprc
+popd
+
+#copy all files/directories below COPY
+%{__cp} -r ./%{appliance_builddir}/COPY/* %{buildroot}/
+
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%changelog
+* Tue Apr 14 2020 Satoe Imaishi <simaishi@redhat.com> - 11.0.0-1
+- 11.0.0-1 build
