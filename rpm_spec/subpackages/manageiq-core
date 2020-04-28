@@ -19,6 +19,18 @@ Requires: socat
 %description core
 ManageIQ Management Engine Core
 
+%posttrans core
+# 'bin' needs to be copied, not symlinked
+[[ -e /var/www/miq/vmdb/bin ]] && rm -rf /var/www/miq/vmdb/bin
+cp -r %{gemset_root}/vmdb/bin /var/www/miq/vmdb/bin
+
+files=".bundle Gemfile.lock"
+for file in ${files}
+do
+  [[ -e /var/www/miq/vmdb/${file} ]] && rm -rf /var/www/miq/vmdb/${file}
+  ln -s %{gemset_root}/vmdb/${file} /var/www/miq/vmdb/${file}
+done
+
 %post core
 %{__cp} -f %{app_root}/config/cable.yml.sample %{app_root}/config/cable.yml
 
