@@ -7,18 +7,11 @@ module ManageIQ
     class GenerateTarFiles
       include Helper
 
-      attr_reader :gem_home
-
-      def initialize
-        where_am_i
-        @gem_home  = BUILD_DIR.join("#{PRODUCT_NAME}-gemset-#{VERSION}")
-      end
-
       def create_gemset_tarball
         where_am_i
         Dir.chdir(BUILD_DIR) do
           # Override path in bundler plugin index
-          plugin_index = gem_home.join("vmdb/.bundle/plugin/index")
+          plugin_index = GEM_HOME.join("vmdb/.bundle/plugin/index")
           plugin_index.write(plugin_index.read.gsub(BUILD_DIR.join("manageiq").to_s, '/var/www/miq/vmdb'))
 
           shell_cmd("tar -zcf #{PRODUCT_NAME}-gemset-#{VERSION}.tar.gz #{PRODUCT_NAME}-gemset-#{VERSION}/")
@@ -41,7 +34,7 @@ module ManageIQ
         where_am_i
 
         rake_path = `which rake`.chomp
-        gem_home_rake = gem_home.join("bin/rake").to_s
+        gem_home_rake = GEM_HOME.join("bin/rake").to_s
         raise "Error: #{gem_home_rake} should be used, but #{rake_path} is being used instead." unless rake_path == gem_home_rake
 
         tar_build = GenerateCore.new
