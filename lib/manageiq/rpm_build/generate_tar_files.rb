@@ -17,12 +17,6 @@ module ManageIQ
       def create_gemset_tarball
         where_am_i
         Dir.chdir(BUILD_DIR) do
-          gemset_public_dir = gem_home.join("vmdb/public")
-          FileUtils.mkdir_p(gemset_public_dir)
-          # Can't be symlink, as files need to be tar'ed without '-h' to keep symlink for git based gems
-          FileUtils.cp_r(BUILD_DIR.join("manageiq/public/assets"), gemset_public_dir)
-          FileUtils.cp_r(BUILD_DIR.join("manageiq/public/packs"), gemset_public_dir)
-
           # Override path in bundler plugin index
           plugin_index = gem_home.join("vmdb/.bundle/plugin/index")
           plugin_index.write(plugin_index.read.gsub(BUILD_DIR.join("manageiq").to_s, '/var/www/miq/vmdb'))

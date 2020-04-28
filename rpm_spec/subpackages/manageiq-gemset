@@ -31,7 +31,7 @@ ManageIQ Management Engine Gemset
 [[ -e /var/www/miq/vmdb/bin ]] && rm -rf /var/www/miq/vmdb/bin
 cp -r %{gemset_root}/vmdb/bin /var/www/miq/vmdb/bin
 
-files=".bundle Gemfile.lock public/assets public/packs"
+files=".bundle Gemfile.lock"
 for file in ${files}
 do
   [[ -e /var/www/miq/vmdb/${file} ]] && rm -rf /var/www/miq/vmdb/${file}
