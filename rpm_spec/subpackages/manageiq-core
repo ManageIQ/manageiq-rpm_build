@@ -38,3 +38,6 @@ done
 %defattr(-,root,root,-)
 %{app_root}
 %config(noreplace) %{app_root}/certs
+%exclude %{app_root}/public/assets
+%exclude %{app_root}/public/packs
+%exclude %{app_root}/public/ui
