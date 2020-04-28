@@ -43,8 +43,6 @@ puts "\n\nTARBALL BUILT SUCCESSFULLY"
 if ENV['COPR_RPM_BUILD']
   release_name = build_type == "release" ? git_ref : ""
   ManageIQ::RPMBuild::BuildCopr.new("manageiq", release_name).generate_rpm
-  ManageIQ::RPMBuild::BuildCopr.new("manageiq-gemset", release_name).generate_rpm
-  ManageIQ::RPMBuild::BuildCopr.new("manageiq-appliance", release_name).generate_rpm
 end
 
 puts "\n\nRPM BUILT SUCCESSFULLY"

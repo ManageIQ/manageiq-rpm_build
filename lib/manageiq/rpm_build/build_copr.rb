@@ -22,12 +22,25 @@ module ManageIQ
       def generate_rpm
         where_am_i
 
-        Dir.chdir(RPM_SPEC_DIR.join(rpm_name)) do
+        Dir.chdir(RPM_SPEC_DIR) do
+          generate_spec_from_subpackage_files
           update_spec
+
           #TODO - need to allow customization
           shell_cmd("rpmbuild -bs --define '_sourcedir .' --define '_srcrpmdir .' #{rpm_name}.spec")
           shell_cmd("copr-cli --config /build_scripts/copr-cli-token build -r epel-8-x86_64 #{rpm_repo_name} #{rpm_name}-*.src.rpm")
         end
+      end
+
+      def generate_spec_from_subpackage_files
+        manageiq_spec = File.read("#{PRODUCT_NAME}.spec.in")
+
+        Dir.glob("subpackages/*") do |spec|
+          subpackage_spec = File.read(spec)
+          manageiq_spec.sub!("%changelog", "#{subpackage_spec}\n\n%changelog")
+        end
+
+        File.write("#{PRODUCT_NAME}.spec", manageiq_spec)
       end
 
       private
