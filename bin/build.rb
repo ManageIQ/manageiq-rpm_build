@@ -24,15 +24,16 @@ gemset.set_environment_variables
 gemset.recreate_gem_home
 gemset.populate_gem_home
 
-# Create 'manageiq' tarballs
-tar_build = ManageIQ::RPMBuild::GenerateTarFiles.new
-tar_build.create_manageiq_tarball
+# Generate 'core' contents
+ManageIQ::RPMBuild::GenerateCore.new.populate
 
-# Scrub the gemset only after it is used to generate the tarfile.
+# Scrub the gemset only after it is used to generate 'core' contents
 gemset.scrub
 gemset.restore_environment_variables
 
-# Create 'manageiq-appliance' and 'manageiq-gemset' tarballs
+# Create tarballs
+tar_build = ManageIQ::RPMBuild::GenerateTarFiles.new
+tar_build.create_manageiq_tarball
 tar_build.create_gemset_tarball
 tar_build.create_appliance_tarball
 

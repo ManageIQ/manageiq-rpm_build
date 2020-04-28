@@ -33,18 +33,22 @@ module ManageIQ
       def create_manageiq_tarball
         where_am_i
 
-        rake_path = `which rake`.chomp
-        gem_home_rake = GEM_HOME.join("bin/rake").to_s
-        raise "Error: #{gem_home_rake} should be used, but #{rake_path} is being used instead." unless rake_path == gem_home_rake
+        exclude_file = CONFIG_DIR.join("exclude_manageiq")
+        pkg_path     = BUILD_DIR.join("manageiq-appliance-build", "pkg")
+        FileUtils.mkdir_p(pkg_path)
 
-        tar_build = GenerateCore.new
-        tar_build.tar_prep
+        tar_version = VERSION.split("-").first
+        tar_basename = "#{PRODUCT_NAME}-#{tar_version}"
+        tarball = pkg_path.join("#{tar_basename}.tar.gz")
 
-        if ENV["NPM_REGISTRY_OVERRIDE"]
-          Dir.chdir(BUILD_DIR.join("manageiq")) { shell_cmd("#{SCRIPT_DIR.join("scripts/npm_registry/yarn_registry_cleanup.sh")}") }
-        end
+        # Add a product_name-version directory to the top of the files added to the tar.
+        # This is needed by rpm tooling.
+        transform = RUBY_PLATFORM =~ /darwin/ ? "-s " : "--transform s"
+        transform << "',^,#{tar_basename}/,'"
 
-        tar_build.tar
+        # Everything from */tmp/* should be excluded, except for tmp/cache/sti_loader.yml
+        shell_cmd("tar -C #{BUILD_DIR.join("manageiq")} #{transform} --exclude-tag='cache/sti_loader.yml' -X #{exclude_file} -hcvzf #{tarball} .")
+        puts "Built tarball at:\n #{File.expand_path(tarball)}"
 
         FileUtils.cp(BUILD_DIR.join("manageiq-appliance-build/pkg/#{PRODUCT_NAME}-#{VERSION}.tar.gz"), RPM_SPEC_DIR.join(PRODUCT_NAME))
       end
