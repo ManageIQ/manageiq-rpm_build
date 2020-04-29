@@ -77,7 +77,7 @@ install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
 %{__mkdir} -p %{buildroot}/%{_bindir}
 pushd ./%{appliance_builddir}/LINK/usr/bin
   for filename in `ls`; do
-    ln -s %{appliance_builddir}/%{appliance_root}/LINK/usr/bin/$filename %{buildroot}/%{_bindir}/$filename
+    ln -s %{appliance_root}/LINK/usr/bin/$filename %{buildroot}/%{_bindir}/$filename
   done
 popd
 
@@ -87,7 +87,7 @@ pushd ./%{appliance_builddir}/LINK/etc
     pushd ./$dirname
       %{__mkdir} -p %{buildroot}/%{_sysconfdir}/$dirname
       for filename in `ls`; do
-        ln -s %{appliance_builddir}/%{appliance_root}/LINK/etc/$dirname/$filename %{buildroot}/%{_sysconfdir}/$dirname/$filename
+        ln -s %{appliance_root}/LINK/etc/$dirname/$filename %{buildroot}/%{_sysconfdir}/$dirname/$filename
       done
     popd
   done
