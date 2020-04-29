@@ -16,6 +16,7 @@ Requires: ipmitool
 # For Nuage
 Requires: cyrus-sasl
 Requires: cyrus-sasl-plain
+Requires: qpid-proton-c
 
 # For IMS
 Requires: v2v-conversion-host-ansible
