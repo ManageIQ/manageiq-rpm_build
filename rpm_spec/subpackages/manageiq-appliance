@@ -1,8 +1,8 @@
 %package appliance
-Summary:  ManageIQ Management Engine Appliance
+Summary: %{product_summary} Appliance
 
-Requires: manageiq-system = %{version}-%{release}
-Requires: manageiq-ui = %{version}-%{release}
+Requires: %{name}-system = %{version}-%{release}
+Requires: %{name}-ui = %{version}-%{release}
 
 Requires: postgresql-server
 Requires: repmgr10 >= 4.0.6
@@ -53,7 +53,7 @@ Requires: yum-utils
 Requires: postfix
 
 %description appliance
-ManageIQ Management Engine Appliance
+%{product_summary} Appliance
 
 %pretrans appliance -p <lua>
 if posix.access('/bin/evmserver.sh', 'x') then

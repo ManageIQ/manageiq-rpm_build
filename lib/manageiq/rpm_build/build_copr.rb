@@ -7,10 +7,9 @@ module ManageIQ
     class BuildCopr
       include Helper
 
-      attr_reader :release_name, :rpm_name, :rpm_release, :rpm_repo_name
+      attr_reader :release_name, :rpm_release, :rpm_repo_name
 
-      def initialize(name, release_name)
-        @rpm_name     = name
+      def initialize(release_name)
         @release_name = release_name
 
         options        = YAML.load_file(CONFIG_DIR.join("options.yml"))
@@ -27,13 +26,13 @@ module ManageIQ
           update_spec
 
           #TODO - need to allow customization
-          shell_cmd("rpmbuild -bs --define '_sourcedir .' --define '_srcrpmdir .' #{rpm_name}.spec")
-          shell_cmd("copr-cli --config /build_scripts/copr-cli-token build -r epel-8-x86_64 #{rpm_repo_name} #{rpm_name}-*.src.rpm")
+          shell_cmd("rpmbuild -bs --define '_sourcedir .' --define '_srcrpmdir .' #{PRODUCT_NAME}.spec")
+          shell_cmd("copr-cli --config /build_scripts/copr-cli-token build -r epel-8-x86_64 #{rpm_repo_name} #{PRODUCT_NAME}-*.src.rpm")
         end
       end
 
       def generate_spec_from_subpackage_files
-        manageiq_spec = File.read("#{PRODUCT_NAME}.spec.in")
+        manageiq_spec = File.read("manageiq.spec.in")
 
         Dir.glob("subpackages/*").sort.each do |spec|
           subpackage_spec = File.read(spec)

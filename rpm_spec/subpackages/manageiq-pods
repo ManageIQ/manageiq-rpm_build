@@ -1,9 +1,9 @@
 %package pods
-Summary: ManageIQ Management Engine Pods
-Requires: manageiq-system = %{version}-%{release}
-Requires: manageiq-core = %{version}-%{release}
+Summary: %{product_summary} Pods
+Requires: %{name}-system = %{version}-%{release}
+Requires: %{name}-core = %{version}-%{release}
 
 %description pods
-ManageIQ Management Engine Pods
+%{product_summary} Pods
 
 %files pods
