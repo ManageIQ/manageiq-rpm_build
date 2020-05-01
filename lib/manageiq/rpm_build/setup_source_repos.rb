@@ -11,11 +11,9 @@ module ManageIQ
 
       def initialize(ref)
         where_am_i
-        options = YAML.load_file(CONFIG_DIR.join("options.yml"))
-
-        @git_ref      = ref || options["git_ref"]
-        @github_url   = options["github_url"]
-        @repo_prefix  = options["repo_prefix"]
+        @git_ref     = ref || OPTIONS.git_ref
+        @github_url  = OPTIONS.github_url
+        @repo_prefix = OPTIONS.repo_prefix
       end
 
       def populate
@@ -37,9 +35,9 @@ module ManageIQ
         FileUtils.mkdir_p RPM_SPEC_DIR
         FileUtils.cp_r("/build_scripts/rpm_spec", BUILD_DIR)
         Dir.chdir(RPM_SPEC_DIR) do
-          #git_clone("#{github_url}/#{PRODUCT_NAME}-gemset.git")
-          #git_clone("#{github_url}/#{PRODUCT_NAME}.git")
-          #git_clone("#{github_url}/#{PRODUCT_NAME}-appliance.git")
+          #git_clone("#{github_url}/#{OPTIONS.product_name}-gemset.git")
+          #git_clone("#{github_url}/#{OPTIONS.product_name}.git")
+          #git_clone("#{github_url}/#{OPTIONS.product_name}-appliance.git")
         end
       end
 

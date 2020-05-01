@@ -10,12 +10,9 @@ module ManageIQ
       attr_reader :release_name, :rpm_release, :rpm_repo_name
 
       def initialize(release_name)
-        @release_name = release_name
-
-        options        = YAML.load_file(CONFIG_DIR.join("options.yml"))
-        rpm_options    = options["rpm"]
-        @rpm_release   = rpm_options["release"]
-        @rpm_repo_name = rpm_options["repo_name"]
+        @release_name  = release_name
+        @rpm_release   = OPTIONS.rpm.release
+        @rpm_repo_name = OPTIONS.rpm.repo_name
       end
 
       def generate_rpm
@@ -26,8 +23,8 @@ module ManageIQ
           update_spec
 
           #TODO - need to allow customization
-          shell_cmd("rpmbuild -bs --define '_sourcedir .' --define '_srcrpmdir .' #{PRODUCT_NAME}.spec")
-          shell_cmd("copr-cli --config /build_scripts/copr-cli-token build -r epel-8-x86_64 #{rpm_repo_name} #{PRODUCT_NAME}-*.src.rpm")
+          shell_cmd("rpmbuild -bs --define '_sourcedir .' --define '_srcrpmdir .' #{OPTIONS.product_name}.spec")
+          shell_cmd("copr-cli --config /build_scripts/copr-cli-token build -r epel-8-x86_64 #{rpm_repo_name} #{OPTIONS.product_name}-*.src.rpm")
         end
       end
 
@@ -39,7 +36,7 @@ module ManageIQ
           manageiq_spec.sub!("%changelog", "#{subpackage_spec}\n\n%changelog")
         end
 
-        File.write("#{PRODUCT_NAME}.spec", manageiq_spec)
+        File.write("#{OPTIONS.product_name}.spec", manageiq_spec)
       end
 
       private
@@ -50,7 +47,7 @@ module ManageIQ
         spec_file = "#{rpm_name}.spec"
         spec_text = File.read(spec_file)
 
-        spec_text.sub!("RPM_VERSION", VERSION)
+        spec_text.sub!("RPM_VERSION", OPTIONS.version)
         spec_text.sub!("RPM_RELEASE", spec_release)
         File.write(spec_file, spec_text)
       end

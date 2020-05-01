@@ -1,6 +1,4 @@
 ---
-build_dir:       ~/BUILD
-
 product_name:    manageiq
 
 github_url:      https://github.com/ManageIQ

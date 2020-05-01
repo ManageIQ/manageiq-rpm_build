@@ -12,9 +12,7 @@ module ManageIQ
 
       def initialize
         where_am_i
-
-        options = YAML.load_file(CONFIG_DIR.join("options.yml"))
-        @bundler_version  = options["bundler_version"]
+        @bundler_version = OPTIONS.bundler_version
       end
 
       def backup_environment_variables

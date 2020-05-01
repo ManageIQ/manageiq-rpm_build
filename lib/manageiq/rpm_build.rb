@@ -1,3 +1,4 @@
+require 'config'
 require 'pathname'
 require 'yaml'
 
@@ -18,15 +19,13 @@ module ManageIQ
     CONFIG_DIR   = ROOT_DIR.join("config")
     SCRIPT_DIR   = ROOT_DIR.join("scripts")
 
-    options      = YAML.load_file(CONFIG_DIR.join("options.yml"))
-    BUILD_DIR    = Pathname.new(options["build_dir"]).expand_path
+    BUILD_DIR    = Pathname.new(ENV.fetch("BUILD_DIR", "~/BUILD")).expand_path
     RPM_SPEC_DIR = BUILD_DIR.join("rpm_spec")
 
-    PRODUCT_NAME = options["product_name"]
-    VERSION      = options["version"]
-    RELEASE      = options["release"]
+    OPTIONS_DIR  = Pathname.new(ENV.fetch("OPTIONS_DIR", "~/OPTIONS")).expand_path
+    OPTIONS      = Config.load_files(CONFIG_DIR.join("options.yml"), OPTIONS_DIR.join("options.yml"))
 
     BUILD_DATE   = Time.now.strftime("%Y%m%d%H%M%S")
-    GEM_HOME     = BUILD_DIR.join("#{PRODUCT_NAME}-gemset-#{VERSION}")
+    GEM_HOME     = BUILD_DIR.join("#{OPTIONS.product_name}-gemset-#{OPTIONS.version}")
   end
 end
