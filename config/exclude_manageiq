@@ -10,5 +10,3 @@ Gemfile.lock*
 ./bin
 certs/v2_key.dev
 log/*
-public/assets
-public/packs

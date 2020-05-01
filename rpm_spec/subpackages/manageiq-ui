@@ -1,0 +1,13 @@
+%package ui
+Summary: ManageIQ Management Engine UI
+Requires: manageiq-core = %{version}-%{release}
+
+%description ui
+ManageIQ Management Engine UI
+
+%files ui
+%defattr(-,root,root,-)
+%{app_root}/public/assets
+%{app_root}/public/packs
+%{app_root}/public/ui
+%config(noreplace) %{app_root}/public/custom.css

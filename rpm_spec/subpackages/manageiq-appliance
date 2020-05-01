@@ -1,0 +1,97 @@
+%package appliance
+Summary:  ManageIQ Management Engine Appliance
+
+Requires: manageiq-system = %{version}-%{release}
+Requires: manageiq-ui = %{version}-%{release}
+
+Requires: postgresql-server
+Requires: repmgr10 >= 4.0.6
+
+Requires: httpd
+Requires: lvm2
+Requires: memcached
+
+# NTP
+Requires: chrony
+
+# External Authentication
+Requires: sssd >= 1.11.6
+Requires: sssd-dbus >= 1.11.6
+
+# External Authentication - IPA
+Requires: c-ares >= 1.7.0
+Requires: ipa-admintools >= 3.0.0
+Requires: ipa-client >= 3.0.0
+Requires: mod_intercept_form_submit >= 0.9.7
+Requires: mod_auth_gssapi
+Requires: mod_authnz_pam >= 0.9.2
+Requires: mod_lookup_identity >= 0.9.2
+Requires: mod_ssl
+
+# External Authentication - Active Directory
+Requires: adcli
+Requires: oddjob
+Requires: oddjob-mkhomedir
+Requires: realmd
+Requires: samba-common
+Requires: samba-common-tools
+
+# External Authentication - SAML
+Requires: mod_auth_mellon
+
+# External Authentication - OpenID-Connect
+# Requires: mod_auth_openidc
+
+# SCAP
+Requires: openscap
+Requires: scap-security-guide
+
+# Software Update
+Requires: yum-utils
+
+# Email
+Requires: postfix
+
+%description appliance
+ManageIQ Management Engine Appliance
+
+%pretrans appliance -p <lua>
+if posix.access('/bin/evmserver.sh', 'x') then
+  local pid = posix.fork ()
+  if ( pid == -1 ) then
+    print ("The fork failed.")
+  elseif ( pid == 0 ) then
+    posix.exec('/bin/evmserver.sh', 'update_stop')
+  else
+    posix.wait(pid)
+  end
+end
+
+%posttrans appliance -p <lua>
+if posix.access('/bin/evmserver.sh', 'x') then
+  local pid = posix.fork ()
+  if ( pid == -1 ) then
+    print ("The fork failed.")
+  elseif ( pid == 0 ) then
+    posix.exec('/bin/evmserver.sh', 'update_start')
+  else
+    posix.wait(pid)
+  end
+end
+
+%post appliance
+#motd is owned by system
+%{__cp} -f %{_sysconfdir}/motd.manageiq %{_sysconfdir}/motd
+
+systemctl daemon-reload
+
+# Note, the last command from a scriplet sets the exit status
+# for the scriplet so we can't one-line this.  We also want
+# a failure in the restart to fail the scriplet/rpm install.
+if systemctl is-active --quiet evm-failover-monitor; then
+  systemctl restart evm-failover-monitor
+fi
+
+%files appliance
+%defattr(-,root,root,-)
+%{_sysconfdir}/motd.manageiq

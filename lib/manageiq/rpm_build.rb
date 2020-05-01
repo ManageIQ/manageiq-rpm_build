@@ -26,5 +26,6 @@ module ManageIQ
     RELEASE      = options["release"]
 
     BUILD_DATE   = Time.now.strftime("%Y%m%d%H%M%S")
+    GEM_HOME     = BUILD_DIR.join("#{PRODUCT_NAME}-gemset-#{VERSION}")
   end
 end

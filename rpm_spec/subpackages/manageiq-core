@@ -1,0 +1,41 @@
+%package core
+Summary:  ManageIQ Management Engine Core
+
+Requires: ruby
+Requires: manageiq-gemset = %{version}-%{release}
+
+Requires: ansible
+Requires: ansible-runner
+Requires: cockpit
+Requires: cockpit-ssh
+Requires: cockpit-ws
+Requires: net-snmp
+Requires: net-snmp-libs
+Requires: net-snmp-utils
+Requires: socat
+
+%description core
+ManageIQ Management Engine Core
+
+%posttrans core
+# 'bin' needs to be copied, not symlinked
+[[ -e /var/www/miq/vmdb/bin ]] && rm -rf /var/www/miq/vmdb/bin
+cp -r %{gemset_root}/vmdb/bin /var/www/miq/vmdb/bin
+
+files=".bundle Gemfile.lock"
+for file in ${files}
+do
+  [[ -e /var/www/miq/vmdb/${file} ]] && rm -rf /var/www/miq/vmdb/${file}
+  ln -s %{gemset_root}/vmdb/${file} /var/www/miq/vmdb/${file}
+done
+
+%post core
+%{__cp} -f %{app_root}/config/cable.yml.sample %{app_root}/config/cable.yml
+
+%files core
+%defattr(-,root,root,-)
+%{app_root}
+%config(noreplace) %{app_root}/certs
+%exclude %{app_root}/public/assets
+%exclude %{app_root}/public/packs
+%exclude %{app_root}/public/ui

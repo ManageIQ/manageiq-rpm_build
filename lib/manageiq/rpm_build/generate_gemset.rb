@@ -8,15 +8,13 @@ module ManageIQ
     class GenerateGemSet
       include Helper
 
-      attr_reader :gem_home, :current_env, :bundler_version
+      attr_reader :current_env, :bundler_version
 
       def initialize
         where_am_i
 
         options = YAML.load_file(CONFIG_DIR.join("options.yml"))
         @bundler_version  = options["bundler_version"]
-
-        @gem_home         = BUILD_DIR.join("#{PRODUCT_NAME}-gemset-#{VERSION}")
       end
 
       def backup_environment_variables
@@ -33,9 +31,9 @@ module ManageIQ
         ENV["GEM_PATH"]  = nil
         ENV["PATH"]      = "/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/root/bin:~/bin"
 
-        ENV["GEM_HOME"] = gem_home.to_s
-        ENV["GEM_PATH"] = "#{gem_home}:/usr/share/gems:/usr/local/share/gems"
-        ENV["PATH"]     = "#{gem_home}/bin:#{ENV["PATH"]}"
+        ENV["GEM_HOME"] = GEM_HOME.to_s
+        ENV["GEM_PATH"] = "#{GEM_HOME}:/usr/share/gems:/usr/local/share/gems"
+        ENV["PATH"]     = "#{GEM_HOME}/bin:#{ENV["PATH"]}"
 
         shell_cmd("gem env")
         shell_cmd("echo -e \"${PATH}\\n\"")
@@ -49,8 +47,8 @@ module ManageIQ
       end
 
       def recreate_gem_home
-        FileUtils.rm_rf(gem_home) if gem_home.exist?
-        FileUtils.mkdir(gem_home)
+        FileUtils.rm_rf(GEM_HOME) if GEM_HOME.exist?
+        FileUtils.mkdir(GEM_HOME)
         cmd = "gem install bundler"
         cmd << " -v #{bundler_version}" if bundler_version
         shell_cmd(cmd)
@@ -83,13 +81,13 @@ module ManageIQ
           shell_cmd("rake update:ui")
 
           # Add .bundle, bin, manifest and Gemfile.lock to the gemset
-          FileUtils.mkdir_p(gem_home.join("vmdb/.bundle"))
-          FileUtils.mkdir_p(gem_home.join("vmdb/bin"))
-          FileUtils.cp(BUILD_DIR.join("manageiq/.bundle/config"), gem_home.join("vmdb/.bundle"))
-          FileUtils.cp_r(BUILD_DIR.join("manageiq/.bundle/plugin"), gem_home.join("vmdb/.bundle/"))
-          FileUtils.cp(BUILD_DIR.join("manageiq/Gemfile.lock"), gem_home.join("vmdb"))
-          shell_cmd("bundle list > #{gem_home}/vmdb/manifest")
-          FileUtils.cp(Dir[BUILD_DIR.join("manageiq/bin/*")], gem_home.join("vmdb/bin"))
+          FileUtils.mkdir_p(GEM_HOME.join("vmdb/.bundle"))
+          FileUtils.mkdir_p(GEM_HOME.join("vmdb/bin"))
+          FileUtils.cp(BUILD_DIR.join("manageiq/.bundle/config"), GEM_HOME.join("vmdb/.bundle"))
+          FileUtils.cp_r(BUILD_DIR.join("manageiq/.bundle/plugin"), GEM_HOME.join("vmdb/.bundle/"))
+          FileUtils.cp(BUILD_DIR.join("manageiq/Gemfile.lock"), GEM_HOME.join("vmdb"))
+          shell_cmd("bundle list > #{GEM_HOME}/vmdb/manifest")
+          FileUtils.cp(Dir[BUILD_DIR.join("manageiq/bin/*")], GEM_HOME.join("vmdb/bin"))
 
           link_git_gems
         end
@@ -106,7 +104,7 @@ module ManageIQ
         where_am_i
 
         # Remove unneeded files
-        Dir.chdir(gem_home) do
+        Dir.chdir(GEM_HOME) do
           FileUtils.rm_rf(Dir.glob("bundler/gems/*/.git"))
           FileUtils.rm_rf(Dir.glob("cache/*"))
           shell_cmd("#{SCRIPT_DIR.join("scripts/gem_cleanup.sh")}")

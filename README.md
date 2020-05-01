@@ -41,7 +41,7 @@ accessed later.
 
 ## Artifacts
 
-manageiq, manageiq-gemset and manageiq-appliance .tar.gz will be created in `~/BUILD/rpm_spec/<rpm name>/` (`~/BUILD` is configurable in options.yml)
+manageiq-core, manageiq-gemset and manageiq-appliance .tar.gz will be created in `~/BUILD/rpm_spec/` (`~/BUILD` is configurable in options.yml)
 
 ## License
 

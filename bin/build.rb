@@ -24,17 +24,15 @@ gemset.set_environment_variables
 gemset.recreate_gem_home
 gemset.populate_gem_home
 
-# Create 'manageiq' tarballs
-tar_build = ManageIQ::RPMBuild::GenerateTarFiles.new
-tar_build.create_manageiq_tarball
+# Generate 'core' contents
+ManageIQ::RPMBuild::GenerateCore.new.populate
 
-# Scrub the gemset only after it is used to generate the tarfile.
+# Scrub the gemset only after it is used to generate 'core' contents
 gemset.scrub
 gemset.restore_environment_variables
 
-# Create 'manageiq-appliance' and 'manageiq-gemset' tarballs
-tar_build.create_gemset_tarball
-tar_build.create_appliance_tarball
+# Create tarballs
+ManageIQ::RPMBuild::GenerateTarFiles.new.create_tarballs
 
 puts "\n\nTARBALL BUILT SUCCESSFULLY"
 
@@ -42,8 +40,6 @@ puts "\n\nTARBALL BUILT SUCCESSFULLY"
 if ENV['COPR_RPM_BUILD']
   release_name = build_type == "release" ? git_ref : ""
   ManageIQ::RPMBuild::BuildCopr.new("manageiq", release_name).generate_rpm
-  ManageIQ::RPMBuild::BuildCopr.new("manageiq-gemset", release_name).generate_rpm
-  ManageIQ::RPMBuild::BuildCopr.new("manageiq-appliance", release_name).generate_rpm
 end
 
 puts "\n\nRPM BUILT SUCCESSFULLY"

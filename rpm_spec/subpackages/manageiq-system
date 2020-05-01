@@ -1,0 +1,42 @@
+%package system
+Summary:  ManageIQ Management Engine System
+Requires: nmap-ncat
+
+# For log rotate
+Requires: cronie
+Requires: logrotate
+
+# External Authentication - LDAP
+Requires: openldap-clients
+
+%description system
+ManageIQ Management Engine System
+
+%files system
+%defattr(-,root,root,-)
+/.toprc
+/root/.ansible.cfg
+%{appliance_root}
+%{app_root}/log/apache
+%{_bindir}/cloud_ds_check.sh
+%{_bindir}/cockpit-auth-miq
+%{_bindir}/evm*
+%{_bindir}/fix_auth
+%{_bindir}/generate_miq_server_cert.sh
+%{_bindir}/miq*
+%{_bindir}/normalize_userid_to_upn
+%{_bindir}/pg_inspector_server.sh
+%{_prefix}/lib/systemd/system/cloud-ds-check.service
+%{_prefix}/lib/systemd/system/evm*
+%{_prefix}/lib/systemd/system/miq*
+%{_sbindir}/ifup-local
+%{_sysconfdir}/cloud/cloud.cfg.d/10_miq_*.cfg
+%{_sysconfdir}/cron.hourly/miq*
+%{_sysconfdir}/cron.hourly/pg-inpsector-server-hourly.cron
+%{_sysconfdir}/default/evm*
+%{_sysconfdir}/httpd/conf.d/manageiq-*
+%{_sysconfdir}/issue.template
+%{_sysconfdir}/logrotate.d/miq_logs.conf
+%{_sysconfdir}/manageiq/postgresql.conf.d/01_miq_overrides.conf
+%{_sysconfdir}/profile.d/evm.sh
+%{_sysconfdir}/sudoers.d/repmgr
