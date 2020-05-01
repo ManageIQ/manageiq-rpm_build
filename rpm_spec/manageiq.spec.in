@@ -49,6 +49,12 @@ export GEM_PATH=%{gemset_root}:$(gem env path)
 export PATH=%{gemset_root}/bin:$PATH
 EOF
 
+cat <<"EOF" > %{appliance_builddir}/LINK/etc/default/evm_production
+export APPLIANCE_SOURCE_DIRECTORY=%{appliance_root}
+export APPLIANCE_TEMPLATE_DIRECTORY=${APPLIANCE_SOURCE_DIRECTORY}/TEMPLATE
+source %{gemset_root}/enable
+EOF
+
 %install
 cd %{_builddir}
 
