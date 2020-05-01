@@ -63,7 +63,7 @@ module ManageIQ
 
           shell_cmd("gem env")
           shell_cmd("gem install mime-types -v 2.6.1")
-          shell_cmd("bundle _#{bundler_version}_ install --with qpid_proton --without test:development:metric_fu --jobs 3 --retry 3")
+          shell_cmd("bundle _#{bundler_version}_ install --with qpid_proton --without test:development:metric_fu --jobs #{cpus} --retry 3")
 
           # Copy libsodium.so* to where rbnacl-libsodium expects
           rbnacl_libsodium_gem_dir = Pathname.new(`bundle info --path rbnacl-libsodium`.chomp)
@@ -99,6 +99,12 @@ module ManageIQ
       end
 
       private
+
+      def cpus
+        c = `nproc --all` rescue nil
+        c = c.to_i
+        c == 0 ? 3 : c
+      end
 
       def cleanse_gemset
         where_am_i
