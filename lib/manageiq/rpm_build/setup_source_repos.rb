@@ -5,10 +5,12 @@ require 'yaml'
 module ManageIQ
   module RPMBuild
     class SetupSourceRepos
+      include Helper
+
       attr_reader :git_ref, :github_url
 
       def initialize(ref)
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
         options = YAML.load_file(CONFIG_DIR.join("options.yml"))
 
         @git_ref      = ref || options["git_ref"]
@@ -16,7 +18,7 @@ module ManageIQ
       end
 
       def populate
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
         clean_build_dir
         setup_rpm_spec_repo
         setup_source_repo
@@ -24,12 +26,13 @@ module ManageIQ
       end
 
       def clean_build_dir
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
         FileUtils.rm_rf BUILD_DIR
         FileUtils.mkdir_p BUILD_DIR
       end
 
       def setup_rpm_spec_repo
+        where_am_i
         FileUtils.mkdir_p RPM_SPEC_DIR
         FileUtils.cp_r("/build_scripts/rpm_spec", BUILD_DIR)
         Dir.chdir(RPM_SPEC_DIR) do
@@ -40,8 +43,7 @@ module ManageIQ
       end
 
       def setup_source_repo
-        puts "\n---> #{self.class.name}::#{__method__}"
-
+        where_am_i
         Dir.chdir(BUILD_DIR) do
           git_clone("#{github_url}/#{PRODUCT_NAME}-appliance-build.git", "manageiq-appliance-build")
           git_clone("#{github_url}/#{PRODUCT_NAME}-appliance.git", "manageiq-appliance")

@@ -5,20 +5,17 @@ require 'manageiq/rpm_build/generate_core'
 module ManageIQ
   module RPMBuild
     class GenerateTarFiles
+      include Helper
+
       attr_reader :gem_home
 
       def initialize
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
         @gem_home  = BUILD_DIR.join("#{PRODUCT_NAME}-gemset-#{VERSION}")
       end
 
-      def shell_cmd(cmd)
-        puts "\n\t#{cmd}"
-        exit $?.exitstatus unless system(cmd)
-      end
-
       def create_gemset_tarball
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
         Dir.chdir(BUILD_DIR) do
           gemset_public_dir = gem_home.join("vmdb/public")
           FileUtils.mkdir_p(gemset_public_dir)
@@ -36,7 +33,7 @@ module ManageIQ
       end
 
       def create_appliance_tarball
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
         Dir.chdir(BUILD_DIR) do
           transform = "--transform s',\^,#{PRODUCT_NAME}-appliance-#{VERSION}\/,\'"
           base_dir = BUILD_DIR.join("manageiq-appliance")
@@ -47,7 +44,7 @@ module ManageIQ
       end
 
       def create_manageiq_tarball
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
 
         rake_path = `which rake`.chomp
         gem_home_rake = gem_home.join("bin/rake").to_s
