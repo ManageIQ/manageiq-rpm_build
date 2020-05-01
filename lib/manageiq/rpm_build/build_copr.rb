@@ -35,7 +35,7 @@ module ManageIQ
       def generate_spec_from_subpackage_files
         manageiq_spec = File.read("#{PRODUCT_NAME}.spec.in")
 
-        Dir.glob("subpackages/*") do |spec|
+        Dir.glob("subpackages/*").sort.each do |spec|
           subpackage_spec = File.read(spec)
           manageiq_spec.sub!("%changelog", "#{subpackage_spec}\n\n%changelog")
         end

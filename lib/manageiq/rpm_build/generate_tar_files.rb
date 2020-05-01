@@ -10,36 +10,43 @@ module ManageIQ
       def create_gemset_tarball
         where_am_i
 
-        tar_basename = "#{PRODUCT_NAME}-gemset-#{VERSION}"
-        tar_name = RPM_SPEC_DIR.join("#{tar_basename}.tar.gz")
-
         # Override path in bundler plugin index
         plugin_index = GEM_HOME.join("vmdb/.bundle/plugin/index")
         plugin_index.write(plugin_index.read.gsub(BUILD_DIR.join("manageiq").to_s, '/var/www/miq/vmdb'))
 
-        shell_cmd("tar -C #{BUILD_DIR} -zcf #{tar_name} #{tar_basename}")
+        name = "gemset"
+        shell_cmd("tar -C #{BUILD_DIR} -zcf #{tar_full_path(name)} #{tar_basename(name)}")
       end
 
       def create_appliance_tarball
         where_am_i
 
-        tar_basename = "#{PRODUCT_NAME}-appliance-#{VERSION}"
-        tar_name  = RPM_SPEC_DIR.join("#{tar_basename}.tar.gz")
-        transform = "--transform s',\^,#{tar_basename}\/,\'"
-
-        shell_cmd("tar -C #{BUILD_DIR.join("manageiq-appliance")} #{transform} --exclude='.git' -hzcf #{tar_name} .")
+        name = "appliance"
+        shell_cmd("tar -C #{BUILD_DIR.join("manageiq-appliance")} #{transform(name)} --exclude='.git' -hzcf #{tar_full_path(name)} .")
       end
 
       def create_core_tarball
         where_am_i
 
-        tar_basename = "#{PRODUCT_NAME}-core-#{VERSION}"
-        tar_name = RPM_SPEC_DIR.join("#{tar_basename}.tar.gz")
-        transform = "--transform s',\^,#{tar_basename}\/,\'"
+        name = "core"
         exclude_file = CONFIG_DIR.join("exclude_manageiq")
 
         # Everything from */tmp/* should be excluded, except for tmp/cache/sti_loader.yml
-        shell_cmd("tar -C #{BUILD_DIR.join("manageiq")} #{transform} --exclude-tag='cache/sti_loader.yml' -X #{exclude_file} -hcvzf #{tar_name} .")
+        shell_cmd("tar -C #{BUILD_DIR.join("manageiq")} #{transform(name)} --exclude-tag='cache/sti_loader.yml' -X #{exclude_file} -hcvzf #{tar_full_path(name)} .")
+      end
+
+      private
+
+      def tar_basename(name)
+        "#{PRODUCT_NAME}-#{name}-#{VERSION}"
+      end
+
+      def transform(name)
+        "--transform s',\^,#{tar_basename(name)}\/,\'"
+      end
+
+      def tar_full_path(name)
+        RPM_SPEC_DIR.join("#{tar_basename(name)}.tar.gz")
       end
     end
   end
