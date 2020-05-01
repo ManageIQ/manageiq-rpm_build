@@ -7,7 +7,7 @@ module ManageIQ
 
       def shell_cmd(cmd)
         puts "\n ---> #{cmd}".yellow.bold
-        exit $?.exitstatus unless system(cmd)
+        exit $?.exitstatus unless system(cmd.to_s)
       end
     end
   end
