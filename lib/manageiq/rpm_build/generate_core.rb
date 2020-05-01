@@ -23,7 +23,7 @@ module ManageIQ
       end
 
       def release_file
-        File.write(miq_dir.join("RELEASE"), RELEASE)
+        File.write(miq_dir.join("RELEASE"), OPTIONS.release)
       end
 
       def link_plugin_public_dirs

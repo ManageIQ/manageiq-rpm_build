@@ -44,7 +44,7 @@ module ManageIQ
       private
 
       def tar_basename(name)
-        "#{PRODUCT_NAME}-#{name}-#{VERSION}"
+        "#{OPTIONS.product_name}-#{name}-#{OPTIONS.version}"
       end
 
       def transform(name)
