@@ -1,3 +1,4 @@
 .rubocop-*
 copr-cli-token
 *.spec
+OPTIONS/
