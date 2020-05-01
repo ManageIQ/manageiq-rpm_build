@@ -1,3 +1,4 @@
+require 'json'
 require 'pathname'
 require 'yaml'
 
@@ -5,10 +6,12 @@ module ManageIQ
   module RPMBuild
     class GenerateCore
       include Helper
-      attr_reader :miq_dir
+
+      attr_reader :miq_dir, :ui_service_dir
 
       def initialize
         @miq_dir = BUILD_DIR.join("manageiq")
+        @ui_service_dir = BUILD_DIR.join("manageiq-ui-service")
       end
 
       def build_file
@@ -21,6 +24,10 @@ module ManageIQ
 
       def release_file
         File.write(miq_dir.join("RELEASE"), RELEASE)
+      end
+
+      def link_plugin_public_dirs
+        symlink_plugin_paths("public", miq_dir.join("public"))
       end
 
       def precompile_assets
@@ -36,7 +43,9 @@ module ManageIQ
       end
 
       def build_service_ui
-        Dir.chdir(BUILD_DIR.join("manageiq-ui-service")) do
+        symlink_plugin_paths("manageiq-ui-service", ui_service_dir)
+
+        Dir.chdir(ui_service_dir) do
           shell_cmd("yarn install")
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
@@ -57,6 +66,7 @@ module ManageIQ
 
         build_file
         release_file
+        link_plugin_public_dirs
         precompile_assets
         precompile_sti_loader
         build_service_ui
@@ -64,6 +74,27 @@ module ManageIQ
 
         if ENV["NPM_REGISTRY_OVERRIDE"]
           Dir.chdir(miq_dir) { shell_cmd("#{SCRIPT_DIR.join("scripts/npm_registry/yarn_registry_cleanup.sh")}") }
+        end
+      end
+
+      private
+
+      def plugin_paths
+        @plugin_paths ||= Dir.chdir(miq_dir) do
+          JSON.parse(`bundle exec rake evm:plugins:list[json]`)
+            .map { |p| Pathname.new(p["path"]) }
+            .select(&:exist?)
+        end
+      end
+
+      def symlink_plugin_paths(source_dir, target_path)
+        plugin_paths.each do |path|
+          path = path.join(source_dir)
+          next unless path.exist?
+
+          path.children(false).each do |subdir|
+            FileUtils.ln_s(path.join(subdir), target_path.join(subdir))
+          end
         end
       end
     end
