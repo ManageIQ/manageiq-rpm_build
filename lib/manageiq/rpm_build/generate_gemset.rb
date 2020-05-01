@@ -75,7 +75,7 @@ module ManageIQ
           FileUtils.mkdir("log") unless Dir.exists?("log")
 
           if ENV["NPM_REGISTRY_OVERRIDE"]
-            shell_cmd("#{SCRIPT_DIR.join("scripts/npm_registry/yarn_registry_setup.sh")}")
+            shell_cmd("#{SCRIPT_DIR.join("npm_registry/yarn_registry_setup.sh")}")
           end
 
           shell_cmd("rake update:ui")
@@ -107,7 +107,7 @@ module ManageIQ
         Dir.chdir(GEM_HOME) do
           FileUtils.rm_rf(Dir.glob("bundler/gems/*/.git"))
           FileUtils.rm_rf(Dir.glob("cache/*"))
-          shell_cmd("#{SCRIPT_DIR.join("scripts/gem_cleanup.sh")}")
+          shell_cmd("#{SCRIPT_DIR.join("gem_cleanup.sh")}")
         end
       end
 
