@@ -7,7 +7,7 @@ module ManageIQ
     class SetupSourceRepos
       include Helper
 
-      attr_reader :git_ref, :github_url
+      attr_reader :git_ref, :github_url, :repo_prefix
 
       def initialize(ref)
         where_am_i
@@ -15,6 +15,7 @@ module ManageIQ
 
         @git_ref      = ref || options["git_ref"]
         @github_url   = options["github_url"]
+        @repo_prefix  = options["repo_prefix"]
       end
 
       def populate
@@ -45,10 +46,10 @@ module ManageIQ
       def setup_source_repo
         where_am_i
         Dir.chdir(BUILD_DIR) do
-          git_clone("#{github_url}/#{PRODUCT_NAME}-appliance-build.git", "manageiq-appliance-build")
-          git_clone("#{github_url}/#{PRODUCT_NAME}-appliance.git", "manageiq-appliance")
-          git_clone("#{github_url}/#{PRODUCT_NAME}.git", "manageiq")
-          git_clone("#{github_url}/#{PRODUCT_NAME}-ui-service.git", "manageiq-ui-service")
+          git_clone("#{github_url}/#{repo_prefix}-appliance-build.git", "manageiq-appliance-build")
+          git_clone("#{github_url}/#{repo_prefix}-appliance.git", "manageiq-appliance")
+          git_clone("#{github_url}/#{repo_prefix}.git", "manageiq")
+          git_clone("#{github_url}/#{repo_prefix}-ui-service.git", "manageiq-ui-service")
         end
       end
 

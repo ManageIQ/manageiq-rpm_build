@@ -2,8 +2,11 @@
 build_dir:       ~/BUILD
 
 product_name:    manageiq
+
 github_url:      https://github.com/ManageIQ
 git_ref:         master
+repo_prefix:     manageiq
+
 version:         11.0.0
 release:         Kasparov
 rpm:
