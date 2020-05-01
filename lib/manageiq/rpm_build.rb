@@ -14,8 +14,9 @@ require 'manageiq/rpm_build/setup_source_repos'
 
 module ManageIQ
   module RPMBuild
-    SCRIPT_DIR   = Pathname.new("../..").expand_path(__dir__)
-    CONFIG_DIR   = SCRIPT_DIR.join("config")
+    ROOT_DIR     = Pathname.new("../..").expand_path(__dir__)
+    CONFIG_DIR   = ROOT_DIR.join("config")
+    SCRIPT_DIR   = ROOT_DIR.join("scripts")
 
     options      = YAML.load_file(CONFIG_DIR.join("options.yml"))
     BUILD_DIR    = Pathname.new(options["build_dir"]).expand_path
