@@ -1,5 +1,5 @@
 %package appliance-tools
-Summary:  ManageIQ Management Engine appliance tools
+Summary:  %{product_summary} Appliance Tools
 Requires: less
 Requires: nano
 Requires: smem
@@ -9,6 +9,6 @@ Requires: vim-enhanced
 Requires: wget
 
 %description appliance-tools
-ManageIQ Management Engine appliance tools
+%{product_summary} Appliance Tools
 
 %files appliance-tools

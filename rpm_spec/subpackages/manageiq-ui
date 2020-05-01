@@ -1,9 +1,9 @@
 %package ui
-Summary: ManageIQ Management Engine UI
-Requires: manageiq-core = %{version}-%{release}
+Summary: %{product_summary} UI
+Requires: %{name}-core = %{version}-%{release}
 
 %description ui
-ManageIQ Management Engine UI
+%{product_summary} UI
 
 %files ui
 %defattr(-,root,root,-)

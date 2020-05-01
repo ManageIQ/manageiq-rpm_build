@@ -1,5 +1,5 @@
 %package system
-Summary:  ManageIQ Management Engine System
+Summary:  %{product_summary} System
 Requires: nmap-ncat
 
 # For log rotate
@@ -10,7 +10,7 @@ Requires: logrotate
 Requires: openldap-clients
 
 %description system
-ManageIQ Management Engine System
+%{product_summary} System
 
 %files system
 %defattr(-,root,root,-)

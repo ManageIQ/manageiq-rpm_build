@@ -1,27 +1,33 @@
-%global app_root /var/www/miq/vmdb
-%global appliance_root /opt/manageiq/manageiq-appliance
-%global gemset_root /opt/manageiq/manageiq-gemset
+%global org_name manageiq
+%global product_name ManageIQ
+%global product_short_name manageiq
+%global product_summary ManageIQ Management Engine
+%global product_url https://github.com/ManageIQ/manageiq
 
-%global appliance_builddir manageiq-appliance-%{version}
-%global core_builddir manageiq-core-%{version}
-%global gemset_builddir manageiq-gemset-%{version}
+%global app_root /var/www/miq/vmdb
+%global appliance_root /opt/%{org_name}/%{name}-appliance
+%global gemset_root /opt/%{org_name}/%{name}-gemset
+
+%global appliance_builddir %{name}-appliance-%{version}
+%global core_builddir %{name}-core-%{version}
+%global gemset_builddir %{name}-gemset-%{version}
 
 %global debug_package %{nil}
 
-Name:     manageiq
+Name:     %{product_short_name}
 Version:  RPM_VERSION
 Release:  RPM_RELEASE%{?dist}
-Summary:  ManageIQ Management Engine
+Summary:  %{product_summary}
 
 License:  Apache-2.0
-URL:      https://github.com/ManageIQ/manageiq
+URL:      %{product_url}
 
 Source0:  %{name}-appliance-%{version}.tar.gz
 Source1:  %{name}-core-%{version}.tar.gz
 Source2:  %{name}-gemset-%{version}.tar.gz
 
 %description
-ManageIQ Management Engine
+%{product_summary}
 
 %prep
 %setup -q -n %{appliance_builddir}

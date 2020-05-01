@@ -1,5 +1,5 @@
 %package gemset
-Summary:   ManageIQ Management Engine Gemset
+Summary: %{product_summary} Gemset
 BuildRequires: /usr/bin/pathfix.py
 
 Requires: cifs-utils
@@ -25,7 +25,7 @@ Requires: v2v-conversion-host-ansible
 Requires: network-scripts
 
 %description gemset
-ManageIQ Management Engine Gemset
+%{product_summary} Gemset
 
 %files gemset
 %defattr(-,root,root,-)
