@@ -4,15 +4,11 @@ require 'yaml'
 module ManageIQ
   module RPMBuild
     class GenerateCore
+      include Helper
       attr_reader :miq_dir
 
       def initialize
         @miq_dir = BUILD_DIR.join("manageiq")
-      end
-
-      def system_cmd(cmd)
-        puts "Running: #{cmd}"
-        exit $?.exitstatus unless system(cmd)
       end
 
       def build_file
@@ -29,28 +25,28 @@ module ManageIQ
 
       def precompile_assets
         Dir.chdir(miq_dir) do
-          system_cmd("RAILS_ENV=production bundle exec rake evm:compile_assets")
+          shell_cmd("RAILS_ENV=production bundle exec rake evm:compile_assets")
         end
       end
 
       def precompile_sti_loader
         Dir.chdir(miq_dir) do
-          system_cmd("bundle exec rake evm:compile_sti_loader")
+          shell_cmd("bundle exec rake evm:compile_sti_loader")
         end
       end
 
       def build_service_ui
         Dir.chdir(BUILD_DIR.join("manageiq-ui-service")) do
-          system_cmd("yarn install")
-          system_cmd("yarn run available-languages")
-          system_cmd("yarn run build")
-          system_cmd("git clean -xdf")  # cleanup temp files
+          shell_cmd("yarn install")
+          shell_cmd("yarn run available-languages")
+          shell_cmd("yarn run build")
+          shell_cmd("git clean -xdf")  # cleanup temp files
         end
       end
 
       def seed_ansible_runner
         Dir.chdir(miq_dir) do
-          system_cmd("bundle exec rake evm:ansible_runner:seed")
+          shell_cmd("bundle exec rake evm:ansible_runner:seed")
         end
       end
 
@@ -78,7 +74,7 @@ module ManageIQ
         transform << "',^,#{tar_basename}/,'"
 
         # Everything from */tmp/* should be excluded, except for tmp/cache/sti_loader.yml
-        system_cmd("tar -C #{miq_dir} #{transform} --exclude-tag='cache/sti_loader.yml' -X #{exclude_file} -hcvzf #{tarball} .")
+        shell_cmd("tar -C #{miq_dir} #{transform} --exclude-tag='cache/sti_loader.yml' -X #{exclude_file} -hcvzf #{tarball} .")
         puts "Built tarball at:\n #{File.expand_path(tarball)}"
       end
     end

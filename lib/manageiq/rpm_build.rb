@@ -1,6 +1,12 @@
 require 'pathname'
 require 'yaml'
 
+require 'term/ansicolor'
+class String
+  include Term::ANSIColor
+end
+
+require 'manageiq/rpm_build/helper'
 require 'manageiq/rpm_build/build_copr'
 require 'manageiq/rpm_build/generate_gemset'
 require 'manageiq/rpm_build/generate_tar_files'

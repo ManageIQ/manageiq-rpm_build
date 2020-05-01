@@ -6,10 +6,12 @@ require 'yaml'
 module ManageIQ
   module RPMBuild
     class GenerateGemSet
+      include Helper
+
       attr_reader :gem_home, :current_env, :bundler_version
 
       def initialize
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
 
         options = YAML.load_file(CONFIG_DIR.join("options.yml"))
         @bundler_version  = options["bundler_version"]
@@ -17,18 +19,13 @@ module ManageIQ
         @gem_home         = BUILD_DIR.join("#{PRODUCT_NAME}-gemset-#{VERSION}")
       end
 
-      def shell_cmd(cmd)
-        puts "\n\t#{cmd}"
-        exit $?.exitstatus unless system(cmd)
-      end
-
       def backup_environment_variables
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
         @current_env = { "GEM_HOME" => ENV["GEM_HOME"], "GEM_PATH" => ENV["GEM_PATH"], "PATH" => ENV["PATH"] }
       end
 
       def set_environment_variables
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
 
         ENV["APPLIANCE"] = "true"
         ENV["RAILS_USE_MEMORY_STORE"] = "true"
@@ -45,7 +42,7 @@ module ManageIQ
       end
 
       def restore_environment_variables
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
         current_env.each do |env_key, env_value|
           ENV[env_key] = env_value
         end
@@ -60,7 +57,7 @@ module ManageIQ
       end
 
       def populate_gem_home
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
 
         Dir.chdir(BUILD_DIR.join("manageiq")) do
           FileUtils.ln_s(BUILD_DIR.join("manageiq-appliance/manageiq-appliance-dependencies.rb"),
@@ -99,14 +96,14 @@ module ManageIQ
       end
 
       def scrub
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
         cleanse_gemset
       end
 
       private
 
       def cleanse_gemset
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
 
         # Remove unneeded files
         Dir.chdir(gem_home) do
@@ -117,7 +114,7 @@ module ManageIQ
       end
 
       def link_git_gems
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
 
         Dir.chdir(BUILD_DIR.join("manageiq")) do
           # This command searches for the git based gems in GEM_HOME/bundler/gems and creates
@@ -136,6 +133,6 @@ module ManageIQ
           shell_cmd("find \"$GEM_HOME/specifications\" -type l -xtype l -delete")
         end
       end
-    end  
+    end
   end
 end

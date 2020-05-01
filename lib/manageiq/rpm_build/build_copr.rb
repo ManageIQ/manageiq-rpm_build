@@ -5,6 +5,8 @@ require 'yaml'
 module ManageIQ
   module RPMBuild
     class BuildCopr
+      include Helper
+
       attr_reader :release_name, :rpm_name, :rpm_release, :rpm_repo_name
 
       def initialize(name, release_name)
@@ -18,20 +20,20 @@ module ManageIQ
       end
 
       def generate_rpm
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
 
         Dir.chdir(RPM_SPEC_DIR.join(rpm_name)) do
           update_spec
           #TODO - need to allow customization
-          exit $?.exitstatus unless system("rpmbuild -bs --define '_sourcedir .' --define '_srcrpmdir .' #{rpm_name}.spec")
-          exit $?.exitstatus unless system("copr-cli --config /build_scripts/copr-cli-token build -r epel-8-x86_64 #{rpm_repo_name} #{rpm_name}-*.src.rpm")
+          shell_cmd("rpmbuild -bs --define '_sourcedir .' --define '_srcrpmdir .' #{rpm_name}.spec")
+          shell_cmd("copr-cli --config /build_scripts/copr-cli-token build -r epel-8-x86_64 #{rpm_repo_name} #{rpm_name}-*.src.rpm")
         end
       end
 
       private
 
       def update_spec
-        puts "\n---> #{self.class.name}::#{__method__}"
+        where_am_i
 
         spec_file = "#{rpm_name}.spec"
         spec_text = File.read(spec_file)

@@ -34,7 +34,7 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
 
 Alternatively, build can be started by passing 'build' to docker run command:
 
-`docker run <miq-rpm_build image> build [--build-type <type>] [--git-ref <ref>]`
+`docker run -it <miq-rpm_build image> build [--build-type <type>] [--git-ref <ref>]`
 
 The container will exit after build is completed. Use `-v <dir>:/root/BUILD` to mount a volume if artifacts need to be
 accessed later.
