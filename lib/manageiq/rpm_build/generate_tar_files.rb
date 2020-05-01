@@ -7,6 +7,12 @@ module ManageIQ
     class GenerateTarFiles
       include Helper
 
+      def create_tarballs
+        create_core_tarball
+        create_gemset_tarball
+        create_appliance_tarball
+      end
+
       def create_gemset_tarball
         where_am_i
 

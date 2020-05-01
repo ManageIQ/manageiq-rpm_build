@@ -32,10 +32,7 @@ gemset.scrub
 gemset.restore_environment_variables
 
 # Create tarballs
-tar_build = ManageIQ::RPMBuild::GenerateTarFiles.new
-tar_build.create_core_tarball
-tar_build.create_gemset_tarball
-tar_build.create_appliance_tarball
+ManageIQ::RPMBuild::GenerateTarFiles.new.create_tarballs
 
 puts "\n\nTARBALL BUILT SUCCESSFULLY"
 
