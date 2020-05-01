@@ -43,4 +43,7 @@ RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
 
 COPY . /build_scripts
 
+RUN cd build_scripts && \
+    bundle install
+
 ENTRYPOINT ["/build_scripts/container-assets/user-entrypoint.sh"]
