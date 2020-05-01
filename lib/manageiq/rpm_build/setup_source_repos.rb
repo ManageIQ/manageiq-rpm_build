@@ -21,7 +21,7 @@ module ManageIQ
         clean_build_dir
         setup_rpm_spec_repo
         setup_source_repo
-        FileUtils.cp(SCRIPT_DIR.join("evm_productization"), BUILD_DIR.join("manageiq-appliance/LINK/etc/default/"))
+        FileUtils.cp(ROOT_DIR.join("evm_productization"), BUILD_DIR.join("manageiq-appliance/LINK/etc/default/"))
       end
 
       def clean_build_dir
