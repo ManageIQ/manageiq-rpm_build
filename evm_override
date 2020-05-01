@@ -1,0 +1,25 @@
+#!/bin/bash
+# Description: Sets the environment for scripts and console users
+#
+
+export RAILS_ENV=production
+export APPLIANCE=true
+export HOME=${HOME:-/root}
+# Force ExecJS to use node
+export EXECJS_RUNTIME='Node'
+# workaround for virtual memory spike observed with RHEL6
+export MALLOC_ARENA_MAX=1
+# Location of certificates and provider keys
+export KEY_ROOT=/var/www/miq/vmdb/certs
+
+[[ -s /etc/default/evm_ruby ]] && source /etc/default/evm_ruby
+[[ -s /etc/default/evm_bundler ]] && source /etc/default/evm_bundler
+[[ -s /etc/default/evm_postgres ]] && source /etc/default/evm_postgres
+source /etc/default/evm_production
+
+# Force locale
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+
+[[ ":$PATH:" == *":/usr/local/bin:"* ]] || PATH="/usr/local/bin:${PATH}"
