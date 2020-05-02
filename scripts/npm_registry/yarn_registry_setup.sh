@@ -1,4 +1,7 @@
 #!/bin/bash
+
+NPM_REGISTRY_OVERRIDE="$1"
+
 yarn config set registry ${NPM_REGISTRY_OVERRIDE}
 yarn config set strict-ssl false
 

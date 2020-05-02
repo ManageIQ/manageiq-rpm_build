@@ -11,19 +11,27 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
 
 1. Build container image
 
-   If building RPMs in Copr, obtain auth token and copy to `./copr-cli-token` before building the container image.
+   If building RPMs in Copr, obtain an auth token and copy to `./copr-cli-token`
+   before building the container image.
 
-2. Start container image
+2. Prepare configuration
 
-   - If overriding npm registry, run container image with `-e NPM_REGISTRY_OVERRIDE='https://path/to/your/npm/registry'`
+   - Create a local directory with an `options.yml` with the configuration changes
+     you want to make, then when running the container image, mount that directory
+     with `-v <dir>:/root/OPTIONS`.
+   - If overriding the NPM registry, set the `npm_registry` key in the `options.yml`.
+   - If building RPMs in Copr,
+     - set the `rpm.repo_name` key in the `options.yml`.
+     - run the container image with `-e COPR_RPM_BUILD=true`.
 
-   - If building RPMs in Copr, run container image with `-e COPR_RPM_BUILD=true`
+3. Start the container image
 
-3. Set options and run the script
+   `docker run -it <image>`
 
-   - Modify `config/options.yml` as needed. If building RPMs in Copr, `repo_name` must be set
+4. Run the script
 
    - Run `bin/build.rb`, optionally overriding git ref (branch or tag) and release type
+
      ```
      bin/build.rb --git-ref jansa
      ```
@@ -31,17 +39,19 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
      bin/build.rb --build-type release --git-ref jansa-1-alpha1
      ```
 
+Alternatively, the build can be started directly by passing `build` to the
+`docker run` command:
 
-Alternatively, build can be started by passing 'build' to docker run command:
+```
+docker run -it <miq-rpm_build image> build [--build-type <type>] [--git-ref <ref>]
+```
 
-`docker run -it <miq-rpm_build image> build [--build-type <type>] [--git-ref <ref>]`
-
-The container will exit after build is completed. Use `-v <dir>:/root/BUILD` to mount a volume if artifacts need to be
-accessed later.
+The container will exit after the build is completed. Use `-v <dir>:/root/BUILD` to
+mount a volume, if artifacts need to be accessed later.
 
 ## Artifacts
 
-manageiq-core, manageiq-gemset and manageiq-appliance .tar.gz will be created in `~/BUILD/rpm_spec/` (`~/BUILD` is configurable in options.yml)
+manageiq-core, manageiq-gemset and manageiq-appliance .tar.gz will be created in `~/BUILD/rpm_spec/`
 
 ## License
 
