@@ -22,8 +22,12 @@ module ManageIQ
         end
       end
 
+      def version_file
+        File.write(miq_dir.join("VERSION"), OPTIONS.version) if OPTIONS.version
+      end
+
       def release_file
-        File.write(miq_dir.join("RELEASE"), OPTIONS.release)
+        File.write(miq_dir.join("RELEASE"), OPTIONS.release) if OPTIONS.release
       end
 
       def link_plugin_public_dirs
@@ -65,6 +69,7 @@ module ManageIQ
         raise "Error: #{gem_home_rake} should be used, but #{rake_path} is being used instead." unless rake_path == gem_home_rake
 
         build_file
+        version_file
         release_file
         link_plugin_public_dirs
         precompile_assets

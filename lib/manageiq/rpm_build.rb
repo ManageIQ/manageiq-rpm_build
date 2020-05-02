@@ -26,6 +26,6 @@ module ManageIQ
     OPTIONS      = Config.load_files(CONFIG_DIR.join("options.yml"), OPTIONS_DIR.join("options.yml"))
 
     BUILD_DATE   = Time.now.strftime("%Y%m%d%H%M%S")
-    GEM_HOME     = BUILD_DIR.join("#{OPTIONS.product_name}-gemset-#{OPTIONS.version}")
+    GEM_HOME     = BUILD_DIR.join("#{OPTIONS.product_name}-gemset-#{OPTIONS.rpm.version}")
   end
 end
