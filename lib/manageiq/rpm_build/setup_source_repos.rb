@@ -21,7 +21,6 @@ module ManageIQ
         clean_build_dir
         setup_rpm_spec_repo
         setup_source_repo
-        FileUtils.cp(ROOT_DIR.join("evm_productization"), BUILD_DIR.join("manageiq-appliance/LINK/etc/default/"))
       end
 
       def clean_build_dir
@@ -49,6 +48,8 @@ module ManageIQ
           git_clone("#{github_url}/#{repo_prefix}.git", "manageiq")
           git_clone("#{github_url}/#{repo_prefix}-ui-service.git", "manageiq-ui-service")
         end
+        # WORKAROUND
+        FileUtils.cp(ROOT_DIR.join("evm_override"), BUILD_DIR.join("manageiq-appliance/LINK/etc/default/evm"))
         post_setup_source_repo
       end
 

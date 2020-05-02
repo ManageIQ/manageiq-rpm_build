@@ -1,4 +1,0 @@
-export APPLIANCE_SOURCE_DIRECTORY=/opt/manageiq/manageiq-appliance
-export APPLIANCE_TEMPLATE_DIRECTORY=${APPLIANCE_SOURCE_DIRECTORY}/TEMPLATE
-
-[[ -s /opt/manageiq/manageiq-gemset/enable ]] && source /opt/manageiq/manageiq-gemset/enable
