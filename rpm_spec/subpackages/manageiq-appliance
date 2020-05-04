@@ -1,8 +1,8 @@
 %package appliance
 Summary: %{product_summary} Appliance
 
-Requires: %{name}-system = %{version}-%{release}
-Requires: %{name}-ui = %{version}-%{release}
+Requires: %{name}-system = %{version}
+Requires: %{name}-ui = %{version}
 
 Requires: postgresql-server
 Requires: repmgr10 >= 4.0.6
