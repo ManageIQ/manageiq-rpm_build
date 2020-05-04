@@ -1,6 +1,6 @@
 %package ui
 Summary: %{product_summary} UI
-Requires: %{name}-core = %{version}-%{release}
+Requires: %{name}-core = %{version}
 
 %description ui
 %{product_summary} UI

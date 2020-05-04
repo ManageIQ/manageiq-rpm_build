@@ -2,7 +2,7 @@
 Summary:  %{product_summary} Core
 
 Requires: ruby
-Requires: %{name}-gemset = %{version}-%{release}
+Requires: %{name}-gemset = %{version}
 
 Requires: ansible
 Requires: ansible-runner
