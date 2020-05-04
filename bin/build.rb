@@ -37,9 +37,7 @@ ManageIQ::RPMBuild::GenerateTarFiles.new.create_tarballs
 puts "\n\nTARBALL BUILT SUCCESSFULLY"
 
 # Build RPMs
-if ENV['COPR_RPM_BUILD']
-  release_name = build_type == "release" ? git_ref : ""
-  ManageIQ::RPMBuild::BuildCopr.new(release_name).generate_rpm
-end
+release_name = build_type == "release" ? git_ref : ""
+ManageIQ::RPMBuild::BuildCopr.new(release_name).generate_rpm
 
 puts "\n\nRPM BUILT SUCCESSFULLY"

@@ -29,6 +29,7 @@ RUN dnf -y --disableplugin=subscription-manager install http://mirror.centos.org
       libxslt-devel \
       nodejs \
       openssl-devel \
+      platform-python-devel \
       postgresql-server \
       postgresql-server-devel \
       qpid-proton-c-devel \

@@ -7,12 +7,13 @@ module ManageIQ
     class BuildCopr
       include Helper
 
-      attr_reader :release_name, :rpm_release, :rpm_repo_name
+      attr_reader :release_name, :rpm_release, :rpm_repo_name, :rpm_spec
 
       def initialize(release_name)
         @release_name  = release_name
         @rpm_release   = OPTIONS.rpm.release
         @rpm_repo_name = OPTIONS.rpm.repo_name
+        @rpm_spec      = "#{OPTIONS.product_name}.spec"
       end
 
       def generate_rpm
@@ -22,9 +23,12 @@ module ManageIQ
           generate_spec_from_subpackage_files
           update_spec
 
-          #TODO - need to allow customization
-          shell_cmd("rpmbuild -bs --define '_sourcedir .' --define '_srcrpmdir .' #{OPTIONS.product_name}.spec")
-          shell_cmd("copr-cli --config /build_scripts/copr-cli-token build -r epel-8-x86_64 #{rpm_repo_name} #{OPTIONS.product_name}-*.src.rpm")
+          if File.exist?(File.expand_path("~/.config/copr"))
+            shell_cmd("rpmbuild -bs --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{RPM_SPEC_DIR}' #{rpm_spec}")
+            shell_cmd("copr-cli build -r epel-8-x86_64 #{rpm_repo_name} #{OPTIONS.product_name}-*.src.rpm")
+          else
+            shell_cmd("rpmbuild -bb --define '_sourcedir #{RPM_SPEC_DIR}' --define '_rpmdir #{BUILD_DIR.join("rpms")}' #{rpm_spec}")
+          end
         end
       end
 
@@ -36,7 +40,7 @@ module ManageIQ
           manageiq_spec.sub!("%changelog", "#{subpackage_spec}\n\n%changelog")
         end
 
-        File.write("#{OPTIONS.product_name}.spec", manageiq_spec)
+        File.write(rpm_spec, manageiq_spec)
       end
 
       private
@@ -44,12 +48,11 @@ module ManageIQ
       def update_spec
         where_am_i
 
-        spec_file = "#{OPTIONS.product_name}.spec"
-        spec_text = File.read(spec_file)
+        spec_text = File.read(rpm_spec)
 
         spec_text.sub!("RPM_VERSION", OPTIONS.rpm.version)
         spec_text.sub!("RPM_RELEASE", spec_release)
-        File.write(spec_file, spec_text)
+        File.write(rpm_spec, spec_text)
       end
 
       def spec_release
