@@ -5,14 +5,11 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
   * Clone source repos
   * Run bundle install, compiles assets for UI and a few other tasks needed
   * Create tarballs
-  * Optionally build RPMs (currently only Copr is supported)
+  * Build RPMs (locally in the container image or in Copr)
 
 ## Steps
 
 1. Build container image
-
-   If building RPMs in Copr, obtain an auth token and copy to `./copr-cli-token`
-   before building the container image.
 
 2. Prepare configuration
 
@@ -22,7 +19,7 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
    - If overriding the NPM registry, set the `npm_registry` key in the `options.yml`.
    - If building RPMs in Copr,
      - set the `rpm.repo_name` key in the `options.yml`.
-     - run the container image with `-e COPR_RPM_BUILD=true`.
+     - run the container image with `-v <copr token file>:/root/.config/copr`.
 
 3. Start the container image
 
@@ -52,6 +49,8 @@ mount a volume, if artifacts need to be accessed later.
 ## Artifacts
 
 manageiq-core, manageiq-gemset and manageiq-appliance .tar.gz will be created in `~/BUILD/rpm_spec/`
+
+manageiq-* RPMs will be created in `~/BUILD/rpms` if built locally
 
 ## License
 
