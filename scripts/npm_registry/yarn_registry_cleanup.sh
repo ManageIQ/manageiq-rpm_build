@@ -1,4 +1,7 @@
 #!/bin/bash
+
+NPM_REGISTRY_OVERRIDE="$1"
+
 yarn config delete registry
 yarn config delete strict-ssl
 

@@ -77,8 +77,10 @@ module ManageIQ
         build_service_ui
         seed_ansible_runner
 
-        if ENV["NPM_REGISTRY_OVERRIDE"]
-          Dir.chdir(miq_dir) { shell_cmd("#{SCRIPT_DIR.join("npm_registry/yarn_registry_cleanup.sh")}") }
+        if OPTIONS.npm_registry
+          Dir.chdir(miq_dir) do
+            shell_cmd("#{SCRIPT_DIR.join("npm_registry/yarn_registry_cleanup.sh")} #{OPTIONS.npm_registry}")
+          end
         end
       end
 

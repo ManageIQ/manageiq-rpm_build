@@ -10,3 +10,4 @@ rpm:
   release:       0.1
   repo_name:
 bundler_version: 2.1.4
+npm_registry:
