@@ -44,7 +44,7 @@ module ManageIQ
       def update_spec
         where_am_i
 
-        spec_file = "#{rpm_name}.spec"
+        spec_file = "#{OPTIONS.product_name}.spec"
         spec_text = File.read(spec_file)
 
         spec_text.sub!("RPM_VERSION", OPTIONS.version)
