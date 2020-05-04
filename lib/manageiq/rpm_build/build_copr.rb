@@ -50,8 +50,12 @@ module ManageIQ
 
         spec_text = File.read(rpm_spec)
 
-        spec_text.sub!("RPM_VERSION", OPTIONS.rpm.version)
+        spec_text.sub!("ORG_NAME", OPTIONS.rpm.org_name)
+        spec_text.sub!("PRODUCT_NAME", OPTIONS.product_name)
+        spec_text.sub!("PRODUCT_SUMMARY", OPTIONS.rpm.product_summary)
+        spec_text.sub!("PRODUCT_URL", OPTIONS.rpm.product_url)
         spec_text.sub!("RPM_RELEASE", spec_release)
+        spec_text.sub!("RPM_VERSION", OPTIONS.rpm.version)
         File.write(rpm_spec, spec_text)
       end
 

@@ -1,8 +1,7 @@
-%global org_name manageiq
-%global product_name ManageIQ
-%global product_short_name manageiq
-%global product_summary ManageIQ Management Engine
-%global product_url https://github.com/ManageIQ/manageiq
+%global org_name ORG_NAME
+%global product_name PRODUCT_NAME
+%global product_summary PRODUCT_SUMMARY
+%global product_url PRODUCT_URL
 
 %global app_root /var/www/miq/vmdb
 %global appliance_root /opt/%{org_name}/%{name}-appliance
@@ -14,7 +13,7 @@
 
 %global debug_package %{nil}
 
-Name:     %{product_short_name}
+Name:     %{product_name}
 Version:  RPM_VERSION
 Release:  RPM_RELEASE%{?dist}
 Summary:  %{product_summary}
