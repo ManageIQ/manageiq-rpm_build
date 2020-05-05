@@ -1,13 +1,15 @@
 #!/usr/bin/env ruby
 
-require 'pathname'
+$LOAD_PATH << File.expand_path("../lib", __dir__)
 
-spec_dir = Pathname.new("../rpm_spec").expand_path(__dir__)
-manageiq_spec = spec_dir.join("manageiq.spec.in").read
+require 'manageiq/rpm_build'
+require 'optimist'
 
-Dir.glob("#{spec_dir.join("subpackages/*")}").sort.each do |spec|
-  subpackage_spec = File.read(spec)
-  manageiq_spec.sub!("%changelog", "#{subpackage_spec}\n\n%changelog")
+opts = Optimist.options do
+  opt :release_name, "release name (e.g. jansa-1) if release build", :type => :string
 end
 
-spec_dir.join("manageiq.spec").write(manageiq_spec)
+spec_dir = Pathname.new("../rpm_spec").expand_path(__dir__)
+Dir.chdir(spec_dir) do
+  ManageIQ::RPMBuild::BuildCopr.new(opts[:release_name].to_s).generate_spec_from_template
+end

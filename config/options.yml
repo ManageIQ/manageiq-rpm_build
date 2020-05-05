@@ -1,13 +1,16 @@
 ---
-product_name:    manageiq
-github_url:      https://github.com/ManageIQ
-git_ref:         master
-repo_prefix:     manageiq
+product_name:      manageiq
+github_url:        https://github.com/ManageIQ
+git_ref:           master
+repo_prefix:       manageiq
 version:
 release:
 rpm:
-  version:       11.0.0
-  release:       0.1
+  version:         11.0.0
+  release:         0.1
   repo_name:
-bundler_version: 2.1.4
+  org_name:        manageiq
+  product_summary: ManageIQ Management Engine
+  product_url:     https://github.com/ManageIQ/manageiq
+bundler_version:   2.1.4
 npm_registry:
