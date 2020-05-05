@@ -20,8 +20,7 @@ module ManageIQ
         where_am_i
 
         Dir.chdir(RPM_SPEC_DIR) do
-          generate_spec_from_subpackage_files
-          update_spec
+          generate_spec_from_template
 
           if File.exist?(File.expand_path("~/.config/copr"))
             shell_cmd("rpmbuild -bs --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{RPM_SPEC_DIR}' #{rpm_spec}")
@@ -32,7 +31,7 @@ module ManageIQ
         end
       end
 
-      def generate_spec_from_subpackage_files
+      def generate_spec_from_template
         manageiq_spec = File.read("manageiq.spec.in")
 
         Dir.glob("subpackages/*").sort.each do |spec|
@@ -41,6 +40,7 @@ module ManageIQ
         end
 
         File.write(rpm_spec, manageiq_spec)
+        update_spec
       end
 
       private
