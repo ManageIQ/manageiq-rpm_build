@@ -1,6 +1,11 @@
 %package system
 Summary:  %{product_summary} System
+Requires: hostname
+Requires: iproute
 Requires: nmap-ncat
+
+# For Email
+Requires: postfix
 
 # For log rotate
 Requires: cronie
@@ -34,7 +39,6 @@ Requires: openldap-clients
 %{_sysconfdir}/cron.hourly/miq*
 %{_sysconfdir}/cron.hourly/pg-inpsector-server-hourly.cron
 %{_sysconfdir}/default/evm*
-%{_sysconfdir}/httpd/conf.d/manageiq-*
 %{_sysconfdir}/issue.template
 %{_sysconfdir}/logrotate.d/miq_logs.conf
 %{_sysconfdir}/manageiq/postgresql.conf.d/01_miq_overrides.conf

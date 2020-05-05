@@ -3,6 +3,8 @@ Summary: %{product_summary} Gemset
 BuildRequires: /usr/bin/pathfix.py
 
 Requires: cifs-utils
+Requires: libpq
+Requires: libssh2
 Requires: nfs-utils
 Requires: openscap-scanner
 Requires: nodejs
