@@ -35,7 +35,6 @@ module ManageIQ
       def setup_source_repo
         where_am_i
         Dir.chdir(BUILD_DIR) do
-          git_clone(OPTIONS.repos.manageiq_appliance_build, "manageiq-appliance-build")
           git_clone(OPTIONS.repos.manageiq_appliance, "manageiq-appliance")
           git_clone(OPTIONS.repos.manageiq, "manageiq")
           git_clone(OPTIONS.repos.manageiq_ui_service, "manageiq-ui-service")
