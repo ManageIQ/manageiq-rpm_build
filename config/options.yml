@@ -1,8 +1,19 @@
 ---
 product_name:      manageiq
-github_url:        https://github.com/ManageIQ
-git_ref:           master
-repo_prefix:       manageiq
+repos:
+  ref:             master
+  manageiq:
+    url:           https://github.com/ManageIQ/manageiq.git
+    ref:
+  manageiq_appliance:
+    url:           https://github.com/ManageIQ/manageiq-appliance.git
+    ref:
+  manageiq_appliance_build:
+    url:           https://github.com/ManageIQ/manageiq-appliance-build.git
+    ref:
+  manageiq_ui_service:
+    url:           https://github.com/ManageIQ/manageiq-ui-service.git
+    ref:
 version:
 release:
 rpm:
