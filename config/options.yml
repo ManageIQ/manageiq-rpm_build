@@ -8,9 +8,6 @@ repos:
   manageiq_appliance:
     url:           https://github.com/ManageIQ/manageiq-appliance.git
     ref:
-  manageiq_appliance_build:
-    url:           https://github.com/ManageIQ/manageiq-appliance-build.git
-    ref:
   manageiq_ui_service:
     url:           https://github.com/ManageIQ/manageiq-ui-service.git
     ref:
