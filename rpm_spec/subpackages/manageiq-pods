@@ -1,7 +1,7 @@
 %package pods
 Summary: %{product_summary} Pods
-Requires: %{name}-system = %{version}
-Requires: %{name}-core = %{version}
+Requires: %{name}-system = %{version}-%{release}
+Requires: %{name}-core = %{version}-%{release}
 
 Requires: glibc-langpack-en
 Requires: procps-ng

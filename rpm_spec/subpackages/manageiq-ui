@@ -1,6 +1,6 @@
 %package ui
 Summary: %{product_summary} UI
-Requires: %{name}-core = %{version}
+Requires: %{name}-core = %{version}-%{release}
 Requires: httpd
 
 %description ui
