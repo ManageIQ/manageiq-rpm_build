@@ -12,6 +12,7 @@
 %global gemset_builddir %{name}-gemset-%{version}
 
 %global debug_package %{nil}
+%global __requires_exclude ^\/usr\/bin\/jruby
 
 Name:     %{product_name}
 Version:  RPM_VERSION
