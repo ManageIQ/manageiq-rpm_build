@@ -7,7 +7,6 @@ Requires: %{name}-ui = %{version}
 Requires: postgresql-server
 Requires: repmgr10 >= 4.0.6
 
-Requires: httpd
 Requires: lvm2
 Requires: memcached
 
@@ -48,9 +47,6 @@ Requires: scap-security-guide
 
 # Software Update
 Requires: yum-utils
-
-# Email
-Requires: postfix
 
 %description appliance
 %{product_summary} Appliance
@@ -94,4 +90,5 @@ fi
 
 %files appliance
 %defattr(-,root,root,-)
+%{_sysconfdir}/httpd/conf.d/manageiq-*
 %{_sysconfdir}/motd.manageiq

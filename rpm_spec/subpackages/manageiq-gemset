@@ -3,9 +3,16 @@ Summary: %{product_summary} Gemset
 BuildRequires: /usr/bin/pathfix.py
 
 Requires: cifs-utils
+Requires: libpq
+Requires: libcurl
+Requires: libssh2
+Requires: libxml2
+Requires: libxslt
 Requires: nfs-utils
 Requires: openscap-scanner
+Requires: openssl
 Requires: nodejs
+Requires: sqlite
 Requires: wmi
 
 # For Miq IPMI (gems-pending)

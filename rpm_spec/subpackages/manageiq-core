@@ -9,6 +9,7 @@ Requires: ansible-runner
 Requires: cockpit
 Requires: cockpit-ssh
 Requires: cockpit-ws
+Requires: git
 Requires: net-snmp
 Requires: net-snmp-libs
 Requires: net-snmp-utils
