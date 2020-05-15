@@ -22,11 +22,14 @@ module ManageIQ
         Dir.chdir(RPM_SPEC_DIR) do
           generate_spec_from_template
 
+          rpm_dir = BUILD_DIR.join("rpms")
+          srpm_dir = rpm_dir.join("src")
+          shell_cmd("rpmbuild -bs --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{srpm_dir}' #{rpm_spec}")
+          srpm = srpm_dir.glob("#{OPTIONS.product_name}-*.src.rpm")
           if File.exist?(File.expand_path("~/.config/copr"))
-            shell_cmd("rpmbuild -bs --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{RPM_SPEC_DIR}' #{rpm_spec}")
-            shell_cmd("copr-cli build -r epel-8-x86_64 #{rpm_repo_name} #{OPTIONS.product_name}-*.src.rpm")
+            shell_cmd("copr-cli build -r epel-8-x86_64 #{rpm_repo_name} #{srpm}")
           else
-            shell_cmd("rpmbuild -bb --define '_sourcedir #{RPM_SPEC_DIR}' --define '_rpmdir #{BUILD_DIR.join("rpms")}' #{rpm_spec}")
+            shell_cmd("rpmbuild -rb --define '_rpmdir #{rpm_dir}' #{srpm}")
           end
         end
       end
