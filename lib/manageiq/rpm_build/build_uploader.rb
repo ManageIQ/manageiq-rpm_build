@@ -12,7 +12,7 @@ module ManageIQ
 
         require 'digest'
         puts "Uploading files..."
-        BUILD_DIR.glob(File.join('**', '*.rpm')).each do |file|
+        BUILD_DIR.glob(File.join('**', '*.rpm')).sort.each do |file|
           product_directory = release ? OPTIONS[:product_name] : "#{OPTIONS[:product_name]}-nightly"
           destination_name = File.join("builds", product_directory, File.basename(file))
           md5sum = Digest::MD5.file(file).hexdigest
