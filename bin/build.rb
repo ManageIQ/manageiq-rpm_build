@@ -40,4 +40,6 @@ puts "\n\nTARBALL BUILT SUCCESSFULLY"
 release_name = build_type == "release" ? git_ref : ""
 ManageIQ::RPMBuild::BuildCopr.new(release_name).generate_rpm
 
+ManageIQ::RPMBuild::BuildUploader.new(:release => build_type == "release").upload
+
 puts "\n\nRPM BUILT SUCCESSFULLY"

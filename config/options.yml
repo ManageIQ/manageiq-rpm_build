@@ -22,3 +22,9 @@ rpm:
   product_url:     https://github.com/ManageIQ/manageiq
 bundler_version:   2.1.4
 npm_registry:
+rpm_repository:
+  s3_api:
+    access_key:
+    secret_key:
+    bucket: rpm-manageiq-org
+    endpoint: nyc3.digitaloceanspaces.com

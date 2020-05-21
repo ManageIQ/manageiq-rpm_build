@@ -9,6 +9,7 @@ end
 
 require 'manageiq/rpm_build/helper'
 require 'manageiq/rpm_build/build_copr'
+require 'manageiq/rpm_build/build_uploader'
 require 'manageiq/rpm_build/generate_gemset'
 require 'manageiq/rpm_build/generate_tar_files'
 require 'manageiq/rpm_build/setup_source_repos'
