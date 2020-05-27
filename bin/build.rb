@@ -6,8 +6,9 @@ require 'manageiq/rpm_build'
 require 'optimist'
 
 opts = Optimist.options do
-  opt :build_type, "nightly or release", :type => :string, :default => "nightly"
-  opt :git_ref,    "Git ref to use (default: git_ref specified in options.yml)", :type => :string
+  opt :build_type,      "nightly or release", :type => :string, :default => "nightly"
+  opt :git_ref,         "Git ref to use (default: git_ref specified in options.yml)", :type => :string
+  opt :update_rpm_repo, "Publish the resulting RPMs to the public repository?"
 end
 Optimist.die "build type must be either nightly or release" unless %w[nightly release].include?(opts[:build_type])
 
@@ -40,6 +41,9 @@ puts "\n\nTARBALL BUILT SUCCESSFULLY"
 release_name = build_type == "release" ? git_ref : ""
 ManageIQ::RPMBuild::BuildCopr.new(release_name).generate_rpm
 
-ManageIQ::RPMBuild::BuildUploader.new(:release => build_type == "release").upload
+if opts[:update_rpm_repo]
+  ManageIQ::RPMBuild::BuildUploader.new(:release => build_type == "release").upload
+  ManageIQ::RPMBuild::RpmRepo.new.update
+end
 
 puts "\n\nRPM BUILT SUCCESSFULLY"

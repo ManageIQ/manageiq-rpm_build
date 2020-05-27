@@ -21,6 +21,7 @@ RUN dnf -y --disableplugin=subscription-manager install http://mirror.centos.org
       ansible \
       cmake \
       copr-cli \
+      createrepo \
       glibc-langpack-en \
       libcurl-devel \
       libpq-devel \

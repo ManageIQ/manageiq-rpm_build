@@ -20,6 +20,8 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
    - If building RPMs in Copr,
      - set the `rpm.repo_name` key in the `options.yml`.
      - run the container image with `-v <copr token file>:/root/.config/copr`.
+   - If updating the RPM repo it would be helpful to attach a volume to hold the RPM cache with `-v <dir>:/root/rpm_cache`.
+     Any RPMs not in the cache will be downloaded to the cache first.
 
 3. Start the container image
 
@@ -30,17 +32,17 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
    - Run `bin/build.rb`, optionally overriding git ref (branch or tag) and release type
 
      ```
-     bin/build.rb --git-ref jansa
+     bin/build.rb --git-ref jansa --update-rpm-repo
      ```
      ```
-     bin/build.rb --build-type release --git-ref jansa-1-alpha1
+     bin/build.rb --build-type release --git-ref jansa-1-alpha1 --update-rpm-repo
      ```
 
 Alternatively, the build can be started directly by passing `build` to the
 `docker run` command:
 
 ```
-docker run -it <miq-rpm_build image> build [--build-type <type>] [--git-ref <ref>]
+docker run -it <miq-rpm_build image> build [--build-type <type>] [--git-ref <ref>] [--update-rpm-repo]
 ```
 
 The container will exit after the build is completed. Use `-v <dir>:/root/BUILD` to
