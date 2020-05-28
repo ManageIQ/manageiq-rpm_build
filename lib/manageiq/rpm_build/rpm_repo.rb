@@ -21,13 +21,13 @@ module ManageIQ
           # Fetch the configured RPMs
           puts "Downloading required RPMs..."
           OPTIONS.rpm_repository.content.each do |branch, values|
-            values[:rpms]&.each do |rpm, versions|
+            values[:rpms]&.each do |rpm, version_regex|
               client.list_objects(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :prefix => File.join("builds", rpm.to_s)).contents.each do |object|
                 file = object.key
                 name = File.basename(file)
                 *, target, arch, _rpm = name.split(".")
                 next unless values[:targets].include?(target)
-                next unless versions.any? { |v| name.include?(v.to_s) }
+                next unless version_regex =~ name
                 cached_rpm = ROOT_DIR.join("rpm_cache", name)
                 unless cached_rpm.file?
                   puts "Fetching uncached RPM: #{name}"
