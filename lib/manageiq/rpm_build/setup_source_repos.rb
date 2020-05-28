@@ -39,8 +39,6 @@ module ManageIQ
           git_clone(OPTIONS.repos.manageiq, "manageiq")
           git_clone(OPTIONS.repos.manageiq_ui_service, "manageiq-ui-service")
         end
-        # WORKAROUND
-        FileUtils.cp(ROOT_DIR.join("evm_override"), BUILD_DIR.join("manageiq-appliance/LINK/etc/default/evm"))
         post_setup_source_repo
       end
 
