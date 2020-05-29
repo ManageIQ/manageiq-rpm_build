@@ -1,7 +1,7 @@
 ---
 product_name:      manageiq
 repos:
-  ref:             master
+  ref:             jansa
   manageiq:
     url:           https://github.com/ManageIQ/manageiq.git
     ref:
@@ -14,8 +14,8 @@ repos:
 version:
 release:
 rpm:
-  version:         11.0.0
-  release:         0.1
+  version:         10.1.0
+  release:         0.2
   repo_name:
   org_name:        manageiq
   product_summary: ManageIQ Management Engine
