@@ -39,7 +39,7 @@ Requires: samba-common-tools
 Requires: mod_auth_mellon
 
 # External Authentication - OpenID-Connect
-# Requires: mod_auth_openidc
+Requires: mod_auth_openidc
 
 # SCAP
 Requires: openscap
