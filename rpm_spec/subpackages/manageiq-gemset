@@ -25,6 +25,9 @@ Requires: cyrus-sasl
 Requires: cyrus-sasl-plain
 Requires: qpid-proton-c
 
+# For RHV
+Requires: ovirt-ansible-roles
+
 # For IMS
 Requires: v2v-conversion-host-ansible
 
