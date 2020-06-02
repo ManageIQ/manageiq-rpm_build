@@ -122,5 +122,5 @@ popd
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
-* Tue Apr 14 2020 Satoe Imaishi <simaishi@redhat.com> - 11.0.0-1
-- 11.0.0-1 build
+* Tue Jun 2 2020 ManageIQ <contact@manageiq.org> - 10.1.0-0.3.beta1
+- Jansa Beta build
