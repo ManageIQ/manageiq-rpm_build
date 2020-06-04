@@ -36,8 +36,12 @@ module ManageIQ
 
         Dir.glob("subpackages/*").sort.each do |spec|
           subpackage_spec = File.read(spec)
-          manageiq_spec.sub!("%changelog", "#{subpackage_spec}\n\n%changelog")
+          manageiq_spec << "#{subpackage_spec}\n\n"
         end
+
+        # Add changelog
+        changelog = OPTIONS.rpm.changelog ? OPTIONS_DIR.join(OPTIONS.rpm.changelog) : "changelog"
+        manageiq_spec << File.read(changelog)
 
         File.write(rpm_spec, manageiq_spec)
         update_spec
