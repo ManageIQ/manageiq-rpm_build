@@ -30,10 +30,16 @@ ManageIQ::RPMBuild::GenerateCore.new.populate
 
 # Scrub the gemset only after it is used to generate 'core' contents
 gemset.scrub
-gemset.restore_environment_variables
 
 # Create tarballs
 ManageIQ::RPMBuild::GenerateTarFiles.new.create_tarballs
+
+# Generate manifest with license info for gems and npm packages
+gemset.generate_dependency_manifest
+gemset.restore_environment_variables
+
+# Create manifest tarball
+ManageIQ::RPMBuild::GenerateTarFiles.new.create_manifest_tarball
 
 puts "\n\nTARBALL BUILT SUCCESSFULLY"
 

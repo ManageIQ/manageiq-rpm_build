@@ -8,11 +8,13 @@ module ManageIQ
     class GenerateGemSet
       include Helper
 
-      attr_reader :current_env, :bundler_version
+      attr_reader :current_env, :bundler_version, :manifest_dir, :miq_dir
 
       def initialize
         where_am_i
         @bundler_version = OPTIONS.bundler_version
+        @manifest_dir    = BUILD_DIR.join("manifest")
+        @miq_dir         = BUILD_DIR.join("manageiq")
       end
 
       def backup_environment_variables
@@ -55,7 +57,7 @@ module ManageIQ
       def populate_gem_home
         where_am_i
 
-        Dir.chdir(BUILD_DIR.join("manageiq")) do
+        Dir.chdir(miq_dir) do
           FileUtils.ln_s(BUILD_DIR.join("manageiq-appliance/manageiq-appliance-dependencies.rb"),
                          "bundler.d/manageiq-appliance-dependencies.rb", :force => true)
 
@@ -81,11 +83,11 @@ module ManageIQ
           # Add .bundle, bin, manifest and Gemfile.lock to the gemset
           FileUtils.mkdir_p(GEM_HOME.join("vmdb/.bundle"))
           FileUtils.mkdir_p(GEM_HOME.join("vmdb/bin"))
-          FileUtils.cp(BUILD_DIR.join("manageiq/.bundle/config"), GEM_HOME.join("vmdb/.bundle"))
-          FileUtils.cp_r(BUILD_DIR.join("manageiq/.bundle/plugin"), GEM_HOME.join("vmdb/.bundle/"))
-          FileUtils.cp(BUILD_DIR.join("manageiq/Gemfile.lock"), GEM_HOME.join("vmdb"))
+          FileUtils.cp(miq_dir.join(".bundle/config"), GEM_HOME.join("vmdb/.bundle"))
+          FileUtils.cp_r(miq_dir.join(".bundle/plugin"), GEM_HOME.join("vmdb/.bundle/"))
+          FileUtils.cp(miq_dir.join("Gemfile.lock"), GEM_HOME.join("vmdb"))
           shell_cmd("bundle list > #{GEM_HOME}/vmdb/manifest")
-          FileUtils.cp(Dir[BUILD_DIR.join("manageiq/bin/*")], GEM_HOME.join("vmdb/bin"))
+          FileUtils.cp(Dir[miq_dir.join("bin/*")], GEM_HOME.join("vmdb/bin"))
 
           link_git_gems
         end
@@ -94,6 +96,43 @@ module ManageIQ
       def scrub
         where_am_i
         cleanse_gemset
+      end
+
+      def generate_dependency_manifest
+        where_am_i
+
+        FileUtils.rm_rf(manifest_dir) if manifest_dir.exist?
+        FileUtils.mkdir(manifest_dir)
+
+        shell_cmd("gem install license_finder")
+        generate_gem_manifest
+        generate_npm_manifest
+      end
+
+      def generate_gem_manifest
+        where_am_i
+        run_license_finder(miq_dir, "gem")
+      end
+
+      def generate_npm_manifest
+        where_am_i
+
+        cmd = "rake update:print_engines | grep path: | cut -d: -f2"
+        repos = AwesomeSpawn.run!(cmd, :chdir => miq_dir).output.split
+
+        # license_finder tries to look for all supported package manager, move out Gemfile
+        repo_with_gemfile = repos.select { |repo| File.exist?("#{repo}/Gemfile") }
+        repo_with_gemfile.each { |repo| FileUtils.mv("#{repo}/Gemfile", "#{repo}/Gemfile.save") }
+        run_license_finder(repos.join(" "), "npm")
+        repo_with_gemfile.each { |repo| FileUtils.mv("#{repo}/Gemfile.save", "#{repo}/Gemfile") }
+      end
+
+      def run_license_finder(repos, type)
+        where_am_i
+
+        output  = manifest_dir.join("#{type}_manifest.csv")
+        columns = "name version licenses"
+        shell_cmd("BUNDLER_VERSION=#{bundler_version} license_finder report --format csv --write-headers --aggregate-paths #{repos} --columns #{columns} --save #{output}")
       end
 
       private
@@ -118,7 +157,7 @@ module ManageIQ
       def link_git_gems
         where_am_i
 
-        Dir.chdir(BUILD_DIR.join("manageiq")) do
+        Dir.chdir(miq_dir) do
           # This command searches for the git based gems in GEM_HOME/bundler/gems and creates
           # symlinks for each replacing the git-sha with the gem version.
           # TODO: Refactor using Bundler and Gem class directly
