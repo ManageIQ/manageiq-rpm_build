@@ -41,6 +41,12 @@ module ManageIQ
         shell_cmd("tar -C #{BUILD_DIR.join("manageiq")} #{transform(name)} --exclude-tag='cache/sti_loader.yml' -X #{exclude_file} -hcvzf #{tar_full_path(name)} .")
       end
 
+      def create_manifest_tarball
+        where_am_i
+
+        name = "manifest"
+        shell_cmd("tar -C #{BUILD_DIR.join(name)} #{transform(name)} --exclude='.git' -hzcf #{tar_full_path(name)} .")
+      end
       private
 
       def tar_basename(name)
