@@ -4,12 +4,15 @@
 %global product_url PRODUCT_URL
 
 %global app_root /var/www/miq/vmdb
-%global appliance_root /opt/%{org_name}/%{name}-appliance
-%global gemset_root /opt/%{org_name}/%{name}-gemset
+%global org_root /opt/%{org_name}
+%global appliance_root %{org_root}/%{name}-appliance
+%global gemset_root %{org_root}/%{name}-gemset
+%global manifest_root %{org_root}/manifest
 
 %global appliance_builddir %{name}-appliance-%{version}
 %global core_builddir %{name}-core-%{version}
 %global gemset_builddir %{name}-gemset-%{version}
+%global manifest_builddir %{name}-manifest-%{version}
 
 %global debug_package %{nil}
 %global __requires_exclude ^\/usr\/bin\/jruby
@@ -25,6 +28,7 @@ URL:      %{product_url}
 Source0:  %{name}-appliance-%{version}.tar.gz
 Source1:  %{name}-core-%{version}.tar.gz
 Source2:  %{name}-gemset-%{version}.tar.gz
+Source3:  %{name}-manifest-%{version}.tar.gz
 
 %description
 %{product_summary}
@@ -33,6 +37,7 @@ Source2:  %{name}-gemset-%{version}.tar.gz
 %setup -q -n %{appliance_builddir}
 %setup -q -T -D -b 1 -n %{core_builddir}
 %setup -q -T -D -b 2 -n %{gemset_builddir}
+%setup -q -T -D -b 3 -n %{manifest_builddir}
 
 # buildsubdir is set to the last extracted archive (gemset), reset
 cd %{_builddir}
@@ -80,6 +85,10 @@ cd %{_builddir}
 %{__cp} -r %{gemset_builddir}/specifications %{buildroot}%{gemset_root}
 %{__cp} -r %{gemset_builddir}/vmdb %{buildroot}%{gemset_root}
 install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
+
+### from manifest
+%{__mkdir} -p %{buildroot}%{manifest_root}
+%{__cp} -r %{manifest_builddir}/* %{buildroot}%{manifest_root}
 
 # workaround
 %{__rm} -rf %{buildroot}/%{gemset_root}/gems/ffi-*/ext
