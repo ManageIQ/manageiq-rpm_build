@@ -121,6 +121,3 @@ popd
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%changelog
-* Tue Jun 2 2020 ManageIQ <contact@manageiq.org> - 10.1.0-0.3.beta1
-- Jansa Beta build
