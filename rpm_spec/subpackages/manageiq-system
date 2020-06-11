@@ -23,6 +23,7 @@ Requires: openldap-clients
 /root/.ansible.cfg
 %{appliance_root}
 %{app_root}/log/apache
+%{manifest_root}
 %{_bindir}/cloud_ds_check.sh
 %{_bindir}/cockpit-auth-miq
 %{_bindir}/evm*
