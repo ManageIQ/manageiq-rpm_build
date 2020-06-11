@@ -64,7 +64,6 @@ module ManageIQ
           shell_cmd("gem env")
           shell_cmd("gem install mime-types -v 2.6.1")
           shell_cmd("bundle config set --local with qpid_proton systemd")
-          shell_cmd("bundle config set --local without 'test:development:metric_fu'")
           shell_cmd("bundle _#{bundler_version}_ install --jobs #{cpus} --retry 3")
 
           # Copy libsodium.so* to where rbnacl-libsodium expects
