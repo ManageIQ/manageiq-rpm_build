@@ -49,6 +49,7 @@ cd %{_builddir}
 
 cat <<"EOF" > %{gemset_builddir}/enable
 export APPLIANCE="true"
+export BUNDLE_GEMFILE=%{app_root}/Gemfile
 export GEM_HOME=%{gemset_root}
 export GEM_PATH=%{gemset_root}:$(gem env path)
 export PATH=%{gemset_root}/bin:$PATH
