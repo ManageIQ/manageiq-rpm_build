@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.1
+FROM registry.access.redhat.com/ubi8/ubi:8.2
 
 ARG ARCH=x86_64
 
@@ -8,8 +8,8 @@ ENV TERM=xterm \
 
 RUN curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo
 
-RUN dnf -y --disableplugin=subscription-manager install http://mirror.centos.org/centos/8/BaseOS/${ARCH}/os/Packages/centos-repos-8.1-1.1911.0.8.el8.${ARCH}.rpm \
-                                                        http://mirror.centos.org/centos/8/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8.1-1.1911.0.8.el8.noarch.rpm \
+RUN dnf -y --disableplugin=subscription-manager install http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-repos-8.2-2.2004.0.1.el8.${ARCH}.rpm \
+                                                        http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8.2-2.2004.0.1.el8.noarch.rpm \
                                                         https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
                                                         https://rpm.manageiq.org/release/11-kasparov/el8/noarch/manageiq-release-11.0-1.el8.noarch.rpm && \
     dnf -y --disableplugin=subscription-manager module enable ruby:2.6 && \
