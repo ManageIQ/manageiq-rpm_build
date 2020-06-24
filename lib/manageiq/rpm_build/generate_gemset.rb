@@ -120,6 +120,7 @@ module ManageIQ
 
         cmd = "rake update:print_engines | grep path: | cut -d: -f2"
         repos = AwesomeSpawn.run!(cmd, :chdir => miq_dir).output.split
+        repos << BUILD_DIR.join("manageiq-ui-service")
 
         # license_finder tries to look for all supported package manager, move out Gemfile
         repo_with_gemfile = repos.select { |repo| File.exist?("#{repo}/Gemfile") }
