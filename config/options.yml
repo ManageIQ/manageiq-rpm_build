@@ -35,21 +35,6 @@ rpm_repository:
     - "ppc64le"
     - "x86_64"
   :content:
-    :10-jansa:
-      :targets:
-        - el8
-      :rpms:
-        :manageiq: !ruby/regexp /.+-10\.\d\.\d-\d(\.\d\.(alpha|beta)\d)?\.el.+/
-        :manageiq-release: !ruby/regexp /.+-10\.0.+/
-        :qpid-proton: !ruby/regexp /.+-0\.30\.0.+/
-        :repmgr10: !ruby/regexp /.+-4\.0\.6.+/
-        :smem: !ruby/regexp /.+-1\.5.+/
-        :wmi: !ruby/regexp /.+-1\.3\.14.+/
-    :10-jansa-nightly:
-      :targets:
-        - el8
-      :rpms:
-        :manageiq-nightly: !ruby/regexp /.+-10\.\d\.\d-\d\.\d\.\d+\.el.+/
     :11-kasparov:
       :targets:
         - el8
