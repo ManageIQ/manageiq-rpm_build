@@ -61,10 +61,14 @@ module ManageIQ
 
           # Cleanup old stuff online
           puts "Cleaning old files in bucket..."
-          client.list_objects(:bucket => OPTIONS.rpm_repository.s3_api.bucket).contents.each do |object|
-            next unless object.key.start_with?("release/")
-            next if File.file?(work_dir.join(object.key))
-            client.delete_object(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :key => object.key)
+          OPTIONS.rpm_repository.content.keys.each do |key|
+            prefix = File.join("release", key.to_s)
+            puts "Cleaning #{prefix}:"
+            client.list_objects(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :prefix => prefix).contents.each do |object|
+              next if File.file?(work_dir.join(object.key))
+              puts "  removing #{object.key}"
+              client.delete_object(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :key => object.key)
+            end
           end
         end
       end
