@@ -52,11 +52,12 @@ module ManageIQ
           # Upload
           require 'digest'
           puts "Uploading files..."
+          uploaded_files = []
           Dir.glob(work_dir.join('**', '*')).each do |file|
             next unless File.file?(file)
             destination_name = file.sub("#{work_dir.to_s}/", '')
 
-            upload_file(file, destination_name)
+            uploaded_files << destination_name if upload_file(file, destination_name)
           end
 
           # Cleanup old stuff online
@@ -69,6 +70,15 @@ module ManageIQ
               puts "  removing #{object.key}"
               client.delete_object(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :key => object.key)
             end
+          end
+
+          # Bust the cache for updated files
+          if OPTIONS.rpm_repository.digitalocean_access_token
+            puts "Purging the cache for files that were uploaded"
+            require 'droplet_kit'
+            digitalocean_client = DropletKit::Client.new(:access_token => OPTIONS.rpm_repository.digitalocean_access_token)
+            cdn_id = digitalocean_client.cdns.all.detect { |i| i.origin == "#{OPTIONS.rpm_repository.s3_api.bucket}.#{OPTIONS.rpm_repository.s3_api.endpoint}" }.id
+            digitalocean_client.cdns.flush_cache(:id => cdn_id, :files => uploaded_files)
           end
         end
       end

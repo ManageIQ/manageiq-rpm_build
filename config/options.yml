@@ -24,6 +24,7 @@ rpm:
 bundler_version:   2.1.4
 npm_registry:
 rpm_repository:
+  digitalocean_access_token:
   s3_api:
     access_key:
     secret_key:
