@@ -29,17 +29,19 @@ module ManageIQ
 
         if md5sum == remote_etag(destination)
           puts "  Skipping existing file: #{destination}"
-        else
-          puts "  Uploading: #{destination}"
-          File.open(source, 'rb') do |content|
-            client.put_object(
-              :bucket => OPTIONS.rpm_repository.s3_api.bucket,
-              :key    => destination,
-              :body   => content,
-              :acl    => 'public-read'
-            )
-          end
+          return false
         end
+
+        puts "  Uploading: #{destination}"
+        File.open(source, 'rb') do |content|
+          client.put_object(
+            :bucket => OPTIONS.rpm_repository.s3_api.bucket,
+            :key    => destination,
+            :body   => content,
+            :acl    => 'public-read'
+          )
+        end
+        return true
       end
     end
   end
