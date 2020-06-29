@@ -29,6 +29,7 @@ Requires: openldap-clients
 %{_bindir}/evm*
 %{_bindir}/fix_auth
 %{_bindir}/generate_miq_server_cert.sh
+%{_bindir}/generate_rpm_manifest.sh
 %{_bindir}/miq*
 %{_bindir}/normalize_userid_to_upn
 %{_bindir}/pg_inspector_server.sh
