@@ -22,3 +22,6 @@ find bundler/gems/**/ -maxdepth 2 -name docs -type d -exec rm -rf {} +
 # Remove node_modules
 find gems/**/ -maxdepth 2 -name node_modules -type d -exec rm -rf {} +
 find bundler/gems/**/ -maxdepth 2 -name node_modules -type d -exec rm -rf {} +
+
+# Remove files with inappropriate license
+rm -rf gems/pdf-writer-*/demo  # Creative Commons Attribution NonCommercial
