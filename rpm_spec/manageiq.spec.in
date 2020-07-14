@@ -90,6 +90,9 @@ install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
 %{__mkdir} -p %{buildroot}%{manifest_root}
 %{__cp} -r %{manifest_builddir}/* %{buildroot}%{manifest_root}
 
+# Move webpack manifest
+%{__mv} %{buildroot}%{app_root}/public/packs/webpack-modules-manifest.json %{buildroot}%{manifest_root}/webpack_manifest.json
+
 # workaround
 %{__rm} -rf %{buildroot}/%{gemset_root}/gems/ffi-*/ext
 
@@ -125,7 +128,6 @@ popd
 
 #copy all files/directories below COPY
 %{__cp} -r ./%{appliance_builddir}/COPY/* %{buildroot}/
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
