@@ -13,7 +13,6 @@ Requires: openscap-scanner
 Requires: openssl
 Requires: nodejs
 Requires: sqlite
-Requires: wmi
 
 # For Miq IPMI (gems-pending)
 Requires: OpenIPMI

@@ -50,6 +50,7 @@ module ManageIQ
         symlink_plugin_paths("manageiq-ui-service", ui_service_dir)
 
         Dir.chdir(ui_service_dir) do
+          shell_cmd("if [ $(uname -m) = ppc64le ]; then npm config --global set python /usr/bin/python2.7; fi")
           shell_cmd("yarn install")
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
