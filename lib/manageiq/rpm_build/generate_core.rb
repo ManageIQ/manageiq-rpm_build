@@ -50,7 +50,9 @@ module ManageIQ
         symlink_plugin_paths("manageiq-ui-service", ui_service_dir)
 
         Dir.chdir(ui_service_dir) do
-          shell_cmd("if [ $(uname -m) = ppc64le ]; then npm config --global set python /usr/bin/python2.7; fi")
+          if RUBY_PLATFORM =~ /powerpc64le/
+              shell_cmd("npm config --global set python /usr/bin/python2.7")
+          end
           shell_cmd("yarn install")
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
