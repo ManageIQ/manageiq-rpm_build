@@ -43,9 +43,7 @@ RUN npm install yarn -g
 
 RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
 
-RUN if [ ${ARCH} = "ppc64le" ] ; then gem install sassc  -- --disable-march-tune-native && \
-    gem install unf_ext -v '0.0.7.2' -- --with-cxxflags="-fsigned-char" && \
-    dnf -y install python2 ; fi
+RUN if [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi
 
 COPY . /build_scripts
 

@@ -14,7 +14,10 @@ Requires: openssl
 Requires: nodejs
 Requires: sqlite
 
-# For Miq IPMI (gems-pending)
+%ifnarch ppc64le
+Requires: wmi
+%endif
+
 Requires: OpenIPMI
 Requires: freeipmi
 Requires: ipmitool

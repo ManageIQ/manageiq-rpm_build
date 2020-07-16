@@ -63,6 +63,8 @@ module ManageIQ
 
           shell_cmd("gem env")
           shell_cmd("gem install mime-types -v 2.6.1")
+          shell_cmd("if [ $(uname -m) = ppc64le ]; then gem install sassc  -- --disable-march-tune-native; fi")
+          shell_cmd("if [ $(uname -m) = ppc64le ]; then gem install unf_ext -v '0.0.7.2' -- --with-cxxflags='-fsigned-char'; fi")
           shell_cmd("bundle config set --local with qpid_proton systemd")
           shell_cmd("bundle _#{bundler_version}_ install --jobs #{cpus} --retry 3")
 
