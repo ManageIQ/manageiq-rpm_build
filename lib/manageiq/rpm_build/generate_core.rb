@@ -50,7 +50,7 @@ module ManageIQ
         symlink_plugin_paths("manageiq-ui-service", ui_service_dir)
 
         Dir.chdir(ui_service_dir) do
-          if RUBY_PLATFORM.match(/powerpc64le/)
+          if RUBY_PLATFORM.match?(/powerpc64le/)
             shell_cmd("npm config --global set python /usr/bin/python2.7")
           end
           shell_cmd("yarn install")

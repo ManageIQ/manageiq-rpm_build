@@ -18,6 +18,7 @@ Requires: sqlite
 Requires: wmi
 %endif
 
+# For Miq IPMI (gems-pending)
 Requires: OpenIPMI
 Requires: freeipmi
 Requires: ipmitool
