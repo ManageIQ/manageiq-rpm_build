@@ -47,3 +47,4 @@ Requires: network-scripts
 %{gemset_root}/specifications
 %{gemset_root}/vmdb
 %{gemset_root}/enable
+%{manifest_root}/gem_manifest.csv
