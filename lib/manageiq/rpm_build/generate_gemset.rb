@@ -63,6 +63,12 @@ module ManageIQ
 
           shell_cmd("gem env")
           shell_cmd("gem install mime-types -v 2.6.1")
+
+          if RUBY_PLATFORM.match?(/powerpc64le/)
+            shell_cmd("gem install sassc  -- --disable-march-tune-native")
+            shell_cmd("gem install unf_ext -v '0.0.7.2' -- --with-cxxflags='-fsigned-char'")
+          end
+
           shell_cmd("bundle config set --local with qpid_proton systemd")
           shell_cmd("bundle config set --local without 'test:development:metric_fu'")
           shell_cmd("bundle _#{bundler_version}_ install --jobs #{cpus} --retry 3")
