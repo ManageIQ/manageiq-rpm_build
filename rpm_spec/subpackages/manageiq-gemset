@@ -23,9 +23,13 @@ Requires: OpenIPMI
 Requires: freeipmi
 Requires: ipmitool
 
+# For Lenovo
+Requires: python3-pylxca
+
 # For Nuage
 Requires: cyrus-sasl
 Requires: cyrus-sasl-plain
+Requires: python3-vspk
 Requires: qpid-proton-c
 
 # For RHV
