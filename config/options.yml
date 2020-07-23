@@ -44,6 +44,10 @@ rpm_repository:
         :kafka: !ruby/regexp /.+-2\.3.+/
         :manageiq: !ruby/regexp /.+-11\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-11\.0.+/
+        :python-bambou: !ruby/regexp /.+-3\.1\.1.+/
+        :python-pylxca: !ruby/regexp /.+-2\.1\.1.+/
+        :python-unittest2: !ruby/regexp /.+-1\.1\.0.+/
+        :python-vspk: !ruby/regexp /.+-5\.3\.2.+/
         :qpid-proton: !ruby/regexp /.+-0\.30\.0.+/
         :repmgr10: !ruby/regexp /.+-4\.0\.6.+/
         :smem: !ruby/regexp /.+-1\.5.+/
