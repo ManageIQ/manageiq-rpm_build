@@ -1,3 +1,6 @@
 %changelog
+* Fri Jul 24 2020 ManageIQ <contact@manageiq.org> - 10.1.0-0.4.rc1
+- Jansa RC1 build
+
 * Tue Jun 2 2020 ManageIQ <contact@manageiq.org> - 10.1.0-0.3.beta1
 - Jansa Beta build
