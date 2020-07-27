@@ -40,7 +40,7 @@ rpm_repository:
       :targets:
         - el8
       :rpms:
-        :manageiq: !ruby/regexp /.+-10\.\d\.\d-\d(\.\d\.(alpha|beta)\d)?\.el.+/
+        :manageiq: !ruby/regexp /.+-10\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-10\.0.+/
         :qpid-proton: !ruby/regexp /.+-0\.30\.0.+/
         :repmgr10: !ruby/regexp /.+-4\.0\.6.+/
