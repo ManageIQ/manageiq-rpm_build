@@ -34,7 +34,7 @@ done
 %{__cp} -f %{app_root}/config/cable.yml.sample %{app_root}/config/cable.yml
 
 %files core
-%defattr(-,root,root,-)
+%defattr(-,root,root,775)
 %{app_root}
 %config(noreplace) %{app_root}/certs
 %exclude %{app_root}/public/assets
