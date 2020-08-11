@@ -38,7 +38,7 @@ Requires: network-scripts
 %{product_summary} Gemset
 
 %files gemset
-%defattr(-,root,root,-)
+%defattr(-,root,root,775)
 %dir %{gemset_root}
 %{gemset_root}/bin
 %{gemset_root}/build_info

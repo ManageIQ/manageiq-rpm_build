@@ -18,7 +18,7 @@ Requires: openldap-clients
 %{product_summary} System
 
 %files system
-%defattr(-,root,root,-)
+%defattr(-,root,root,775)
 /.toprc
 /root/.ansible.cfg
 %{appliance_root}
