@@ -22,7 +22,7 @@ module ManageIQ
           puts "Downloading required RPMs..."
           OPTIONS.rpm_repository.content.each do |branch, values|
             values[:rpms]&.each do |rpm, version_regex|
-              client.list_objects(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :prefix => File.join("builds", rpm.to_s)).contents.each do |object|
+              client.list_objects(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :prefix => File.join("builds", rpm.to_s)).flat_map(&:contents).each do |object|
                 file = object.key
                 name = File.basename(file)
                 *, target, arch, _rpm = name.split(".")
@@ -65,7 +65,7 @@ module ManageIQ
           OPTIONS.rpm_repository.content.keys.each do |key|
             prefix = File.join("release", key.to_s)
             puts "Cleaning #{prefix}:"
-            client.list_objects(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :prefix => prefix).contents.each do |object|
+            client.list_objects(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :prefix => prefix).flat_map(&:contents).each do |object|
               next if File.file?(work_dir.join(object.key))
               puts "  removing #{object.key}"
               client.delete_object(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :key => object.key)
