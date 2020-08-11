@@ -7,7 +7,7 @@ Requires: httpd
 %{product_summary} UI
 
 %files ui
-%defattr(-,root,root,-)
+%defattr(-,root,root,775)
 %{app_root}/public/assets
 %{app_root}/public/packs
 %{app_root}/public/ui

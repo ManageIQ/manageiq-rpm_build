@@ -89,6 +89,6 @@ if systemctl is-active --quiet evm-failover-monitor; then
 fi
 
 %files appliance
-%defattr(-,root,root,-)
+%defattr(-,root,root,775)
 %{_sysconfdir}/httpd/conf.d/manageiq-*
 %{_sysconfdir}/motd.manageiq
