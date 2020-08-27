@@ -14,7 +14,7 @@ Requires: openssl
 Requires: nodejs
 Requires: sqlite
 
-%ifnarch ppc64le
+%ifarch x86_64
 Requires: wmi
 %endif
 
