@@ -34,6 +34,7 @@ rpm_repository:
     - "src"
     - "noarch"
     - "ppc64le"
+    - "s390x"
     - "x86_64"
   :content:
     :11-kasparov:
