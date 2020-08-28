@@ -27,6 +27,7 @@ module ManageIQ
                 name = File.basename(file)
                 *, target, arch, _rpm = name.split(".")
                 next unless values[:targets].include?(target)
+                next unless OPTIONS.rpm_repository.arches.include?(arch)
                 next unless version_regex =~ name
                 cached_rpm = ROOT_DIR.join("rpm_cache", name)
                 unless cached_rpm.file?
