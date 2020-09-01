@@ -23,7 +23,7 @@ gemset = ManageIQ::RPMBuild::GenerateGemSet.new
 gemset.backup_environment_variables
 gemset.set_environment_variables
 gemset.recreate_gem_home
-gemset.populate_gem_home
+gemset.populate_gem_home(build_type)
 
 # Generate 'core' contents
 ManageIQ::RPMBuild::GenerateCore.new.populate
