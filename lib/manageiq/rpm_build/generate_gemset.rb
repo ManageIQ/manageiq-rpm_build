@@ -54,7 +54,7 @@ module ManageIQ
         shell_cmd(cmd)
       end
 
-      def populate_gem_home
+      def populate_gem_home(build_type)
         where_am_i
 
         Dir.chdir(miq_dir) do
@@ -70,6 +70,13 @@ module ManageIQ
           end
 
           shell_cmd("bundle config set --local with qpid_proton systemd")
+
+          lock_release = miq_dir.join("Gemfile.lock.release")
+          if lock_release.exist?
+            FileUtils.ln_s(lock_release, "Gemfile.lock", :force => true)
+            shell_cmd("bundle _#{bundler_version}_ lock --update --conservative --patch") if build_type == "nightly"
+          end
+
           shell_cmd("bundle _#{bundler_version}_ install --jobs #{cpus} --retry 3")
 
           # Copy libsodium.so* to where rbnacl-libsodium expects
