@@ -41,6 +41,7 @@ rpm_repository:
       :targets:
         - el8
       :rpms:
+        :kafka: !ruby/regexp /.+-2\.3.+/
         :manageiq: !ruby/regexp /.+-11\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-11\.0.+/
         :qpid-proton: !ruby/regexp /.+-0\.30\.0.+/
