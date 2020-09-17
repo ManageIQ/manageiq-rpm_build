@@ -12,6 +12,8 @@ Requires: httpd
 %{app_root}/public/packs
 %{app_root}/public/ui
 %{manifest_root}/npm_manifest.csv
-%{manifest_root}/webpack_manifest.json
-%{manifest_root}/webpack_manifest_ui_service.json
+%{manifest_root}/webpack_modules_manifest.json
+%{manifest_root}/webpack_packages_manifest.json
+%{manifest_root}/webpack_modules_manifest_service_ui.json
+%{manifest_root}/webpack_packages_manifest_service_ui.json
 %config(noreplace) %{app_root}/public/custom.css
