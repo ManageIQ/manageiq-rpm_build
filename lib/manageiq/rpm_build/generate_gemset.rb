@@ -80,6 +80,7 @@ module ManageIQ
           shell_cmd("bundle _#{bundler_version}_ install --jobs #{cpus} --retry 3")
 
           # Copy libsodium.so* to where rbnacl-libsodium expects
+          # https://github.com/RubyCrypto/rbnacl-libsodium/issues/25
           rbnacl_libsodium_gem_dir = Pathname.new(`bundle info --path rbnacl-libsodium`.chomp)
           libsodium_library_dir    = "#{rbnacl_libsodium_gem_dir}/vendor/libsodium/dist/lib"
           FileUtils.mkdir_p(libsodium_library_dir)
@@ -168,6 +169,11 @@ module ManageIQ
 
           # Vendored libgit2 isn't needed once the gem is compiled
           FileUtils.rm_rf(Dir.glob("gems/rugged-*/vendor"))
+
+          # Vendored libsodium isn't needed once the gem is compiled
+          # with execeptio of dist/lib/.so files which are not copied to extensions dir
+          FileUtils.rm_rf(Dir.glob("gems/rbnacl-libsodium-*/vendor/libsodium/*").reject{|f| f.end_with?("/dist")})
+          FileUtils.rm_rf(Dir.glob("gems/rbnacl-libsodium-*/tmp"))
 
           # Remove files with inappropriate license
           FileUtils.rm_rf(Dir.glob("gems/pdf-writer-*/demo")) # Creative Commons Attribution NonCommercial
