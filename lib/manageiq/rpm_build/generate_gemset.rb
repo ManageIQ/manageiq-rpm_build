@@ -165,7 +165,20 @@ module ManageIQ
         Dir.chdir(GEM_HOME) do
           FileUtils.rm_rf(Dir.glob("bundler/gems/*/.git"))
           FileUtils.rm_rf(Dir.glob("cache/*"))
-          shell_cmd(SCRIPT_DIR.join("gem_cleanup.sh"))
+
+          # Vendored libgit2 isn't needed once the gem is compiled
+          FileUtils.rm_rf(Dir.glob("gems/rugged-*/vendor"))
+
+          # Remove files with inappropriate license
+          FileUtils.rm_rf(Dir.glob("gems/pdf-writer-*/demo")) # Creative Commons Attribution NonCommercial
+
+          ["gems", "bundler/gems"].each do |path|
+            FileUtils.rm_rf(Dir.glob("#{path}/**/*.o"))
+            FileUtils.rm_rf(Dir.glob("#{path}/*/docs"))
+            FileUtils.rm_rf(Dir.glob("#{path}/*/node_modules"))
+            FileUtils.rm_rf(Dir.glob("#{path}/*/spec"))
+            FileUtils.rm_rf(Dir.glob("#{path}/*/test"))
+          end
         end
       end
 
