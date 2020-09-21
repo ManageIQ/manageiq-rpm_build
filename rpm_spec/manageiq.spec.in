@@ -91,8 +91,10 @@ install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
 %{__cp} -r %{manifest_builddir}/* %{buildroot}%{manifest_root}
 
 # Move webpack manifests
-%{__mv} %{buildroot}%{app_root}/public/packs/webpack-modules-manifest.json %{buildroot}%{manifest_root}/webpack_manifest.json
-%{__mv} %{buildroot}%{app_root}/public/ui/service/webpack-modules-manifest.json %{buildroot}%{manifest_root}/webpack_manifest_ui_service.json
+%{__mv} %{buildroot}%{app_root}/public/packs/webpack_modules_manifest.json %{buildroot}%{manifest_root}
+%{__mv} %{buildroot}%{app_root}/public/packs/webpack_packages_manifest.json %{buildroot}%{manifest_root}
+%{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_modules_manifest.json %{buildroot}%{manifest_root}/webpack_modules_manifest_service_ui.json
+%{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_packages_manifest.json %{buildroot}%{manifest_root}/webpack_packages_manifest_service_ui.json
 
 # workaround
 %{__rm} -rf %{buildroot}/%{gemset_root}/gems/ffi-*/ext
