@@ -178,6 +178,9 @@ module ManageIQ
           # Remove files with inappropriate license
           FileUtils.rm_rf(Dir.glob("gems/pdf-writer-*/demo")) # Creative Commons Attribution NonCommercial
 
+          # Remove ffi ext directory, this causes rpm build failure
+          FileUtils.rm_rf(Dir.glob("gems/ffi-*/ext"))
+
           ["gems", "bundler/gems"].each do |path|
             FileUtils.rm_rf(Dir.glob("#{path}/**/*.o"))
             FileUtils.rm_rf(Dir.glob("#{path}/*/docs"))
