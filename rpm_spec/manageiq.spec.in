@@ -96,9 +96,6 @@ install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
 %{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_modules_manifest.json %{buildroot}%{manifest_root}/webpack_modules_manifest_service_ui.json
 %{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_packages_manifest.json %{buildroot}%{manifest_root}/webpack_packages_manifest_service_ui.json
 
-# workaround
-%{__rm} -rf %{buildroot}/%{gemset_root}/gems/ffi-*/ext
-
 ## from appliance
 #symlink some executables
 %{__mkdir} -p %{buildroot}/%{_bindir}

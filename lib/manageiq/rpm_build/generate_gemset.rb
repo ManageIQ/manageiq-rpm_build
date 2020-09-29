@@ -80,6 +80,7 @@ module ManageIQ
           shell_cmd("bundle _#{bundler_version}_ install --jobs #{cpus} --retry 3")
 
           # Copy libsodium.so* to where rbnacl-libsodium expects
+          # https://github.com/RubyCrypto/rbnacl-libsodium/issues/25
           rbnacl_libsodium_gem_dir = Pathname.new(`bundle info --path rbnacl-libsodium`.chomp)
           libsodium_library_dir    = "#{rbnacl_libsodium_gem_dir}/vendor/libsodium/dist/lib"
           FileUtils.mkdir_p(libsodium_library_dir)
@@ -165,7 +166,28 @@ module ManageIQ
         Dir.chdir(GEM_HOME) do
           FileUtils.rm_rf(Dir.glob("bundler/gems/*/.git"))
           FileUtils.rm_rf(Dir.glob("cache/*"))
-          shell_cmd(SCRIPT_DIR.join("gem_cleanup.sh"))
+
+          # Vendored libgit2 isn't needed once the gem is compiled
+          FileUtils.rm_rf(Dir.glob("gems/rugged-*/vendor"))
+
+          # Vendored libsodium isn't needed once the gem is compiled
+          # with execeptio of dist/lib/.so files which are not copied to extensions dir
+          FileUtils.rm_rf(Dir.glob("gems/rbnacl-libsodium-*/vendor/libsodium/*").reject{|f| f.end_with?("/dist")})
+          FileUtils.rm_rf(Dir.glob("gems/rbnacl-libsodium-*/tmp"))
+
+          # Remove files with inappropriate license
+          FileUtils.rm_rf(Dir.glob("gems/pdf-writer-*/demo")) # Creative Commons Attribution NonCommercial
+
+          # Remove ffi ext directory, this causes rpm build failure
+          FileUtils.rm_rf(Dir.glob("gems/ffi-*/ext"))
+
+          ["gems", "bundler/gems"].each do |path|
+            FileUtils.rm_rf(Dir.glob("#{path}/**/*.o"))
+            FileUtils.rm_rf(Dir.glob("#{path}/*/docs"))
+            FileUtils.rm_rf(Dir.glob("#{path}/*/node_modules"))
+            FileUtils.rm_rf(Dir.glob("#{path}/*/spec"))
+            FileUtils.rm_rf(Dir.glob("#{path}/*/test"))
+          end
         end
       end
 
