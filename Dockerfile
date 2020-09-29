@@ -16,7 +16,6 @@ RUN dnf -y --disableplugin=subscription-manager install http://mirror.centos.org
     dnf -y --disableplugin=subscription-manager module enable nodejs:12 && \
     dnf -y --disableplugin=subscription-manager groupinstall "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --save && \
-    dnf config-manager --set-enabled PowerTools && \
     dnf -y --disableplugin=subscription-manager --setopt=tsflags=nodocs install \
       ansible \
       cmake \
