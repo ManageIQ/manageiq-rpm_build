@@ -69,6 +69,9 @@ module ManageIQ
             shell_cmd("gem install unf_ext -v '0.0.7.2' -- --with-cxxflags='-fsigned-char'")
           end
 
+          shell_cmd("if [ $(uname -m) = s390x ]; then gem install sassc  -- --disable-march-tune-native; fi")
+          shell_cmd("if [ $(uname -m) = s390x ]; then gem install unf_ext -v '0.0.7.2' -- --with-cxxflags='-fsigned-char'; fi")
+
           shell_cmd("bundle config set --local with qpid_proton systemd")
 
           lock_release = miq_dir.join("Gemfile.lock.release")
