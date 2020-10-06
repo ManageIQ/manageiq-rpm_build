@@ -8,15 +8,17 @@ ENV TERM=xterm \
 
 RUN curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo
 
-RUN dnf -y --disableplugin=subscription-manager install http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-repos-8.2-2.2004.0.1.el8.${ARCH}.rpm \
-                                                        http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8.2-2.2004.0.1.el8.noarch.rpm \
-                                                        https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
-                                                        https://rpm.manageiq.org/release/11-kasparov/el8/noarch/manageiq-release-11.0-1.el8.noarch.rpm && \
-    dnf -y --disableplugin=subscription-manager module enable ruby:2.6 && \
-    dnf -y --disableplugin=subscription-manager module enable nodejs:12 && \
-    dnf -y --disableplugin=subscription-manager groupinstall "development tools" && \
+RUN sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf
+
+RUN dnf -y install http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-repos-8.2-2.2004.0.1.el8.${ARCH}.rpm \
+                   http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8.2-2.2004.0.1.el8.noarch.rpm \
+                   https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
+                   https://rpm.manageiq.org/release/11-kasparov/el8/noarch/manageiq-release-11.0-1.el8.noarch.rpm && \
+    dnf -y module enable ruby:2.6 && \
+    dnf -y module enable nodejs:12 && \
+    dnf -y groupinstall "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --save && \
-    dnf -y --disableplugin=subscription-manager --setopt=tsflags=nodocs install \
+    dnf -y --setopt=tsflags=nodocs install \
       ansible \
       cmake \
       copr-cli \
