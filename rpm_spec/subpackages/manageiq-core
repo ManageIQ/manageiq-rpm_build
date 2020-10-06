@@ -3,6 +3,7 @@ Summary:  %{product_summary} Core
 
 Requires: ruby
 Requires: %{name}-gemset = %{version}-%{release}
+Requires: %{name}-ansible-venv
 
 Requires: ansible
 Requires: ansible-runner
