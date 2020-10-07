@@ -1,11 +1,11 @@
 Name:      manageiq-release
-Version:   10.0
+Version:   11.0
 Release:   1%{dist}
 Summary:   ManageIQ RPM repository configuration
 License:   Apache-2.0
 URL:       https://rpm.manageiq.org/release/
 Source0:   RPM-GPG-KEY-MANAGEIQ
-Source1:   manageiq-10-jansa.repo
+Source1:   manageiq-11-kasparov.repo
 BuildArch: noarch
 
 %description
@@ -36,5 +36,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
+* Thu May 14 2020 Brandon Dunne <brandondunne@hotmail.com> - 11.0-1%{dist}
+- Initial build of manageiq-release for Kasparov.
+
 * Wed May 13 2020 Brandon Dunne <brandondunne@hotmail.com> - 10.0-1%{dist}
 - Initial build of manageiq-release for Jansa.
