@@ -9,14 +9,14 @@ ENV TERM=xterm \
 RUN curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo
 
 RUN if [ ${ARCH} != "s390x" ] ; then dnf -y --disableplugin=subscription-manager install http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-repos-8.2-2.2004.0.1.el8.${ARCH}.rpm \
-                                                        http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8.2-2.2004.0.1.el8.noarch.rpm ; fi
+                                                        http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8.2-2.2004.0.1.el8.noarch.rpm && \ ; fi
 RUN dnf -y --disableplugin=subscription-manager install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
     https://rpm.manageiq.org/release/11-kasparov/el8/noarch/manageiq-release-11.0-1.el8.noarch.rpm && \
     dnf -y --disableplugin=subscription-manager module enable ruby:2.6 && \
     dnf -y --disableplugin=subscription-manager module enable nodejs:12 && \
+    dnf -y module disable virt:rhel && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --save && \
-    dnf -y module disable virt:rhel && \
     dnf -y --disableplugin=subscription-manager --setopt=tsflags=nodocs install \
       ansible \
       cmake \
@@ -39,7 +39,7 @@ RUN dnf -y --disableplugin=subscription-manager install https://dl.fedoraproject
       sqlite-devel \
       wget
 
-RUN if [ ${ARCH} = "s390x" ]  || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi
+RUN if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi
 
 RUN npm install yarn -g
 
