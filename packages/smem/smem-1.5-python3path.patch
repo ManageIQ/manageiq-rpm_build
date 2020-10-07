@@ -1,0 +1,9 @@
+diff -ur smem-1.5.orig/smem smem-1.5/smem
+--- smem-1.5.orig/smem	2015-05-15 13:54:48.000000000 -0400
++++ smem-1.5/smem	2018-09-10 17:14:39.713395371 -0400
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/python3
+ #
+ # smem - a tool for meaningful memory reporting
+ #
