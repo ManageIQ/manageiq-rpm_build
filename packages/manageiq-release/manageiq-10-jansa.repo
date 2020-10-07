@@ -1,0 +1,41 @@
+[manageiq-10-jansa]
+name=ManageIQ 10 (Jansa) Release- $basearch
+baseurl=https://rpm.manageiq.org/release/10-jansa/el$releasever/$basearch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-10-jansa-noarch]
+name=ManageIQ 10 (Jansa) Release- noarch
+baseurl=https://rpm.manageiq.org/release/10-jansa/el$releasever/noarch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-10-jansa-source]
+name=ManageIQ 10 (Jansa) Release- source
+baseurl=https://rpm.manageiq.org/release/10-jansa/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-10-jansa-nightly]
+name=ManageIQ 10 (Jansa) Nightly- $basearch
+baseurl=https://rpm.manageiq.org/release/10-jansa-nightly/el$releasever/$basearch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-10-jansa-nightly-noarch]
+name=ManageIQ 10 (Jansa) Nightly- noarch
+baseurl=https://rpm.manageiq.org/release/10-jansa-nightly/el$releasever/noarch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-10-jansa-nightly-source]
+name=ManageIQ 10 (Jansa) Nightly- source
+baseurl=https://rpm.manageiq.org/release/10-jansa-nightly/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
