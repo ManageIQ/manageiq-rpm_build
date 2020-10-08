@@ -2,10 +2,13 @@ FROM registry.access.redhat.com/ubi8/ubi:8.2
 
 ARG ARCH=x86_64
 
-ENV NAME=manageiq-ansible-venv \
-    VERSION=1.0.0 \
+# For productization
+ENV PRODUCT_NAME=manageiq \
+    PRODUCT_SUMMARY="ManageIQ Management Engine"
+
+ENV RPM_SPEC=manageiq-ansible-venv.spec \
     VENV_ROOT=/var/lib/manageiq \
-    RPM_SPEC=manageiq-ansible-venv.spec
+    VERSION=1.0.0
 
 # CentOS repos: rpm-build and copr-cli dependencies
 # EPEL: copr-cli

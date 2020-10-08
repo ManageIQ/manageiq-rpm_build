@@ -3,6 +3,7 @@
 set -e
 
 venv_path=$VENV_ROOT/venv
+rpm_name=$PRODUCT_NAME-ansible-venv
 rpm_path=/root/rpms
 
 # Setup venv
@@ -18,7 +19,12 @@ rm -f $venv_path/lib64
 # Build RPM
 echo "*** Building rpm"
 mkdir -p $rpm_path
-tar -C $VENV_ROOT --transform "s,^,$NAME-$VERSION/," -zcf $rpm_path/$NAME-$VERSION.tar.gz .
+tar -C $VENV_ROOT --transform "s,^,$rpm_name-$VERSION/," -zcf $rpm_path/$rpm_name-$VERSION.tar.gz .
+
+sed -i "s/PRODUCT_NAME/$rpm_name/" $RPM_SPEC
+sed -i "s/PRODUCT_SUMMARY/$PRODUCT_SUMMARY/" $RPM_SPEC
+sed -i "s/VERSION/$VERSION/" $RPM_SPEC
+sed -i "s#VENV_ROOT#$VENV_ROOT#" $RPM_SPEC
 
 if [ -f "/root/.config/copr" ]; then
   rpmbuild -bs --define "_sourcedir $rpm_path" --define "_srcrpmdir $rpm_path" /$RPM_SPEC
