@@ -1,4 +1,4 @@
 .rubocop-*
-*.spec
 OPTIONS/
 rpm_cache/
+rpm_spec/*.spec
