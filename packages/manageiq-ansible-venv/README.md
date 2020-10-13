@@ -19,3 +19,9 @@ Builds RPM for ManageIQ Ansible Virtualenv in a container image
   `docker run -ti manageiq/ansible_venv_rpm_build bash`
 
    Run `./build.sh` to start the build.
+
+### Productization
+
+The rpm prefix and product name can be changed during build. To productize, run with:
+
+`-e PRODUCT_NAME=<name> -e PRODUCT_SUMMARY=<summary>`
