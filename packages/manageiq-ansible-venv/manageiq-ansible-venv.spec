@@ -26,6 +26,8 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 %{__cp} -r . %{buildroot}%{app_root}
 
 ln -s %{app_root}/venv/lib %{buildroot}%{app_root}/venv/lib64
+ln -s %{__python3} %{buildroot}%{app_root}/venv/bin/python3
+ln -s %{app_root}/venv/bin/python3 %{buildroot}%{app_root}/venv/bin/python
 
 %clean
 rm -rf $RPM_BUILD_ROOT
