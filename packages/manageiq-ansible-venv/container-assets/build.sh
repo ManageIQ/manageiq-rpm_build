@@ -13,13 +13,12 @@ source $venv_path/bin/activate
 pip3 install --no-compile -r $VENV_ROOT/requirements.txt
 deactivate
 
-# Remove lib64 directory which is a symlink to lib, symlink will be created during rpm install
-rm -f $venv_path/lib64
-
 # Build RPM
+# Exclude symlinks from tarball, will be handled in rpm spec
 echo "*** Building rpm"
 mkdir -p $rpm_path
-tar -C $VENV_ROOT --transform "s,^,$rpm_name-$VERSION/," -zcf $rpm_path/$rpm_name-$VERSION.tar.gz .
+tar -C $VENV_ROOT --transform "s,^,$rpm_name-$VERSION/," --exclude='venv/bin/python' --exclude='venv/bin/python3' --exclude='venv/lib64' \
+    -zcf $rpm_path/$rpm_name-$VERSION.tar.gz .
 
 sed -i "s/PRODUCT_NAME/$rpm_name/" $RPM_SPEC
 sed -i "s/PRODUCT_SUMMARY/$PRODUCT_SUMMARY/" $RPM_SPEC
