@@ -1,6 +1,7 @@
 %global product_summary Ansible virtual environmnent for PRODUCT_SUMMARY
-
 %global app_root VENV_ROOT
+%global manifest_root /opt/ORG_NAME/manifest
+
 %global _python_bytecompile_extra 0
 
 Name:     PRODUCT_NAME
@@ -25,6 +26,9 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 %{__mkdir} -p %{buildroot}%{app_root}
 %{__cp} -r . %{buildroot}%{app_root}
 
+%{__mkdir} -p %{buildroot}%{manifest_root}
+%{__mv} %{buildroot}/%{app_root}/ansible_venv_manifest.csv %{buildroot}%{manifest_root}
+
 ln -s %{app_root}/venv/lib %{buildroot}%{app_root}/venv/lib64
 ln -s %{__python3} %{buildroot}%{app_root}/venv/bin/python3
 ln -s %{app_root}/venv/bin/python3 %{buildroot}%{app_root}/venv/bin/python
@@ -35,6 +39,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{app_root}
+%{manifest_root}/ansible_venv_manifest.csv
 
 %changelog
 * Wed Oct 7 2020 Satoe Imaishi <simaishi@redhat.com> - 1.0.0-1
