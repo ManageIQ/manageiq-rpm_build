@@ -24,7 +24,13 @@ RUN dnf -y --disableplugin=subscription-manager install \
       openssl-devel \
       python3-devel \
       python3-virtualenv \
-      rpm-build
+      rpm-build && \
+    if [ ${ARCH} = "ppc64le" ] ; then \
+      dnf -y --disableplugin=subscription-manager --setopt=tsflags=nodocs install \
+        libffi-devel \
+        libxslt-devel \
+        make ; \
+      fi
 
 COPY $RPM_SPEC container-assets/build.sh /
 COPY requirements.txt $VENV_ROOT/
