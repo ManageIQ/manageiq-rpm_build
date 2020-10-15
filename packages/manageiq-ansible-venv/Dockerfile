@@ -3,7 +3,8 @@ FROM registry.access.redhat.com/ubi8/ubi:8.2
 ARG ARCH=x86_64
 
 # For productization
-ENV PRODUCT_NAME=manageiq \
+ENV ORG_NAME=manageiq \
+    PRODUCT_NAME=manageiq \
     PRODUCT_SUMMARY="ManageIQ Management Engine"
 
 ENV RPM_SPEC=manageiq-ansible-venv.spec \

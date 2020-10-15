@@ -22,6 +22,10 @@ Builds RPM for ManageIQ Ansible Virtualenv in a container image
 
 ### Productization
 
-The rpm prefix and product name can be changed during build. To productize, run with:
+The rpm prefix, rpm summary info, and org name can be changed during build. To productize, run with:
 
-`-e PRODUCT_NAME=<name> -e PRODUCT_SUMMARY=<summary>`
+`-e PRODUCT_NAME=<name> -e PRODUCT_SUMMARY=<summary> -e ORG_NAME=<org name>`
+
+ - PRODUCT_NAME = used for rpm prefix: `<name>-ansible-venv`, should match `product_name` in config/options.yml for manageiq RPMs, default: manageiq
+ - PRODUCT_SUMMARY = used for rpm summary/description, default: ManageIQ Management Engine
+ - ORG_NAME = used for manifest path: `/opt/<org name>/manifest`, should match `rpm.org_name` in config/options.yml for manageiq RPMs, default: manageiq
