@@ -1,4 +1,5 @@
 .rubocop-*
+Gemfile.lock
 OPTIONS/
 rpm_cache/
 rpm_spec/*.spec
