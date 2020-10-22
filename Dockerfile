@@ -18,8 +18,8 @@ RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/cen
     dnf -y module enable nodejs:12 && \
     dnf -y module disable virt:rhel && \
     dnf -y group install "development tools" && \
-    dnf config-manager --setopt=epel.exclude=*qpid-proton* --save && \
-    dnf -y --setopt=tsflags=nodocs install \
+    dnf config-manager --setopt=epel.exclude=*qpid-proton* --setopt=tsflags=nodocs --save && \
+    dnf -y install \
       ansible \
       cmake \
       copr-cli \
@@ -39,7 +39,8 @@ RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/cen
       ruby-devel \
       rubygem-bundler \
       sqlite-devel \
-      wget
+      wget && \
+    dnf clean all
 
 RUN if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi
 

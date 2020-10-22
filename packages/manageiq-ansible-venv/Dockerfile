@@ -13,11 +13,13 @@ ENV RPM_SPEC=manageiq-ansible-venv.spec \
 
 # CentOS repos: rpm-build and copr-cli dependencies
 # EPEL: copr-cli
-RUN dnf -y --disableplugin=subscription-manager install \
+RUN sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf
+RUN dnf -y install \
       http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-repos-8.2-2.2004.0.1.el8.${ARCH}.rpm \
       http://mirror.centos.org/centos/8.2.2004/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8.2-2.2004.0.1.el8.noarch.rpm \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
-    dnf -y --disableplugin=subscription-manager --setopt=tsflags=nodocs install \
+    dnf config-manager --setopt=tsflags=nodocs --save && \
+    dnf -y install \
       copr-cli \
       gcc \
       libcurl-devel \
@@ -27,11 +29,12 @@ RUN dnf -y --disableplugin=subscription-manager install \
       python3-virtualenv \
       rpm-build && \
     if [ ${ARCH} = "ppc64le" ] ; then \
-      dnf -y --disableplugin=subscription-manager --setopt=tsflags=nodocs install \
+      dnf -y install \
         libffi-devel \
         libxslt-devel \
         make ; \
-      fi
+    fi && \
+    dnf clean all
 
 COPY $RPM_SPEC container-assets/build.sh /
 COPY requirements.txt $VENV_ROOT/
