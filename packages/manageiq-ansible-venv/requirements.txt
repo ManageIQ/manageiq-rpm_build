@@ -46,7 +46,7 @@ cachetools==3.1.1         # via google-auth
 cffi==1.13.2              # via bcrypt, cryptography, pynacl
 chardet==3.0.4            # via requests
 colorama==0.4.3           # via azure-cli-core, knack
-cryptography==2.8         # via adal, azure-keyvault, azure-storage, openstacksdk, paramiko, pyopenssl, requests-credssp, requests-kerberos, requests-ntlm
+cryptography==3.2         # via adal, azure-keyvault, azure-storage, openstacksdk, paramiko, pyopenssl, requests-credssp, requests-kerberos, requests-ntlm
 decorator==4.4.1          # via dogpile.cache, openstacksdk
 docutils==0.15.2          # via botocore
 dogpile.cache==0.9.0      # via openstacksdk
