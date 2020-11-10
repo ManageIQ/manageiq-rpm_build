@@ -33,7 +33,7 @@ Requires: python3-vspk
 Requires: qpid-proton-c
 
 # For RHV
-Requires: ovirt-ansible-roles
+Requires: ovirt-ansible-collection
 
 # For IMS
 Requires: v2v-conversion-host-ansible
