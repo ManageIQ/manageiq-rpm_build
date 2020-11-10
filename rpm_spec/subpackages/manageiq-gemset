@@ -39,8 +39,8 @@ Requires: ovirt-ansible-roles
 Requires: v2v-conversion-host-ansible
 
 # For Appliance Console
-Requires: network-scripts
 Requires: libsodium-devel
+Requires: network-scripts
 
 %description gemset
 %{product_summary} Gemset
