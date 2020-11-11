@@ -39,6 +39,7 @@ Requires: ovirt-ansible-collection
 Requires: v2v-conversion-host-ansible
 
 # For Appliance Console
+Requires: libsodium-devel
 Requires: network-scripts
 
 %description gemset
