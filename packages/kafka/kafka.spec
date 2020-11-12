@@ -1,7 +1,7 @@
 Name:             kafka
 Summary:          Apache Kafka is an open-source stream-processing software platform
 Version:          2.3.1
-Release:          1
+Release:          2
 License:          Apache (v2)
 Group:            Applications
 URL:              https://kafka.apache.org
@@ -107,5 +107,8 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Nov 20 2019 "Brandon Dunne" <bdunne@redhat.com>
+* Wed Nov 11 2020 "Brandon Dunne" <bdunne@redhat.com> - 2.3.1-2
+- Copy modified server.properties and zookeeper.properties config files to config-sample
+
+* Wed Nov 20 2019 "Brandon Dunne" <bdunne@redhat.com> - 2.3.1-1
 - Initial commit
