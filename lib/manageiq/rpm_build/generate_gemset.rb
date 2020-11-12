@@ -94,7 +94,6 @@ module ManageIQ
           FileUtils.cp(miq_dir.join(".bundle/config"), GEM_HOME.join("vmdb/.bundle"))
           FileUtils.cp_r(miq_dir.join(".bundle/plugin"), GEM_HOME.join("vmdb/.bundle/"))
           FileUtils.cp(miq_dir.join("Gemfile.lock"), GEM_HOME.join("vmdb"))
-          shell_cmd("bundle list > #{GEM_HOME}/vmdb/manifest")
           FileUtils.cp(Dir[miq_dir.join("bin/*")], GEM_HOME.join("vmdb/bin"))
 
           link_git_gems
@@ -120,6 +119,7 @@ module ManageIQ
       def generate_gem_manifest
         where_am_i
         run_license_finder(miq_dir, "gem")
+        inject_git_shas_into_gem_manifest
       end
 
       def generate_npm_manifest
@@ -198,6 +198,24 @@ module ManageIQ
           end
           shell_cmd("find \"$GEM_HOME/specifications\" -type l -xtype l -delete")
         end
+      end
+
+      def inject_git_shas_into_gem_manifest
+        # Extract git SHA values from bundle list and inject them into the gem manifest
+        git_shas = AwesomeSpawn
+                   .run!("bundle list", :chdir => miq_dir)
+                   .output
+                   .lines
+                   .select { |line| line.match?(/ \h+\)$/) }
+                   .map { |line| line.chomp.chomp(")").split.values_at(1, 3) }
+                   .to_h
+
+        gem_manifest = manifest_dir.join("gem_manifest.csv")
+        require "csv"
+        csv = CSV.read(gem_manifest, :headers => true)
+        csv.headers << "git_sha"
+        csv.each { |row| row["git_sha"] = git_shas[row["name"]] }
+        gem_manifest.write(csv.to_csv)
       end
     end
   end
