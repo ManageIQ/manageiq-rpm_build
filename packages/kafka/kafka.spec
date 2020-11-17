@@ -1,7 +1,7 @@
 Name:             kafka
 Summary:          Apache Kafka is an open-source stream-processing software platform
 Version:          2.3.1
-Release:          2
+Release:          2%{?dist}
 License:          Apache (v2)
 Group:            Applications
 URL:              https://kafka.apache.org
