@@ -51,7 +51,7 @@ unzip %{_sourcedir}/gradle-%{gradle_version}-bin.zip
 
 %install
 mkdir -p %{buildroot}%{kafka_home}
-mkdir -p %{buildroot}%{kafka_home}/config
+mkdir -p %{buildroot}%{kafka_home}/config/keystore
 mkdir -p %{buildroot}%{kafka_home}/libs
 mkdir -p %{buildroot}%{_localstatedir}/log/kafka
 mkdir -p %{buildroot}%{_sharedstatedir}/kafka
