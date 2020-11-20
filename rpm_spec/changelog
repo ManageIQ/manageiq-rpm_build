@@ -1,4 +1,7 @@
 %changelog
+* Fri Nov 20 2020 ManageIQ <contact@manageiq.org> - 11.1.0-0.2.alpha1
+- Kasparov 1 Alpha1 build
+
 * Tue Oct 27 2020 Satoe Imaishi <simaishi@redhat.com> - 11.1.0-1
 - kasparov branch build
 
