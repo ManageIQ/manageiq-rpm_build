@@ -51,7 +51,7 @@ unzip %{_sourcedir}/gradle-%{gradle_version}-bin.zip
 
 %install
 mkdir -p %{buildroot}%{kafka_home}
-mkdir -p %{buildroot}%{kafka_home}/config
+mkdir -p %{buildroot}%{kafka_home}/config/keystore
 mkdir -p %{buildroot}%{kafka_home}/libs
 mkdir -p %{buildroot}%{_localstatedir}/log/kafka
 mkdir -p %{buildroot}%{_sharedstatedir}/kafka
@@ -66,6 +66,7 @@ sed "s,log.dirs=.*,log.dirs=%{_sharedstatedir}/kafka," config/server.properties 
 sed "s,dataDir=.*,dataDir=%{_sharedstatedir}/zookeeper," config/zookeeper.properties > %{buildroot}%{kafka_home}/config/zookeeper.properties
 cp -r config %{buildroot}%{kafka_home}/config-sample
 cp config/log4j.properties %{buildroot}%{kafka_home}/config
+cp config/tools-log4j.properties %{buildroot}%{kafka_home}/config
 cp -n */build/libs/* %{buildroot}%{kafka_home}/libs
 cp -n */build/dependant-libs*/* %{buildroot}%{kafka_home}/libs
 cp -n */*/build/libs/* %{buildroot}%{kafka_home}/libs
