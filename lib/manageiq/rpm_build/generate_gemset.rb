@@ -176,6 +176,13 @@ module ManageIQ
             FileUtils.rm_rf(Dir.glob("#{path}/*/spec"))
             FileUtils.rm_rf(Dir.glob("#{path}/*/test"))
           end
+
+          # Remove extra files from manageiq-ui-classic
+          Dir.chdir(`BUNDLE_GEMFILE=#{miq_dir}/Gemfile bundle info --path manageiq-ui-classic`.chomp) do
+            FileUtils.rm_rf("app/javascript/spec")
+            FileUtils.rm_rf("app/javascript/tagging/tests")
+            FileUtils.rm_rf("cypress")
+          end
         end
       end
 
