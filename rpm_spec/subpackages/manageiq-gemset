@@ -5,6 +5,7 @@ BuildRequires: /usr/bin/pathfix.py
 Requires: cifs-utils
 Requires: libpq
 Requires: libcurl
+Requires: librdkafka
 Requires: libssh2
 Requires: libxml2
 Requires: libxslt
