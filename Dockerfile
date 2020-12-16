@@ -27,6 +27,7 @@ RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/cen
       glibc-langpack-en \
       libcurl-devel \
       libpq-devel \
+      librdkafka \
       libssh2-devel \
       libxml2-devel \
       libxslt-devel \
