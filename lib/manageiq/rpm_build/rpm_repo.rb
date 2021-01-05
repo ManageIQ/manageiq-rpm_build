@@ -1,3 +1,5 @@
+require 'droplet_kit'
+
 module ManageIQ
   module RPMBuild
     class RpmRepo
@@ -74,14 +76,19 @@ module ManageIQ
           end
 
           # Bust the cache for updated files
-          if OPTIONS.rpm_repository.digitalocean_access_token
-            puts "Purging the cache for files that were uploaded"
-            require 'droplet_kit'
-            digitalocean_client = DropletKit::Client.new(:access_token => OPTIONS.rpm_repository.digitalocean_access_token)
-            cdn_id = digitalocean_client.cdns.all.detect { |i| i.origin == "#{OPTIONS.rpm_repository.s3_api.bucket}.#{OPTIONS.rpm_repository.s3_api.endpoint}" }.id
-            digitalocean_client.cdns.flush_cache(:id => cdn_id, :files => uploaded_files)
-          end
+          flush_cdn_cache(uploaded_files) if OPTIONS.rpm_repository.digitalocean_access_token
         end
+      end
+
+      private
+
+      def flush_cdn_cache(uploaded_files)
+        puts "Purging the cache for files that were uploaded"
+        digitalocean_client = DropletKit::Client.new(:access_token => OPTIONS.rpm_repository.digitalocean_access_token)
+        cdn_id = digitalocean_client.cdns.all.detect { |i| i.origin == "#{OPTIONS.rpm_repository.s3_api.bucket}.#{OPTIONS.rpm_repository.s3_api.endpoint}" }.id
+        digitalocean_client.cdns.flush_cache(:id => cdn_id, :files => uploaded_files)
+      rescue DropletKit::Error
+        retry
       end
     end
   end
