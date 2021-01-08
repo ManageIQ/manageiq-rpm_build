@@ -28,7 +28,7 @@ task :release do
   options = root.join("config", "options.yml")
   content = YAML.load_file(options)
   current_release = content.fetch_path("rpm", "release")
-  new_release = milestone ? current_release + 0.1 : 1
+  new_release = milestone ? (current_release + 0.1).round(1) : 1
 
   content.store_path("rpm", "version", new_version)
   content.store_path("rpm", "release", new_release)
