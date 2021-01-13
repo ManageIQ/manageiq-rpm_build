@@ -88,7 +88,15 @@ module ManageIQ
         cdn_id = digitalocean_client.cdns.all.detect { |i| i.origin == "#{OPTIONS.rpm_repository.s3_api.bucket}.#{OPTIONS.rpm_repository.s3_api.endpoint}" }.id
         digitalocean_client.cdns.flush_cache(:id => cdn_id, :files => uploaded_files)
       rescue DropletKit::Error
-        retry
+        retry_count ||= 0
+        retry_count += 1
+        if retry_count > 5
+          puts "Failed to flush CDN cache, exiting..."
+          exit 1
+        else
+          puts "Failed to flush CDN cache, retrying #{retry_count}..."
+          retry
+        end
       end
     end
   end
