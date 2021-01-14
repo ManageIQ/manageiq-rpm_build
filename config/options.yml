@@ -42,7 +42,7 @@ rpm_repository:
       - el8
       :rpms:
         :kafka: !ruby/regexp /.+-2\.3.+/
-        :manageiq: !ruby/regexp /.+-11\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d)?\.el.+/
+        :manageiq: !ruby/regexp /.+-11\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d(\.\d)?)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-11\.0.+/
         :python-bambou: !ruby/regexp /.+-3\.1\.1.+/
         :python-pylxca: !ruby/regexp /.+-2\.1\.1.+/
