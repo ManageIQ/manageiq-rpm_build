@@ -1,4 +1,7 @@
 %changelog
+* Mon Jan 18 2021 ManageIQ <contact@manageiq.org> - 10.3.0-1
+- Jansa 3 build
+
 * Tue Oct 27 2020 ManageIQ <contact@manageiq.org> - 10.2.0-1
 - Jansa 2 build
 
