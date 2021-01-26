@@ -87,6 +87,11 @@ cd %{_builddir}
 %{__cp} -r %{gemset_builddir}/vmdb %{buildroot}%{gemset_root}
 install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
 
+# Copy systemd unit files
+%{__mkdir} -p %{buildroot}%{_prefix}/lib/systemd/system
+%{__cp} %{core_builddir}/build/systemd_units/* %{buildroot}/%{_prefix}/lib/systemd/system
+%{__cp} %{gemset_builddir}/bundler/gems/*/build/systemd_units/* %{buildroot}/%{_prefix}/lib/systemd/system
+
 ### from manifest
 %{__mkdir} -p %{buildroot}%{manifest_root}
 %{__cp} -r %{manifest_builddir}/* %{buildroot}%{manifest_root}

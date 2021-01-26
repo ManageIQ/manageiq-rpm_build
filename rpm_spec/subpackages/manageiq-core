@@ -36,6 +36,17 @@ done
 %files core
 %defattr(-,root,root,775)
 %{app_root}
+%{_prefix}/lib/systemd/system/manageiq-cockpit_ws*
+%{_prefix}/lib/systemd/system/manageiq-ems_metrics_processor*
+%{_prefix}/lib/systemd/system/manageiq-event_handler*
+%{_prefix}/lib/systemd/system/manageiq-generic*
+%{_prefix}/lib/systemd/system/manageiq-priority*
+%{_prefix}/lib/systemd/system/manageiq-remote_console*
+%{_prefix}/lib/systemd/system/manageiq-reporting*
+%{_prefix}/lib/systemd/system/manageiq-schedule*
+%{_prefix}/lib/systemd/system/manageiq-smart_proxy*
+%{_prefix}/lib/systemd/system/manageiq-ui*
+%{_prefix}/lib/systemd/system/manageiq-web_service*
 %config(noreplace) %{app_root}/certs
 %exclude %{app_root}/public/assets
 %exclude %{app_root}/public/packs
