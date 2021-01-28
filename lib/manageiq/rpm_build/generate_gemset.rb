@@ -94,7 +94,9 @@ module ManageIQ
           FileUtils.cp(miq_dir.join(".bundle/config"), GEM_HOME.join("vmdb/.bundle"))
           FileUtils.cp_r(miq_dir.join(".bundle/plugin"), GEM_HOME.join("vmdb/.bundle/"))
           FileUtils.cp(miq_dir.join("Gemfile.lock"), GEM_HOME.join("vmdb"))
-          FileUtils.cp(Dir[miq_dir.join("bin/*")], GEM_HOME.join("vmdb/bin"))
+          FileUtils.cp(miq_dir.join("bin/bundle"), GEM_HOME.join("vmdb/bin/"))
+          FileUtils.cp(miq_dir.join("bin/rails"), GEM_HOME.join("vmdb/bin/"))
+          FileUtils.cp(miq_dir.join("bin/rake"), GEM_HOME.join("vmdb/bin/"))
 
           link_git_gems
         end
