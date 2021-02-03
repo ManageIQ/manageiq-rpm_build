@@ -33,6 +33,17 @@ done
 %post core
 %{__cp} -f %{app_root}/config/cable.yml.sample %{app_root}/config/cable.yml
 
+# Remove any old systemd unit files
+files="remote_console cockpit_ws priority reporting generic event_handler ems_metrics_processor smart_proxy web_service schedule ui"
+for file in ${files}
+do
+  [[ -e /etc/systemd/system/${file}.target ]] && rm /etc/systemd/system/${file}.target
+  [[ -e /etc/systemd/system/${file}@.service ]] && rm /etc/systemd/system/${file}@.service
+  [[ -e /etc/systemd/system/${file}@*.service ]] && rm /etc/systemd/system/${file}@*.service
+  [[ -e /etc/systemd/system/${file}@*.service.d/override.conf ]] && rm /etc/systemd/system/${file}@*.service.d/override.conf
+  [[ -e /etc/systemd/system/${file}@*.service.d ]] && rm -r /etc/systemd/system/${file}@*.service.d
+done
+
 %files core
 %defattr(-,root,root,775)
 %{app_root}
