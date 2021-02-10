@@ -37,11 +37,11 @@ done
 files="remote_console cockpit_ws priority reporting generic event_handler ems_metrics_processor smart_proxy web_service schedule ui"
 for file in ${files}
 do
-  [[ -e /etc/systemd/system/${file}.target ]] && rm /etc/systemd/system/${file}.target
-  [[ -e /etc/systemd/system/${file}@.service ]] && rm /etc/systemd/system/${file}@.service
-  [[ -e /etc/systemd/system/${file}@*.service ]] && rm /etc/systemd/system/${file}@*.service
-  [[ -e /etc/systemd/system/${file}@*.service.d/override.conf ]] && rm /etc/systemd/system/${file}@*.service.d/override.conf
-  [[ -e /etc/systemd/system/${file}@*.service.d ]] && rm -r /etc/systemd/system/${file}@*.service.d
+  if [[ -e /etc/systemd/system/${file}.target ]]; then rm -f /etc/systemd/system/${file}.target; fi
+  if [[ -e /etc/systemd/system/${file}@.service ]]; then rm -f /etc/systemd/system/${file}@.service; fi
+  if [[ -e /etc/systemd/system/${file}@*.service ]]; then rm -f /etc/systemd/system/${file}@*.service; fi
+  if [[ -e /etc/systemd/system/${file}@*.service.d/override.conf ]]; then rm -f /etc/systemd/system/${file}@*.service.d/override.conf; fi
+  if [[ -e /etc/systemd/system/${file}@*.service.d ]]; then rm -rf /etc/systemd/system/${file}@*.service.d; fi
 done
 
 %files core
