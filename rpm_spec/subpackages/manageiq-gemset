@@ -49,30 +49,6 @@ Requires: glusterfs-fuse
 %description gemset
 %{product_summary} Gemset
 
-%post gemset
-# Remove any old systemd unit files
-provider_worker_types="event_catcher metrics_collector refresh operations"
-provider_types="amazon_cloud_manager ansible_tower_automation_manager azure_cloud_manager autosde_storage_manager azure_stack_cloud_manager azure_stack_network_manager foreman_configuration_manager google_cloud_manager google_network_manager ibm_cloud_vpc_cloud_manager ibm_cloud_power_virtual_servers_cloud_manager ibm_terraform_configuration_manager kubernetes_container_manager kubernetes_monitoring_manager kubevirt_infra_manager lenovo_physical_infra_manager microsoft_infra_manager nsxt_network_manager nuage_network_manager openshift_container_manager openshift_monitoring_manager openstack_cloud_manager openstack_infra_manager openstack_network_manager openstack_storage_manager_cinder_manager amazon_storage_manager_s3 redhat_infra_manager redhat_network_manager redfish_physical_infra_manager vmware_cloud_manager vmware_infra_manager"
-
-files=""
-for provider_type in ${provider_types}
-do
-  for provider_worker_type in ${provider_worker_types}
-  do
-    files+="${provider_type}_${provider_worker_type} "
-  done
-done
-files+="amazon_agent_coordinator"
-
-for file in ${files}
-do
-  if [[ -e /etc/systemd/system/${file}.target ]]; then rm -f /etc/systemd/system/${file}.target; fi
-  if [[ -e /etc/systemd/system/${file}@.service ]]; then rm -f /etc/systemd/system/${file}@.service; fi
-  if [[ -e /etc/systemd/system/${file}@*.service ]]; then rm -f /etc/systemd/system/${file}@*.service; fi
-  if [[ -e /etc/systemd/system/${file}@*.service.d/override.conf ]]; then rm -f /etc/systemd/system/${file}@*.service.d/override.conf; fi
-  if [[ -e /etc/systemd/system/${file}@*.service.d ]]; then rm -rf /etc/systemd/system/${file}@*.service.d; fi
-done
-
 %files gemset
 %defattr(-,root,root,775)
 %dir %{gemset_root}
@@ -86,5 +62,4 @@ done
 %{gemset_root}/specifications
 %{gemset_root}/vmdb
 %{gemset_root}/enable
-%{_prefix}/lib/systemd/system/manageiq-providers*
 %{manifest_root}/gem_manifest.csv

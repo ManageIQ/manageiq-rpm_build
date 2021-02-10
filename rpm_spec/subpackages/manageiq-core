@@ -33,22 +33,9 @@ done
 %post core
 %{__cp} -f %{app_root}/config/cable.yml.sample %{app_root}/config/cable.yml
 
-# Remove any old systemd unit files
-files="remote_console cockpit_ws priority reporting generic event_handler ems_metrics_processor smart_proxy web_service schedule ui"
-for file in ${files}
-do
-  if [[ -e /etc/systemd/system/${file}.target ]]; then rm -f /etc/systemd/system/${file}.target; fi
-  if [[ -e /etc/systemd/system/${file}@.service ]]; then rm -f /etc/systemd/system/${file}@.service; fi
-  if [[ -e /etc/systemd/system/${file}@*.service ]]; then rm -f /etc/systemd/system/${file}@*.service; fi
-  if [[ -e /etc/systemd/system/${file}@*.service.d/override.conf ]]; then rm -f /etc/systemd/system/${file}@*.service.d/override.conf; fi
-  if [[ -e /etc/systemd/system/${file}@*.service.d ]]; then rm -rf /etc/systemd/system/${file}@*.service.d; fi
-done
-
 %files core
 %defattr(-,root,root,775)
 %{app_root}
-%{_prefix}/lib/systemd/system/manageiq*
-%exclude %{_prefix}/lib/systemd/system/manageiq-providers*
 %config(noreplace) %{app_root}/certs
 %exclude %{app_root}/public/assets
 %exclude %{app_root}/public/packs

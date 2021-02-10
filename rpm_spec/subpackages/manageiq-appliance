@@ -3,6 +3,8 @@ Summary: %{product_summary} Appliance
 
 Requires: %{name}-system = %{version}-%{release}
 Requires: %{name}-ui = %{version}-%{release}
+Requires: %{name}-core-services = %{version}-%{release}
+Requires: %{name}-gemset-services = %{version}-%{release}
 
 Requires: postgresql-server
 Requires: repmgr10 >= 4.0.6
