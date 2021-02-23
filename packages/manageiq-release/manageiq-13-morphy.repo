@@ -1,0 +1,41 @@
+[manageiq-13-morphy]
+name=ManageIQ 13 (Morphy) Release- $basearch
+baseurl=https://rpm.manageiq.org/release/13-morphy/el$releasever/$basearch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-13-morphy-noarch]
+name=ManageIQ 13 (Morphy) Release- noarch
+baseurl=https://rpm.manageiq.org/release/13-morphy/el$releasever/noarch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-13-morphy-source]
+name=ManageIQ 13 (Morphy) Release- source
+baseurl=https://rpm.manageiq.org/release/13-morphy/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-13-morphy-nightly]
+name=ManageIQ 13 (Morphy) Nightly- $basearch
+baseurl=https://rpm.manageiq.org/release/13-morphy-nightly/el$releasever/$basearch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-13-morphy-nightly-noarch]
+name=ManageIQ 13 (Morphy) Nightly- noarch
+baseurl=https://rpm.manageiq.org/release/13-morphy-nightly/el$releasever/noarch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-13-morphy-nightly-source]
+name=ManageIQ 13 (Morphy) Nightly- source
+baseurl=https://rpm.manageiq.org/release/13-morphy-nightly/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ

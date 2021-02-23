@@ -1,3 +1,6 @@
 %changelog
+* Mon Feb 22 2021 Jason Frey <fryguy9@gmail.com> - 13.0.0-1
+- Initial build of manageiq for Morphy.
+
 * Tue Oct 27 2020 Satoe Imaishi <simaishi@redhat.com> - 12.0.0-1
-- master branch build
+- Initial build of manageiq for Lasker.
