@@ -43,6 +43,9 @@ Requires: v2v-conversion-host-ansible
 Requires: libsodium-devel
 Requires: network-scripts
 
+# For scanning
+Requires: glusterfs-fuse
+
 %description gemset
 %{product_summary} Gemset
 
