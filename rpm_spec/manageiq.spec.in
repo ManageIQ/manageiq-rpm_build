@@ -89,8 +89,8 @@ install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
 
 # Copy systemd unit files
 %{__mkdir} -p %{buildroot}%{_prefix}/lib/systemd/system
-%{__cp} %{core_builddir}/build/systemd_units/* %{buildroot}/%{_prefix}/lib/systemd/system
-%{__cp} %{gemset_builddir}/bundler/gems/*/build/systemd_units/* %{buildroot}/%{_prefix}/lib/systemd/system
+%{__cp} %{core_builddir}/systemd/* %{buildroot}/%{_prefix}/lib/systemd/system
+%{__cp} %{gemset_builddir}/bundler/gems/*/systemd/* %{buildroot}/%{_prefix}/lib/systemd/system
 
 ### from manifest
 %{__mkdir} -p %{buildroot}%{manifest_root}
