@@ -13,7 +13,6 @@ Requires: nfs-utils
 Requires: openscap-scanner
 Requires: openssl
 Requires: nodejs
-Requires: sqlite
 
 %ifarch x86_64
 Requires: wmi
