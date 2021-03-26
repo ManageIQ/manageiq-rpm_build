@@ -40,7 +40,6 @@ RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/cen
       qpid-proton-c-devel \
       ruby-devel \
       rubygem-bundler \
-      sqlite-devel \
       wget && \
     dnf -y update libarchive && \
     dnf clean all
