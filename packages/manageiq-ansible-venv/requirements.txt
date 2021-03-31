@@ -65,7 +65,7 @@ jsonpointer==2.0          # via jsonpatch
 keystoneauth1==3.18.0     # via openstacksdk
 knack==0.3.3              # via azure-cli-core
 kubernetes==11.0.0        # via openshift
-lxml==4.4.2               # via ncclient
+lxml==4.6.3               # via ncclient
 markupsafe==1.1.1         # via jinja2
 monotonic==1.5; python_version < "3" # via humanfriendly
 msrest==0.6.1             # via -r /awx_devel/requirements/requirements_ansible.in, azure-cli-core, azure-keyvault, azure-mgmt-authorization, azure-mgmt-automation, azure-mgmt-compute, azure-mgmt-containerinstance, azure-mgmt-containerservice, azure-mgmt-cosmosdb, azure-mgmt-devtestlabs, azure-mgmt-dns, azure-mgmt-hdinsight, azure-mgmt-iothub, azure-mgmt-keyvault, azure-mgmt-network, azure-mgmt-rdbms, azure-mgmt-resource, azure-mgmt-servicebus, azure-mgmt-sql, azure-mgmt-storage, azure-mgmt-web, msrestazure
