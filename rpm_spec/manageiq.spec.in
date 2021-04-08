@@ -51,13 +51,13 @@ cat <<"EOF" > %{gemset_builddir}/enable
 export APPLIANCE="true"
 export BUNDLE_GEMFILE=%{app_root}/Gemfile
 export GEM_HOME=%{gemset_root}
-export GEM_PATH=%{gemset_root}:$(gem env path)
-export PATH=%{gemset_root}/bin:$PATH
+export GEM_PATH=%{gemset_root}:/usr/share/gems:/usr/local/share/gems
+export PATH=%{gemset_root}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
 EOF
 
 cat <<"EOF" > %{appliance_builddir}/LINK/etc/default/evm_production
 export APPLIANCE_SOURCE_DIRECTORY=%{appliance_root}
-export APPLIANCE_TEMPLATE_DIRECTORY=${APPLIANCE_SOURCE_DIRECTORY}/TEMPLATE
+export APPLIANCE_TEMPLATE_DIRECTORY=%{appliance_root}/TEMPLATE
 source %{gemset_root}/enable
 EOF
 
