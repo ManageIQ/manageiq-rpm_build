@@ -48,13 +48,11 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{gemset_builddir}
 cd %{_builddir}
 
 cat <<"EOF" > %{appliance_builddir}/LINK/etc/default/manageiq-productizaton.properties
-APPLIANCE="true"
-BUNDLE_GEMFILE=%{app_root}/Gemfile
+APPLIANCE_SOURCE_DIRECTORY=%{appliance_root}
+APPLIANCE_TEMPLATE_DIRECTORY=%{appliance_root}/TEMPLATE
 GEM_HOME=%{gemset_root}
 GEM_PATH=%{gemset_root}:/usr/share/gems:/usr/local/share/gems
 PATH=%{gemset_root}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
-APPLIANCE_SOURCE_DIRECTORY=%{appliance_root}
-APPLIANCE_TEMPLATE_DIRECTORY=%{appliance_root}/TEMPLATE
 EOF
 
 %install
