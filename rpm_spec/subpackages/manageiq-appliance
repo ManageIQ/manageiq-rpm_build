@@ -61,7 +61,7 @@ if posix.access('/bin/evmserver.sh', 'x') then
   if ( pid == -1 ) then
     print ("The fork failed.")
   elseif ( pid == 0 ) then
-    posix.exec('/bin/evmserver.sh', 'update_stop')
+    posix.exec('/bin/evmserver.sh', 'stop')
   else
     posix.wait(pid)
   end
@@ -73,7 +73,7 @@ if posix.access('/bin/evmserver.sh', 'x') then
   if ( pid == -1 ) then
     print ("The fork failed.")
   elseif ( pid == 0 ) then
-    posix.exec('/bin/evmserver.sh', 'update_start')
+    posix.exec('/bin/evmserver.sh', 'start')
   else
     posix.wait(pid)
   end
