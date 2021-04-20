@@ -1,5 +1,6 @@
 desc "Release a new project version"
 task :release do
+  require 'active_support'
   require 'active_support/core_ext'
   require 'more_core_extensions/core_ext/hash/nested'
   require 'pathname'
