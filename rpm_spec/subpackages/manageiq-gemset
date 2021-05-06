@@ -60,5 +60,4 @@ Requires: glusterfs-fuse
 %{gemset_root}/gems
 %{gemset_root}/specifications
 %{gemset_root}/vmdb
-%{gemset_root}/enable
 %{manifest_root}/gem_manifest.csv

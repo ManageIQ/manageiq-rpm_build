@@ -47,18 +47,14 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{gemset_builddir}
 %build
 cd %{_builddir}
 
-cat <<"EOF" > %{gemset_builddir}/enable
-export APPLIANCE="true"
-export BUNDLE_GEMFILE=%{app_root}/Gemfile
-export GEM_HOME=%{gemset_root}
-export GEM_PATH=%{gemset_root}:/usr/share/gems:/usr/local/share/gems
-export PATH=%{gemset_root}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
-EOF
-
-cat <<"EOF" > %{appliance_builddir}/LINK/etc/default/evm_production
-export APPLIANCE_SOURCE_DIRECTORY=%{appliance_root}
-export APPLIANCE_TEMPLATE_DIRECTORY=%{appliance_root}/TEMPLATE
-source %{gemset_root}/enable
+cat <<"EOF" > %{appliance_builddir}/LINK/etc/default/manageiq-productizaton.properties
+APPLIANCE="true"
+BUNDLE_GEMFILE=%{app_root}/Gemfile
+GEM_HOME=%{gemset_root}
+GEM_PATH=%{gemset_root}:/usr/share/gems:/usr/local/share/gems
+PATH=%{gemset_root}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+APPLIANCE_SOURCE_DIRECTORY=%{appliance_root}
+APPLIANCE_TEMPLATE_DIRECTORY=%{appliance_root}/TEMPLATE
 EOF
 
 %install
@@ -85,7 +81,6 @@ cd %{_builddir}
 %{__cp} -r %{gemset_builddir}/gems %{buildroot}%{gemset_root}
 %{__cp} -r %{gemset_builddir}/specifications %{buildroot}%{gemset_root}
 %{__cp} -r %{gemset_builddir}/vmdb %{buildroot}%{gemset_root}
-install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
 
 # Copy systemd unit files
 %{__mkdir} -p %{buildroot}%{_prefix}/lib/systemd/system
