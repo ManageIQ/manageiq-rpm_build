@@ -47,7 +47,7 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{gemset_builddir}
 %build
 cd %{_builddir}
 
-cat <<"EOF" > %{appliance_builddir}/LINK/etc/default/manageiq-productizaton.properties
+cat <<"EOF" > %{appliance_builddir}/LINK/etc/default/manageiq-productization.properties
 APPLIANCE_SOURCE_DIRECTORY=%{appliance_root}
 APPLIANCE_TEMPLATE_DIRECTORY=%{appliance_root}/TEMPLATE
 GEM_HOME=%{gemset_root}
