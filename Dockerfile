@@ -17,6 +17,7 @@ RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/cen
     dnf -y module enable ruby:2.6 && \
     dnf -y module enable nodejs:12 && \
     dnf -y module disable virt:rhel && \
+    dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --setopt=tsflags=nodocs --save && \
     dnf -y install \
