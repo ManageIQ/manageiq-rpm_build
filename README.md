@@ -1,21 +1,100 @@
 # ManageIQ RPM Build
 
-This repository contains code to build RPMs for ManageIQ appliances and container images:
+## Summary
+
+This repository contains code to build RPMs for ManageIQ appliances and container images.
+
+It performs the following tasks:
 
   * Clone source repos
   * Run bundle install, compiles assets for UI and a few other tasks needed
   * Create tarballs
   * Build RPMs (locally in the container image or in Copr)
 
+## Output
+
+It produces the following rpms:
+
+| rpm                        | contents                                                          |
+|----------------------------|-------------------------------------------------------------------|
+| `manageiq-appliance-tools` | **empty**                                                         |
+| `manageiq-gemset`          | `/opt/manageiq/manageiq-gemset/` gems, providers, ui-classic      |
+| `manageiq-gemset-services` | `manageiq-provider-*{.target,@.service}`                          |
+| `manageiq-core`            | `vmdb/{app,certs,content,lib,product,systemd}`                    |
+| `manageiq-core-services`   | `manageiq-*{.target,@.service}`                                   |
+| `manageiq-system`          | `/etc/{default,chron}, /usr/bin/evm*, system/{evm,miq}*.service`  |
+| `manageiq-appliance`       | `/etc/httpd/conf.d/manageiq-*, /etc/motd.manageiq`                |
+| `manageiq-ui`              | `vmdb/public/{assets,packs,ui}`                                   |
+| `manageiq-pods`            | **empty**                                                         |
+
+* `/usr/lib/systemd/system/` contains systemd service files.
+* `/var/www/miq/vmdb` contains application files.
+* `/opt/manageiq/manageiq-appliance` contains files linked into `/etc/`.
+* `/opt/manageiq/manifest` contains manifests.
+
 ## Steps
 
-1. Build container image
+## Obtain container image for building RPMs
 
-2. Prepare configuration
+You can either download the latest build image or building a new one locally:
 
-   - Create a local directory with an `options.yml` with the configuration changes
-     you want to make, then when running the container image, mount that directory
-     with `-v <dir>:/root/OPTIONS`.
+  - `docker pull manageiq/rpm_build:latest`
+  - `docker pull manageiq/rpm_build:latest-jansa`
+  - `docker build --pull --tag $USER/rpm_build:latest .`
+
+Typically the first example works best but if you are modifying which files end up in the rpm, the third example is the one you want.
+
+## Building a release
+
+The github tag/branch is passed on the command line e.g.: `--git-ref jansa`. A few other options and explanations are availabe in [build.rb](blob/master/bin/build.rb#L8) for the basic installs.
+
+
+```sh
+docker run --rm manageiq/rpm_build:latest build --git-ref lasker --update-rpm-repo
+```
+
+For older builds, the `git-ref` is already stored in `config/options.yml` and not necessary.
+
+```sh
+docker run --rm manageiq/rpm_build:jansa-3 build --update-rpm-repo
+```
+
+## Building a custom release
+
+Sometimes it is necessary to build rpms with code from pull requests. This explains how to do that.
+
+### Defining build parameters
+
+The [options.yml](blob/master/config/options.yml) points to the appropriate repos and tag/branches.
+
+A typical `options.yml` will only override the source and the refs. This example uses branch `feature1` from kbrock's github repo:
+
+```sh
+mkdir OPTIONS
+vi OPTIONS/options.yml
+```
+
+```yaml
+---
+product_name:      manageiq
+repos:
+  ref:             master
+  manageiq:
+    url:           https://github.com/kbrock/manageiq.git
+    ref:           feature1
+  manageiq_appliance:
+    url:           https://github.com/kbrock/manageiq-appliance.git
+    ref:           feature1
+```
+
+The option file is brought into docker by mounting the directory with `-v $(pwd)/OPTIONS:/root/OPTIONS`
+
+Alternatively, a static directory may be used like `/opt/OPTIONS/options.yml`.
+
+### Using a custom NPM registry
+
+Any of the keys in [options.yml](blob/master/config/options.yml) can be overridden.
+
    - If overriding the NPM registry, set the `npm_registry` key in the `options.yml`.
    - If building RPMs in Copr,
      - set the `rpm.repo_name` key in the `options.yml`.
@@ -23,36 +102,54 @@ This repository contains code to build RPMs for ManageIQ appliances and containe
    - If updating the RPM repo it would be helpful to attach a volume to hold the RPM cache with `-v <dir>:/root/rpm_cache`.
      Any RPMs not in the cache will be downloaded to the cache first.
 
-3. Start the container image
+### Artifacts
 
-   `docker run -it <image>`
+The purpose of this process is to build code from `manageiq-core`, `manageiq-gemset`, and `manageiq-appliance` into 2 sets of artifacts:
 
-4. Run the script
+- `/root/BUILD/rpm_spec/*.tar.gz`
+- `/root/BUILD/rpms/x86_64/manageiq-*.rpm`
 
-   - Run `bin/build.rb`, optionally overriding git ref (branch or tag) and release type
+Depending upon your use case, there are a few ways to obtain these artifacts:
 
-     ```
-     bin/build.rb --git-ref jansa --update-rpm-repo
-     ```
-     ```
-     bin/build.rb --build-type release --git-ref jansa-1-alpha1 --update-rpm-repo
-     ```
+- Have the container put the artifacts into a mounted volume.
+- Manually copy the artifacts to a mounted volume.
+- Extracting the artifacts from the docker container with a docker command.
 
-Alternatively, the build can be started directly by passing `build` to the
-`docker run` command:
+### Having the container build files into a mounted volume
 
+Since the files are not uploaded, they need to be retrieved from the repo before the container exits.
+
+For this example, 2 directories exist in the current directory (`pwd`):
+
+- `OPTIONS` a directory contains the `options.yml` file
+- `BUILD` a directory that will contain the `tar.gz` and `rpm` files.
+
+Note: The contents of `BUILD` will be deleted before each run.
+
+```sh
+docker run --rm -v `pwd`/OPTIONS:/root/OPTIONS -v `pwd`/BUILD:/root/BUILD manageiq/rpm_build:latest build
 ```
-docker run -it <miq-rpm_build image> build [--build-type <type>] [--git-ref <ref>] [--update-rpm-repo]
+
+### Manually copying files to a mounted volume
+
+The commands to setup a build in the docker container can be found in the [entrypoint](blob/master/container-assets/user-entrypoint.sh#L17) script.
+
+The process has a few steps:
+
+- start up a build environment
+- run the build
+- copy the assets out
+- tell the build environment to shut down
+
+```sh
+# setup docker and remember the CONTAINER id
+CONTAINER='my-build-container'
+docker run --name ${CONTAINER} -d -it -v $(pwd)/OPTIONS:/root/OPTIONS manageiq/rpm_build:latest
+docker exec -it ${CONTAINER} /build_scripts/container-assets/user-entrypoint.sh build
+docker cp ${CONTAINER}:/root/BUILD/rpms/x86_64/ ./rpms/
+docker attach ${CONTAINER} # type 'exit'
 ```
 
-The container will exit after the build is completed. Use `-v <dir>:/root/BUILD` to
-mount a volume, if artifacts need to be accessed later.
-
-## Artifacts
-
-manageiq-core, manageiq-gemset and manageiq-appliance .tar.gz will be created in `~/BUILD/rpm_spec/`
-
-manageiq-* RPMs will be created in `~/BUILD/rpms` if built locally
 
 ## License
 
