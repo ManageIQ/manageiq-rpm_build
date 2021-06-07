@@ -5,6 +5,7 @@ ARG ARCH=x86_64
 ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
+RUN dnf -y update
 
 RUN curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo
 
