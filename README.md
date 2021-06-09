@@ -89,8 +89,6 @@ repos:
 
 The option file is brought into docker by mounting the directory with `-v $(pwd)/OPTIONS:/root/OPTIONS`
 
-Alternatively, a static directory may be used like `/opt/OPTIONS/options.yml`.
-
 ### Using a custom NPM registry
 
 Any of the keys in [options.yml](blob/master/config/options.yml) can be overridden.
@@ -109,47 +107,20 @@ The purpose of this process is to build code from `manageiq-core`, `manageiq-gem
 - `/root/BUILD/rpm_spec/*.tar.gz`
 - `/root/BUILD/rpms/x86_64/manageiq-*.rpm`
 
-Depending upon your use case, there are a few ways to obtain these artifacts:
-
-- Have the container put the artifacts into a mounted volume.
-- Manually copy the artifacts to a mounted volume.
-- Extracting the artifacts from the docker container with a docker command.
-
-### Having the container build files into a mounted volume
-
-Since the files are not uploaded, they need to be retrieved from the repo before the container exits.
-
-For this example, 2 directories exist in the current directory (`pwd`):
-
-- `OPTIONS` a directory contains the `options.yml` file
-- `BUILD` a directory that will contain the `tar.gz` and `rpm` files.
-
-Note: The contents of `BUILD` will be deleted before each run.
+One approach is to build and mount a volume that will receive all artifacts:
 
 ```sh
 docker run --rm -v `pwd`/OPTIONS:/root/OPTIONS -v `pwd`/BUILD:/root/BUILD manageiq/rpm_build:latest build
 ```
 
-### Manually copying files to a mounted volume
-
-The commands to setup a build in the docker container can be found in the [entrypoint](blob/master/container-assets/user-entrypoint.sh#L17) script.
-
-The process has a few steps:
-
-- start up a build environment
-- run the build
-- copy the assets out
-- tell the build environment to shut down
+Another approach is to build and copy out the desired artifacts:
 
 ```sh
-# setup docker and remember the CONTAINER id
 CONTAINER='my-build-container'
-docker run --name ${CONTAINER} -d -it -v $(pwd)/OPTIONS:/root/OPTIONS manageiq/rpm_build:latest
-docker exec -it ${CONTAINER} /build_scripts/container-assets/user-entrypoint.sh build
+docker run --name ${CONTAINER} -v `pwd`/OPTIONS:/root/OPTIONS manageiq/rpm_build:latest build
 docker cp ${CONTAINER}:/root/BUILD/rpms/x86_64/ ./rpms/
-docker attach ${CONTAINER} # type 'exit'
+docker rm ${CONTAINER}
 ```
-
 
 ## License
 
