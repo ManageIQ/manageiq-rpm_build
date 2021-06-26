@@ -60,3 +60,4 @@ done
 %exclude %{app_root}/public/ui
 %exclude %{app_root}/public/upload
 %exclude %{app_root}/log/apache
+/usr/share/ansible/roles/
