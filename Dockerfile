@@ -42,6 +42,7 @@ RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/cen
       ruby-devel \
       rubygem-bundler \
       wget && \
+    dnf -y update libarchive && \
     dnf clean all
 
 RUN if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi
