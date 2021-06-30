@@ -8,7 +8,7 @@ Requires: httpd
 
 %files ui
 %defattr(-,root,root,-)
-%attr(-,-,manageiq) %{app_root}/public/pictures
+%attr(-,manageiq,manageiq) %{app_root}/public/pictures
 %{app_root}/public/pictures
 %{app_root}/public/assets
 %{app_root}/public/packs
