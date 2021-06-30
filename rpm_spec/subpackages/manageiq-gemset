@@ -49,7 +49,7 @@ Requires: glusterfs-fuse
 %{product_summary} Gemset
 
 %files gemset
-%defattr(-,root,root,775)
+%defattr(-,root,root,-)
 %dir %{gemset_root}
 %{gemset_root}/bin
 %{gemset_root}/build_info
