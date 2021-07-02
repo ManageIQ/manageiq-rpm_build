@@ -43,6 +43,8 @@ module ManageIQ
       def precompile_sti_loader
         Dir.chdir(miq_dir) do
           shell_cmd("bundle exec rake evm:compile_sti_loader")
+
+          fixup_sti_loader!
         end
       end
 
@@ -95,6 +97,34 @@ module ManageIQ
             .map { |p| Pathname.new(p["path"]) }
             .select(&:exist?)
         end
+      end
+
+      def fixup_sti_loader!
+        sti_loader_yml_path = miq_dir.join("tmp/cache/sti_loader.yml")
+
+        sti_loader = YAML.load_file(sti_loader_yml_path)
+        sti_loader.transform_keys! do |path|
+          if !path.start_with?(BUILD_DIR.to_s)
+            path
+          else
+            rel_path = Pathname.new(path).relative_path_from(BUILD_DIR)
+            prefix, target_path = rel_path.to_s.split("/", 2)
+
+            prefix =
+              case prefix
+              when OPTIONS.product_name
+                "/var/www/miq/vmdb"
+              when /^#{OPTIONS.product_name}-gemset/
+                File.join("", "opt", OPTIONS.rpm.org_name, "#{OPTIONS.product_name}-gemset")
+              else
+                raise "Invalid file path in STI cache: #{path}"
+              end
+
+            File.join(prefix, target_path)
+          end
+        end
+
+        File.write(sti_loader_yml_path, sti_loader.to_yaml)
       end
 
       def symlink_plugin_paths(source_dir, target_path)
