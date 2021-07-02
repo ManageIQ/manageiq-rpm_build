@@ -1,6 +1,7 @@
 require 'json'
 require 'pathname'
 require 'yaml'
+require 'active_support/core_ext/time/calculations' # Required for Time#change
 
 module ManageIQ
   module RPMBuild
@@ -103,6 +104,8 @@ module ManageIQ
         sti_loader_yml_path = miq_dir.join("tmp/cache/sti_loader.yml")
 
         sti_loader = YAML.load_file(sti_loader_yml_path)
+
+        # Replace paths from the rpm build with the paths that will exist at runtime
         sti_loader.transform_keys! do |path|
           if !path.start_with?(BUILD_DIR.to_s)
             path
@@ -122,6 +125,15 @@ module ManageIQ
 
             File.join(prefix, target_path)
           end
+        end
+
+        # Files installed by RPM have no usec component of their timestamps so
+        # we have to 0 that out in order for the File.mtime() to match what is
+        # in the sti_loader.yml
+        sti_loader.each_value do |data|
+          next if !data.kind_of?(Hash)
+
+          data[:mtime] = data[:mtime].change(:usec => 0)
         end
 
         File.write(sti_loader_yml_path, sti_loader.to_yaml)
