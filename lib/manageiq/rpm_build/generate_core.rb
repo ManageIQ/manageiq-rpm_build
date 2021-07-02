@@ -103,6 +103,10 @@ module ManageIQ
       def fixup_sti_loader!
         sti_loader_yml_path = miq_dir.join("tmp/cache/sti_loader.yml")
 
+        core_prefix       = OPTIONS.product_name
+        gemset_prefix     = "#{OPTIONS.product_name}-gemset"
+        target_gemset_dir = File.join("", "opt", OPTIONS.rpm.org_name)
+
         sti_loader = YAML.load_file(sti_loader_yml_path)
 
         # Replace paths from the rpm build with the paths that will exist at runtime
@@ -110,20 +114,20 @@ module ManageIQ
           if !path.start_with?(BUILD_DIR.to_s)
             path
           else
-            rel_path = Pathname.new(path).relative_path_from(BUILD_DIR)
-            prefix, target_path = rel_path.to_s.split("/", 2)
+            relative_path       = Pathname.new(path).relative_path_from(BUILD_DIR)
+            prefix, target_path = relative_path.to_s.split("/", 2)
 
-            prefix =
+            target_dir =
               case prefix
-              when OPTIONS.product_name
+              when core_prefix
                 "/var/www/miq/vmdb"
-              when /^#{OPTIONS.product_name}-gemset/
-                File.join("", "opt", OPTIONS.rpm.org_name, "#{OPTIONS.product_name}-gemset")
+              when /^#{gemset_prefix}/
+                File.join(target_gemset_dir, gemset_prefix)
               else
                 raise "Invalid file path in STI cache: #{path}"
               end
 
-            File.join(prefix, target_path)
+            File.join(target_dir, target_path)
           end
         end
 
