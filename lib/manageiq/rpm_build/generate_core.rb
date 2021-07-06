@@ -1,6 +1,7 @@
 require 'json'
 require 'pathname'
 require 'yaml'
+require 'active_support/core_ext/time/calculations' # Required for Time#change
 
 module ManageIQ
   module RPMBuild
@@ -42,7 +43,9 @@ module ManageIQ
 
       def precompile_sti_loader
         Dir.chdir(miq_dir) do
-          shell_cmd("bundle exec rake evm:compile_sti_loader")
+          shell_cmd("BUNDLER_GROUPS=manageiq_default,ui_dependencies,graphql_api bundle exec rake evm:compile_sti_loader")
+
+          fixup_sti_loader!
         end
       end
 
@@ -95,6 +98,49 @@ module ManageIQ
             .map { |p| Pathname.new(p["path"]) }
             .select(&:exist?)
         end
+      end
+
+      def fixup_sti_loader!
+        sti_loader_yml_path = miq_dir.join("tmp/cache/sti_loader.yml")
+
+        core_prefix       = OPTIONS.product_name
+        gemset_prefix     = "#{OPTIONS.product_name}-gemset"
+        target_gemset_dir = File.join("", "opt", OPTIONS.rpm.org_name)
+
+        sti_loader = YAML.load_file(sti_loader_yml_path)
+
+        # Replace paths from the rpm build with the paths that will exist at runtime
+        sti_loader.transform_keys! do |path|
+          if !path.start_with?(BUILD_DIR.to_s)
+            path
+          else
+            relative_path       = Pathname.new(path).relative_path_from(BUILD_DIR)
+            prefix, target_path = relative_path.to_s.split("/", 2)
+
+            target_dir =
+              case prefix
+              when core_prefix
+                "/var/www/miq/vmdb"
+              when /^#{gemset_prefix}/
+                File.join(target_gemset_dir, gemset_prefix)
+              else
+                raise "Invalid file path in STI cache: #{path}"
+              end
+
+            File.join(target_dir, target_path)
+          end
+        end
+
+        # Files installed by RPM have no usec component of their timestamps so
+        # we have to 0 that out in order for the File.mtime() to match what is
+        # in the sti_loader.yml
+        sti_loader.each_value do |data|
+          next if !data.kind_of?(Hash)
+
+          data[:mtime] = data[:mtime].change(:usec => 0)
+        end
+
+        File.write(sti_loader_yml_path, sti_loader.to_yaml)
       end
 
       def symlink_plugin_paths(source_dir, target_path)
