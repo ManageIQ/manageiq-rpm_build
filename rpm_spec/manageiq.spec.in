@@ -66,30 +66,30 @@ cd %{_builddir}
 
 ### from core
 %{__mkdir} -p %{buildroot}%{app_root}
-%{__cp} -r %{core_builddir}/* %{buildroot}%{app_root}
+%{__cp} -a %{core_builddir}/* %{buildroot}%{app_root}
 
 ### from appliance
 %{__mkdir} -p %{buildroot}%{appliance_root}
-%{__cp} -r %{appliance_builddir}/* %{buildroot}%{appliance_root}
+%{__cp} -a %{appliance_builddir}/* %{buildroot}%{appliance_root}
 %{__mkdir} -p %{buildroot}/etc/httpd/conf.d
 %{__mkdir} -p %{buildroot}%{app_root}/log/apache
 
 ### from gemset
 %{__mkdir} -p %{buildroot}%{gemset_root}
-%{__cp} -r %{gemset_builddir}/bin %{buildroot}%{gemset_root}
-%{__cp} -r %{gemset_builddir}/build_info %{buildroot}%{gemset_root}
-%{__cp} -r %{gemset_builddir}/bundler %{buildroot}%{gemset_root}
-%{__cp} -r %{gemset_builddir}/cache %{buildroot}%{gemset_root}
-%{__cp} -r %{gemset_builddir}/doc %{buildroot}%{gemset_root}
-%{__cp} -r %{gemset_builddir}/extensions %{buildroot}%{gemset_root}
-%{__cp} -r %{gemset_builddir}/gems %{buildroot}%{gemset_root}
-%{__cp} -r %{gemset_builddir}/specifications %{buildroot}%{gemset_root}
-%{__cp} -r %{gemset_builddir}/vmdb %{buildroot}%{gemset_root}
+%{__cp} -a %{gemset_builddir}/bin %{buildroot}%{gemset_root}
+%{__cp} -a %{gemset_builddir}/build_info %{buildroot}%{gemset_root}
+%{__cp} -a %{gemset_builddir}/bundler %{buildroot}%{gemset_root}
+%{__cp} -a %{gemset_builddir}/cache %{buildroot}%{gemset_root}
+%{__cp} -a %{gemset_builddir}/doc %{buildroot}%{gemset_root}
+%{__cp} -a %{gemset_builddir}/extensions %{buildroot}%{gemset_root}
+%{__cp} -a %{gemset_builddir}/gems %{buildroot}%{gemset_root}
+%{__cp} -a %{gemset_builddir}/specifications %{buildroot}%{gemset_root}
+%{__cp} -a %{gemset_builddir}/vmdb %{buildroot}%{gemset_root}
 install -m644 %{gemset_builddir}/enable %{buildroot}%{gemset_root}
 
 ### from manifest
 %{__mkdir} -p %{buildroot}%{manifest_root}
-%{__cp} -r %{manifest_builddir}/* %{buildroot}%{manifest_root}
+%{__cp} -a %{manifest_builddir}/* %{buildroot}%{manifest_root}
 
 # Move webpack manifests
 %{__mv} %{buildroot}%{app_root}/public/packs/webpack_modules_manifest.json %{buildroot}%{manifest_root}
@@ -128,8 +128,7 @@ pushd ./%{appliance_builddir}/LINK
 popd
 
 #copy all files/directories below COPY
-%{__cp} -r ./%{appliance_builddir}/COPY/* %{buildroot}/
+%{__cp} -a ./%{appliance_builddir}/COPY/* %{buildroot}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
