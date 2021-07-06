@@ -43,7 +43,7 @@ module ManageIQ
 
       def precompile_sti_loader
         Dir.chdir(miq_dir) do
-          shell_cmd("bundle exec rake evm:compile_sti_loader")
+          shell_cmd("BUNDLER_GROUPS=manageiq_default,ui_dependencies,graphql_api bundle exec rake evm:compile_sti_loader")
 
           fixup_sti_loader!
         end
