@@ -122,6 +122,21 @@ docker cp ${CONTAINER}:/root/BUILD/rpms/x86_64/ ./rpms/
 docker rm ${CONTAINER}
 ```
 
+## Versioning
+
+Branch `morphy` == v13
+
+| Version               | Purpose     | Repo    |
+|-----------------------|-------------|---------|
+| 13.0.0-20210708000051 | nightly     | nightly |
+| 13.0.1-beta1          | pre-release | release |
+| 13.0.1-20210708000051 | nightly     | nightly |
+| 13.0.2-rc1            | pre-release | release |
+| 13.1.0-0              | release     | release |
+| 13.1.0-20210708000051 | nightly     | nightly |
+| 13.2.0-0              | release     | release |
+| 13.2.0-20210708000051 | nightly     | nightly |
+
 ## License
 
 This code is available as open source under the terms of the [Apache License 2.0](LICENSE).
