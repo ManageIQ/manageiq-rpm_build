@@ -65,10 +65,10 @@ module ManageIQ
 
       def spec_release
         if release_name.empty?
-          "#{rpm_release}.#{BUILD_DATE}"
+          BUILD_DATE
         else
           pre_build = release_name.split("-")[2]
-          pre_build ? "#{rpm_release}.#{pre_build}" : "#{rpm_release}"
+          pre_build ? "#{pre_build}" : "#{rpm_release}"
         end
       end
     end
