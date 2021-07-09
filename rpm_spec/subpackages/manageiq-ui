@@ -2,6 +2,7 @@
 Summary: %{product_summary} UI
 Requires: %{name}-core = %{version}-%{release}
 Requires: httpd
+Requires: mod_ssl
 
 %description ui
 %{product_summary} UI
