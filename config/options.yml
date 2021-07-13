@@ -56,4 +56,4 @@ rpm_repository:
       :targets:
         - el8
       :rpms:
-        :manageiq-nightly: !ruby/regexp /.+-13\.\d\.\d-\d\.\d\.\d+\.el.+/
+        :manageiq-nightly: !ruby/regexp /.+-13\.\d\.\d-(\d\.\d\.)?\d+\.el.+/
