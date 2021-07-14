@@ -14,6 +14,7 @@ RUN dnf -y --disableplugin=subscription-manager install http://mirror.centos.org
                                                         https://rpm.manageiq.org/release/10-jansa/el8/noarch/manageiq-release-10.0-1.el8.noarch.rpm && \
     dnf -y --disableplugin=subscription-manager module enable ruby:2.6 && \
     dnf -y --disableplugin=subscription-manager module enable nodejs:12 && \
+    dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save && \
     dnf -y --disableplugin=subscription-manager groupinstall "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --save && \
     dnf -y --disableplugin=subscription-manager --setopt=tsflags=nodocs install \
