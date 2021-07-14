@@ -4,30 +4,30 @@ repos:
   ref: kasparov
   manageiq:
     url: https://github.com/ManageIQ/manageiq.git
-    ref: 
+    ref:
   manageiq_appliance:
     url: https://github.com/ManageIQ/manageiq-appliance.git
-    ref: 
+    ref:
   manageiq_ui_service:
     url: https://github.com/ManageIQ/manageiq-ui-service.git
-    ref: 
-version: 
-release: 
+    ref:
+version:
+release:
 rpm:
-  version: 11.1.0
+  version: 11.2.0
   release: 1
-  repo_name: 
+  repo_name:
   org_name: manageiq
   product_summary: ManageIQ Management Engine
   product_url: https://github.com/ManageIQ/manageiq
-  changelog: 
+  changelog:
 bundler_version: 2.1.4
-npm_registry: 
+npm_registry:
 rpm_repository:
-  digitalocean_access_token: 
+  digitalocean_access_token:
   s3_api:
-    access_key: 
-    secret_key: 
+    access_key:
+    secret_key:
     bucket: rpm-manageiq-org
     endpoint: nyc3.digitaloceanspaces.com
   :arches:

@@ -1,4 +1,7 @@
 %changelog
+* Wed Jul 14 2021 ManageIQ <contact@manageiq.org> - 11.2.0-1
+- Kasparov 2 build
+
 * Tue Feb 2 2021 ManageIQ <contact@manageiq.org> - 11.1.0-1
 - Kasparov 1 build
 
