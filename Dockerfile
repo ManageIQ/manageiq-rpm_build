@@ -37,7 +37,8 @@ RUN dnf -y --disableplugin=subscription-manager install http://mirror.centos.org
       ruby-devel \
       rubygem-bundler \
       sqlite-devel \
-      wget
+      wget && \
+    dnf -y update libarchive
 
 RUN npm install yarn -g
 
