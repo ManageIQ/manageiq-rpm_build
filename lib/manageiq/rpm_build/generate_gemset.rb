@@ -79,9 +79,6 @@ module ManageIQ
 
           shell_cmd("bundle _#{bundler_version}_ install --jobs #{cpus} --retry 3")
 
-          # https://github.com/ManageIQ/manageiq/pull/17886
-          FileUtils.mkdir("log") unless Dir.exists?("log")
-
           if OPTIONS.npm_registry
             shell_cmd("#{SCRIPT_DIR.join("npm_registry/yarn_registry_setup.sh")} #{OPTIONS.npm_registry}")
           end
