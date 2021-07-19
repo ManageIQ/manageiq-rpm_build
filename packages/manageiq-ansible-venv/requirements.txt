@@ -88,7 +88,7 @@ pyasn1-modules==0.2.7     # via google-auth
 pyasn1==0.4.8             # via pyasn1-modules, requests-credssp, rsa
 pycparser==2.19           # via cffi
 pycurl==7.43.0.1          # via -r /awx_devel/requirements/requirements_ansible.in, ovirt-engine-sdk-python
-pygments==2.5.2           # via azure-cli-core, knack
+pygments==2.7.4           # via azure-cli-core, knack
 pyjwt==1.7.1              # via adal, azure-cli-core
 pykerberos==1.2.1         # via requests-kerberos
 pynacl==1.4.0             # via paramiko
