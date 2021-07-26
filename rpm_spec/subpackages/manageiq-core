@@ -53,9 +53,6 @@ done
 %attr(-,manageiq,manageiq) %{app_root}/config
 %attr(-,manageiq,manageiq) %{app_root}/log
 %attr(-,manageiq,manageiq) %{app_root}/tmp
-## this is until we fix the code that auto writes this
-## give kbrock a hard time if it is 2022 and this is still in here
-%attr(0644,manageiq,manageiq) %{app_root}/tmp/cache/sti_loader.yml
 %exclude %{app_root}/public/pictures
 %exclude %{app_root}/public/assets
 %exclude %{app_root}/public/packs
