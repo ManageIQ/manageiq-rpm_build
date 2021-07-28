@@ -62,18 +62,15 @@ cd %{_builddir}
 ### from core
 %{__mkdir} -p %{buildroot}%{app_root}
 %{__cp} -a %{core_builddir}/* %{buildroot}%{app_root}
+%{__mkdir} -p %{buildroot}%{app_root}/log/apache
+%{__mkdir} -p %{buildroot}%{app_root}/tmp/{,sockets,pids}
+%{__chmod} 6750 %{buildroot}%{app_root}/{log,config,certs,data,data/git_repos}
+%{__chmod} 700 %{buildroot}%{app_root}/tmp/{,pids,sockets}
 
 ### from appliance
 %{__mkdir} -p %{buildroot}%{appliance_root}
 %{__cp} -a %{appliance_builddir}/* %{buildroot}%{appliance_root}
 %{__mkdir} -p %{buildroot}/etc/httpd/conf.d
-%{__mkdir} -p %{buildroot}%{app_root}/log/apache
-%{__mkdir} -p %{buildroot}%{app_root}/tmp/{,sockets,pids}
-%{__mkdir} -p %{buildroot}%{app_root}/{certs,config}
-%{__mkdir} -p %{buildroot}%{app_root}/public/pictures
-%{__chmod} 4750 %{buildroot}%{app_root}/{log,config,certs}
-%{__chmod} 700 %{buildroot}%{app_root}/tmp/{,pids,sockets}
-%{__chmod} 755 %{buildroot}%{app_root}/public/pictures
 
 ### from gemset
 %{__mkdir} -p %{buildroot}%{gemset_root}
