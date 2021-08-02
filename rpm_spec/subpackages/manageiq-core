@@ -54,6 +54,7 @@ done
 %attr(-,manageiq,manageiq) %{app_root}/log
 %attr(-,manageiq,manageiq) %{app_root}/tmp
 %exclude %{app_root}/public/pictures
+%exclude %{app_root}/public/upload
 %exclude %{app_root}/public/assets
 %exclude %{app_root}/public/packs
 %exclude %{app_root}/public/ui

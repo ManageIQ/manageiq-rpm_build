@@ -10,7 +10,9 @@ Requires: mod_ssl
 %files ui
 %defattr(-,root,root,-)
 %attr(-,manageiq,manageiq) %{app_root}/public/pictures
+%attr(-,manageiq,manageiq) %{app_root}/public/upload
 %{app_root}/public/pictures
+%{app_root}/public/upload
 %{app_root}/public/assets
 %{app_root}/public/packs
 %{app_root}/public/ui
