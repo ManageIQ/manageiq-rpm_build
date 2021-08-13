@@ -99,6 +99,9 @@ cd %{_builddir}
 %{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_modules_manifest.json %{buildroot}%{manifest_root}/webpack_modules_manifest_service_ui.json
 %{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_packages_manifest.json %{buildroot}%{manifest_root}/webpack_packages_manifest_service_ui.json
 
+#sample configuration files
+%{__mv} %{buildroot}%{app_root}/config/cable.yml.sample %{buildroot}%{app_root}/config/cable.yml
+
 ## from appliance
 #symlink some executables
 %{__mkdir} -p %{buildroot}/%{_bindir}
