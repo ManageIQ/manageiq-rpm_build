@@ -82,6 +82,7 @@ module ManageIQ
         precompile_sti_loader
         build_service_ui
         seed_ansible_runner
+        cleanse_locale_files
 
         if OPTIONS.npm_registry
           Dir.chdir(miq_dir) do
@@ -147,6 +148,12 @@ module ManageIQ
             FileUtils.ln_s(path.join(subdir), target_path.join(subdir))
           end
         end
+      end
+
+      def cleanse_locale_files
+        # remove all comment lines from locale files
+        # the comment lines beginning with #, are special
+        shell_cmd("sed -i'' -e '/^#[^,]/d' #{miq_dir.join('locale/*/*.po')}")
       end
     end
   end
