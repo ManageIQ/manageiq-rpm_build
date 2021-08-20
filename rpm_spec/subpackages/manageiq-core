@@ -40,7 +40,7 @@ done
 #  so root and manageiq users can read them.
 %{__chown} manageiq.manageiq %{app_root}/certs/v2_key %{app_root}/log/*.log
 %{__chown} manageiq.manageiq %{app_root}/tmp/pids/*.pid %{app_root}/config/*.yml
-%{__chown} -r manageiq.manageiq %{app_root}/data/
+%{__chown} -R manageiq.manageiq %{app_root}/data
 %{__chmod} o-rw %{app_root}/certs/v2_key
 %{__chmod} o-rw %{app_root}/config/*.yml %{app_root}/tmp/pids/*.pid
 %{__chmod} o-rw %{app_root}/log/*.log
@@ -52,7 +52,7 @@ done
 %attr(-,manageiq,manageiq) %{app_root}/config
 %attr(-,manageiq,manageiq) %{app_root}/log
 %attr(-,manageiq,manageiq) %{app_root}/tmp
-%attr(-,manageiq,manageiq) %{app_root}/data/git_repos
+%attr(-,manageiq,manageiq) %{app_root}/data
 %config(noreplace) %{app_root}/config/cable.yml
 %exclude %{app_root}/public/pictures
 %exclude %{app_root}/public/assets
@@ -60,3 +60,4 @@ done
 %exclude %{app_root}/public/ui
 %exclude %{app_root}/public/upload
 %exclude %{app_root}/log/apache
+/usr/share/ansible/roles/

@@ -102,6 +102,12 @@ cd %{_builddir}
 #sample configuration files
 %{__mv} %{buildroot}%{app_root}/config/cable.yml.sample %{buildroot}%{app_root}/config/cable.yml
 
+# Move roles to playbook share
+mkdir -p %{buildroot}/usr/share/ansible/roles/
+for i in %{buildroot}%{app_root}/content/ansible_consolidated/roles/* ; do
+  %{__mv} $i %{buildroot}/usr/share/ansible/roles/
+done
+
 ## from appliance
 #symlink some executables
 %{__mkdir} -p %{buildroot}/%{_bindir}
@@ -121,11 +127,6 @@ pushd ./%{appliance_builddir}/LINK/etc
       done
     popd
   done
-popd
-
-%{__mkdir} -p %{buildroot}/root
-pushd ./%{appliance_builddir}/LINK/root
-  ln -s %{appliance_root}/LINK/root/.ansible.cfg %{buildroot}/root/.ansible.cfg
 popd
 
 pushd ./%{appliance_builddir}/LINK
