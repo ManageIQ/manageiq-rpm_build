@@ -102,7 +102,7 @@ cd %{_builddir}
 #sample configuration files
 %{__mv} %{buildroot}%{app_root}/config/cable.yml.sample %{buildroot}%{app_root}/config/cable.yml
 
-# Move roles to playbook share
+# Move roles to ansible share
 mkdir -p %{buildroot}/usr/share/ansible/roles/
 for i in %{buildroot}%{app_root}/content/ansible_consolidated/roles/* ; do
   %{__mv} $i %{buildroot}/usr/share/ansible/roles/
