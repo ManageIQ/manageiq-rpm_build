@@ -52,6 +52,11 @@ Requires: scap-security-guide
 # Software Update
 Requires: yum-utils
 
+# External configuration
+Requires: cockpit
+Requires: cockpit-ssh
+Requires: cockpit-ws
+
 %description appliance
 %{product_summary} Appliance
 
