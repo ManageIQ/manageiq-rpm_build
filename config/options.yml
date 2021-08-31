@@ -14,7 +14,7 @@ repos:
 version:
 release:
 rpm:
-  version:         13.0.0
+  version:         14.0.0
   release:         0
   repo_name:
   org_name:        manageiq
@@ -42,8 +42,8 @@ rpm_repository:
         - el8
       :rpms:
         :kafka: !ruby/regexp /.+-2\.3.+/
-        :manageiq: !ruby/regexp /.+-13\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d(\.\d)?)?\.el.+/
-        :manageiq-release: !ruby/regexp /.+-13\.0.+/
+        :manageiq: !ruby/regexp /.+-14\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d(\.\d)?)?\.el.+/
+        :manageiq-release: !ruby/regexp /.+-14\.0.+/
         :python-bambou: !ruby/regexp /.+-3\.1\.1.+/
         :python-pylxca: !ruby/regexp /.+-2\.1\.1.+/
         :python-unittest2: !ruby/regexp /.+-1\.1\.0.+/

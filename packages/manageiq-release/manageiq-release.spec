@@ -1,5 +1,5 @@
 Name:      manageiq-release
-Version:   13.0
+Version:   14.0
 Release:   1%{dist}
 Summary:   ManageIQ RPM repository configuration
 License:   Apache-2.0
@@ -36,6 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
+* Tue Aug 31 2021 Jason Frey <fryguy9@gmail.com> - 14.0-1%{dist}
+- Initial build of manageiq-release for Najdorf
+
 * Mon Feb 22 2021 Jason Frey <fryguy9@gmail.com> - 13.0-1%{dist}
 - Initial build of manageiq-release for Morphy.
 
