@@ -1,7 +1,7 @@
 ---
 product_name: manageiq
 repos:
-  ref: lasker
+  ref: morphy
   manageiq:
     url: https://github.com/ManageIQ/manageiq.git
     ref:
@@ -14,8 +14,8 @@ repos:
 version:
 release:
 rpm:
-  version: 12.1.0
-  release: 1
+  version: 13.0.0
+  release: 0
   repo_name:
   org_name: manageiq
   product_summary: ManageIQ Management Engine
