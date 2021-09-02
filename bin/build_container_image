@@ -1,0 +1,18 @@
+#!/bin/bash
+
+REGISTRY=${REGISTRY:-"docker.io"}
+ORGANIZATION=${ORGANIZATION:-"manageiq"}
+TAG=${TAG:-"latest"}
+IMAGE_NAME=$REGISTRY/$ORGANIZATION/rpm_build:$TAG
+
+set -e
+
+docker build . -t $IMAGE_NAME
+
+[[ $TRAVIS_PULL_REQUEST != "false" ]] && exit 0
+
+docker login $REGISTRY -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
+
+docker push $IMAGE_NAME
+
+set +e
