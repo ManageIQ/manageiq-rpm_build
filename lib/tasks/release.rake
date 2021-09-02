@@ -149,9 +149,11 @@ namespace :release do
     content = options.read
     content.sub!(/(rpm:\n\s+version:\s+).+/, "\\1#{next_branch_number}.0.0")
     content.sub!(/^(\s{2}release:\s+).+$/, "\\10")
-    content.sub!(/^(\s{4}:)\d+\w+(:)/, "\\1#{rpm_repo_name}\\2")
+    content.sub!(/^(\s{4}:)\d+-\w+(:)/, "\\1#{rpm_repo_name}\\2")
+    content.sub!(/^(\s{4}:)\d+-\w+(-nightly:)/, "\\1#{rpm_repo_name}\\2")
     content.sub!(/^(\s{8}:manageiq:[^\d]+)\d+/, "\\1#{next_branch_number}")
     content.sub!(/^(\s{8}:manageiq-release:[^\d]+)\d+/, "\\1#{next_branch_number}")
+    content.sub!(/^(\s{8}:manageiq-nightly:[^\d]+)\d+/, "\\1#{next_branch_number}")
     options.write(content)
 
     # Rename files
@@ -171,7 +173,7 @@ namespace :release do
     content = spec.read
     content.sub!(/(Version:\s+)[\d.]+/, "\\1#{next_branch_number}.0")
     content.sub!(/(Release:\s+).+$/, "\\11\%{dist}")
-    content.sub!(/(Source1:\s+manageiq-)\d+\w+(\.repo)/, "\\1#{rpm_repo_name}\\2")
+    content.sub!(/(Source1:\s+manageiq-)\d+-\w+(\.repo)/, "\\1#{rpm_repo_name}\\2")
     content.sub!("\%changelog", "\%changelog\n#{changelog_version}-1\%{dist}\n#{changelog_text}\n")
     spec.write(content)
 
