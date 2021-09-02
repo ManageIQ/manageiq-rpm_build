@@ -5,7 +5,7 @@ Summary:   ManageIQ RPM repository configuration
 License:   Apache-2.0
 URL:       https://rpm.manageiq.org/release/
 Source0:   RPM-GPG-KEY-MANAGEIQ
-Source1:   manageiq-13-morphy.repo
+Source1:   manageiq-14-najdorf.repo
 BuildArch: noarch
 
 %description
@@ -36,7 +36,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
-* Tue Aug 31 2021 Jason Frey <fryguy9@gmail.com> - 14.0-1%{dist}
+* Wed Sep 1 2021 Brandon Dunne <brandondunne@hotmail.com> - 14.0-1%{dist}
 - Initial build of manageiq-release for Najdorf
 
 * Mon Feb 22 2021 Jason Frey <fryguy9@gmail.com> - 13.0-1%{dist}
