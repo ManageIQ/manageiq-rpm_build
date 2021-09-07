@@ -11,7 +11,7 @@ docker build . -t $IMAGE_NAME
 
 [[ $TRAVIS_PULL_REQUEST != "false" ]] && exit 0
 
-docker login $REGISTRY -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
+echo "$REGISTRY_PASSWORD" | docker login $REGISTRY -u $REGISTRY_USERNAME --password-stdin
 
 docker push $IMAGE_NAME
 
