@@ -55,29 +55,8 @@ Requires: yum-utils
 %description appliance
 %{product_summary} Appliance
 
-%pretrans appliance -p <lua>
-if posix.access('/bin/evmserver.sh', 'x') then
-  local pid = posix.fork ()
-  if ( pid == -1 ) then
-    print ("The fork failed.")
-  elseif ( pid == 0 ) then
-    posix.exec('/bin/evmserver.sh', 'update_stop')
-  else
-    posix.wait(pid)
-  end
-end
-
-%posttrans appliance -p <lua>
-if posix.access('/bin/evmserver.sh', 'x') then
-  local pid = posix.fork ()
-  if ( pid == -1 ) then
-    print ("The fork failed.")
-  elseif ( pid == 0 ) then
-    posix.exec('/bin/evmserver.sh', 'update_start')
-  else
-    posix.wait(pid)
-  end
-end
+%posttrans appliance
+%{_bindir}/systemctl try-restart evmserverd.service
 
 %post appliance
 #motd is owned by system
