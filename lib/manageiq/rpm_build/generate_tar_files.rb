@@ -21,7 +21,7 @@ module ManageIQ
         plugin_index.write(plugin_index.read.gsub(BUILD_DIR.join("manageiq").to_s, '/var/www/miq/vmdb'))
 
         name = "gemset"
-        shell_cmd("tar -C #{BUILD_DIR} -zcf #{tar_full_path(name)} #{tar_basename(name)}")
+        shell_cmd("tar -C #{BUILD_DIR} -zcf #{tar_full_path(name)} -X #{exclude_file(name)} #{tar_basename(name)}")
       end
 
       def create_appliance_tarball
@@ -35,10 +35,9 @@ module ManageIQ
         where_am_i
 
         name = "core"
-        exclude_file = CONFIG_DIR.join("exclude_manageiq")
 
         # Everything from */tmp/* should be excluded, except for tmp/cache/sti_loader.yml
-        shell_cmd("tar -C #{BUILD_DIR.join("manageiq")} #{transform(name)} --exclude-tag='cache/sti_loader.yml' -X #{exclude_file} -hcvzf #{tar_full_path(name)} .")
+        shell_cmd("tar -C #{BUILD_DIR.join("manageiq")} #{transform(name)} --exclude-tag='cache/sti_loader.yml' -X #{exclude_file("manageiq")} -hcvzf #{tar_full_path(name)} .")
       end
 
       def create_manifest_tarball
@@ -48,6 +47,10 @@ module ManageIQ
         shell_cmd("tar -C #{BUILD_DIR.join(name)} #{transform(name)} --exclude='.git' -hzcf #{tar_full_path(name)} .")
       end
       private
+
+      def exclude_file(tarball_name)
+        CONFIG_DIR.join("exclude_#{tarball_name}")
+      end
 
       def tar_basename(name)
         "#{OPTIONS.product_name}-#{name}-#{OPTIONS.rpm.version}"
