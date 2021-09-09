@@ -82,6 +82,7 @@ module ManageIQ
         precompile_sti_loader
         build_service_ui
         seed_ansible_runner
+        compile_locale_files
 
         if OPTIONS.npm_registry
           Dir.chdir(miq_dir) do
@@ -147,6 +148,16 @@ module ManageIQ
             FileUtils.ln_s(path.join(subdir), target_path.join(subdir))
           end
         end
+      end
+
+      def compile_locale_files
+        miq_dir.glob("locale/*/*.po").each do |po|
+          mo = po.dirname.join("LC_MESSAGES", "#{File.basename(po, '.po')}.mo")
+          mo.dirname.mkpath
+          shell_cmd("msgfmt #{po} -o #{mo}")
+        end
+        shell_cmd("rm #{miq_dir.join('locale/*/*.po')}")
+        shell_cmd("rm #{miq_dir.join('locale/*.pot')}")
       end
     end
   end
