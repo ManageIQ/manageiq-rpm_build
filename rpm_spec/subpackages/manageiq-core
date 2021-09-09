@@ -38,12 +38,12 @@ done
 # These files are not owned by the rpm.
 #  For upgrades, ensure they have the correct group privs
 #  so root and manageiq users can read them.
-%{__chown} manageiq.manageiq %{app_root}/certs/v2_key %{app_root}/log/*.log
-%{__chown} manageiq.manageiq %{app_root}/tmp/pids/*.pid %{app_root}/config/*.yml
+%{__chown} -f manageiq.manageiq %{app_root}/certs/v2_key %{app_root}/log/*.log
+%{__chown} -f manageiq.manageiq %{app_root}/tmp/pids/*.pid %{app_root}/config/*.yml
 %{__chown} -R manageiq.manageiq %{app_root}/data
-%{__chmod} o-rw %{app_root}/certs/v2_key
-%{__chmod} o-rw %{app_root}/config/*.yml %{app_root}/tmp/pids/*.pid
-%{__chmod} o-rw %{app_root}/log/*.log
+%{__chmod} -f o-rw %{app_root}/certs/v2_key
+%{__chmod} -f o-rw %{app_root}/config/*.yml %{app_root}/tmp/pids/*.pid
+%{__chmod} -f o-rw %{app_root}/log/*.log
 
 %files core
 %defattr(-,root,root,-)
