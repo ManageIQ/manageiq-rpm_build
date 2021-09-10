@@ -1,6 +1,6 @@
 Name:      manageiq-release
 Version:   14.0
-Release:   1%{dist}
+Release:   2%{dist}
 Summary:   ManageIQ RPM repository configuration
 License:   Apache-2.0
 URL:       https://rpm.manageiq.org/release/
@@ -36,6 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
+* Fri Sep 10 2021 Brandon Dunne <brandondunne@hotmail.com> - 14.0-2%{dist}
+- Fix repo url for Najdorf nightly
+
 * Wed Sep 1 2021 Brandon Dunne <brandondunne@hotmail.com> - 14.0-1%{dist}
 - Initial build of manageiq-release for Najdorf
 
