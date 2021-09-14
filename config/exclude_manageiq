@@ -9,4 +9,5 @@ Gemfile.lock*
 .bundle
 ./bin
 certs/v2_key.dev
+.gitkeep
 log/*
