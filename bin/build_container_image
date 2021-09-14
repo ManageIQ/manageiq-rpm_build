@@ -9,7 +9,10 @@ IMAGE_NAME=$REGISTRY/$ORGANIZATION/rpm_build:$TAG
 
 set -e
 
-docker build . -t $IMAGE_NAME
+bundle
+BUNDLER_VERSION=$(ruby -I lib -r manageiq-rpm_build -e "puts ManageIQ::RPMBuild::OPTIONS['bundler_version']")
+
+docker build . -t $IMAGE_NAME --build-arg BUNDLER_VERSION=$BUNDLER_VERSION
 
 [[ $TRAVIS_PULL_REQUEST != "false" ]] && exit 0
 
