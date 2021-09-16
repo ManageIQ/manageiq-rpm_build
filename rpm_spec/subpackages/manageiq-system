@@ -36,6 +36,7 @@ Requires: openldap-clients
 %{_bindir}/pg_inspector_server.sh
 %{_prefix}/lib/systemd/system/cloud-ds-check.service
 %{_prefix}/lib/systemd/system/evm*
+%{_prefix}/lib/systemd/system/manageiq-initialize.service
 %{_prefix}/lib/systemd/system/miq*
 %{_sbindir}/ifup-local
 %{_sysconfdir}/cloud/cloud.cfg.d/10_miq_*.cfg
