@@ -33,9 +33,6 @@ Requires: openldap-clients
 %{_bindir}/miq*
 %{_bindir}/normalize_userid_to_upn
 %{_bindir}/pg_inspector_server.sh
-%{_prefix}/lib/systemd/system/cloud-ds-check.service
-%{_prefix}/lib/systemd/system/evm*
-%{_prefix}/lib/systemd/system/miq*
 %{_sbindir}/ifup-local
 %{_sysconfdir}/cloud/cloud.cfg.d/10_miq_*.cfg
 %{_sysconfdir}/cron.hourly/miq*
