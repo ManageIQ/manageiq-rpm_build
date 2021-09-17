@@ -11,7 +11,8 @@ Requires: mod_ssl
 # These files are not owned by the rpm.
 #  For upgrades, ensure they have the correct group privs
 #  so root and manageiq users can read them.
-%{__chown} -f manageiq.manageiq %{app_root}/public/{pictures,upload}/*
+if [[ -e %{app_root}/public/pictures/* ]]; then %{__chown} -f manageiq.manageiq %{app_root}/public/pictures/*; fi
+if [[ -e %{app_root}/public/upload/* ]]; then %{__chown} -f manageiq.manageiq %{app_root}/public/upload/*; fi
 
 %files ui
 %defattr(-,root,root,-)
