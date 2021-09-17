@@ -96,6 +96,7 @@ fi
 %{_sysconfdir}/motd.manageiq
 %{_prefix}/lib/systemd/system/cloud-ds-check.service
 %{_prefix}/lib/systemd/system/evm-failover-monitor.service
+%{_prefix}/lib/systemd/system/evm-watchdog.service
 %{_prefix}/lib/systemd/system/evminit.service
 %{_prefix}/lib/systemd/system/evmserverd.service
 %{_prefix}/lib/systemd/system/manageiq-initialize.service
