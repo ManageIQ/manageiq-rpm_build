@@ -37,13 +37,13 @@ rpm_repository:
   - s390x
   - x86_64
   :content:
-    :12-lasker:
+    :13-morphy:
       :targets:
       - el8
       :rpms:
         :kafka: !ruby/regexp /.+-2\.3.+/
-        :manageiq: !ruby/regexp /.+-12\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d(\.\d)?)?\.el.+/
-        :manageiq-release: !ruby/regexp /.+-12\.0.+/
+        :manageiq: !ruby/regexp /.+-13\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d(\.\d)?)?\.el.+/
+        :manageiq-release: !ruby/regexp /.+-13\.0.+/
         :python-bambou: !ruby/regexp /.+-3\.1\.1.+/
         :python-pylxca: !ruby/regexp /.+-2\.1\.1.+/
         :python-unittest2: !ruby/regexp /.+-1\.1\.0.+/
@@ -52,8 +52,8 @@ rpm_repository:
         :repmgr10: !ruby/regexp /.+-4\.0\.6.+/
         :smem: !ruby/regexp /.+-1\.5.+/
         :wmi: !ruby/regexp /.+-1\.3\.14.+/
-    :12-lasker-nightly:
+    :13-morphy-nightly:
       :targets:
       - el8
       :rpms:
-        :manageiq-nightly: !ruby/regexp /.+-12\.\d\.\d-\d\.\d\.\d+\.el.+/
+        :manageiq-nightly: !ruby/regexp /.+-13\.\d\.\d-(\d\.\d\.)?\d+\.el.+/
