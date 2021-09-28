@@ -4,9 +4,6 @@ Requires: hostname
 Requires: iproute
 Requires: nmap-ncat
 
-# For Email
-Requires: postfix
-
 # For log rotate
 Requires: cronie
 Requires: logrotate
