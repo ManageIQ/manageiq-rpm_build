@@ -1,4 +1,6 @@
+---
 jobs:
   include:
-    - stage: build and push container image
-      script: bin/build_container_image
+  - stage: build and push container image
+    script: bin/build_container_image
+dist: bionic
