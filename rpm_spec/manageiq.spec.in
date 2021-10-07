@@ -48,7 +48,7 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{gemset_builddir}
 %build
 cd %{_builddir}
 
-cat <<"EOF" > %{appliance_builddir}/LINK/etc/default/manageiq-productization.properties
+cat <<"EOF" > %{appliance_builddir}/COPY/etc/default/manageiq-productization.properties
 APPLIANCE_SOURCE_DIRECTORY=%{appliance_root}
 APPLIANCE_TEMPLATE_DIRECTORY=%{appliance_root}/TEMPLATE
 GEM_HOME=%{gemset_root}
@@ -69,8 +69,11 @@ cd %{_builddir}
 
 ### from appliance
 %{__mkdir} -p %{buildroot}%{appliance_root}
-%{__cp} -a %{appliance_builddir}/* %{buildroot}%{appliance_root}
+%{__cp} -a %{appliance_builddir}/COPY/. %{buildroot}/
 %{__mkdir} -p %{buildroot}/etc/httpd/conf.d
+
+%{__cp} -a %{appliance_builddir}/* %{buildroot}%{appliance_root}
+%{__rm} -rf %{buildroot}%{appliance_root}/COPY
 
 ### from gemset
 %{__mkdir} -p %{buildroot}%{gemset_root}
@@ -107,34 +110,6 @@ mkdir -p %{buildroot}/usr/share/ansible/roles/
 for i in %{buildroot}%{app_root}/content/ansible_consolidated/roles/* ; do
   %{__mv} $i %{buildroot}/usr/share/ansible/roles/
 done
-
-## from appliance
-#symlink some executables
-%{__mkdir} -p %{buildroot}/%{_bindir}
-pushd ./%{appliance_builddir}/LINK/usr/bin
-  for filename in `ls`; do
-    ln -s %{appliance_root}/LINK/usr/bin/$filename %{buildroot}/%{_bindir}/$filename
-  done
-popd
-
-#symlink some configuration files
-pushd ./%{appliance_builddir}/LINK/etc
-  for dirname in `ls`; do
-    pushd ./$dirname
-      %{__mkdir} -p %{buildroot}/%{_sysconfdir}/$dirname
-      for filename in `ls`; do
-        ln -s %{appliance_root}/LINK/etc/$dirname/$filename %{buildroot}/%{_sysconfdir}/$dirname/$filename
-      done
-    popd
-  done
-popd
-
-pushd ./%{appliance_builddir}/LINK
-  ln -s %{appliance_root}/LINK/.toprc %{buildroot}/.toprc
-popd
-
-#copy all files/directories below COPY
-%{__cp} -a ./%{appliance_builddir}/COPY/* %{buildroot}/
 
 %clean
 rm -rf $RPM_BUILD_ROOT
