@@ -2,8 +2,8 @@
 
 NPM_REGISTRY_OVERRIDE="$1"
 
-yarn config set registry ${NPM_REGISTRY_OVERRIDE}
-yarn config set strict-ssl false
+yarn config set npmRegistryServer ${NPM_REGISTRY_OVERRIDE}
+yarn config set enableStrictSsl false
 
 # Replace registry in existing yarn.lock
 ui_plugin_repos=`rake update:print_engines | grep path: | cut -d: -f2`
