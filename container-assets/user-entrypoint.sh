@@ -15,5 +15,4 @@ else
 fi
 
 cd /build_scripts
-bundle
 $cmd
