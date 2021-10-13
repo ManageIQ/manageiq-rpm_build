@@ -1,5 +1,6 @@
 .rubocop-*
 Gemfile.lock
+BUILD/
 OPTIONS/
 rpm_cache/
 rpm_spec/*.spec
