@@ -165,6 +165,10 @@ module ManageIQ
           # Remove files with inappropriate license
           FileUtils.rm_rf(Dir.glob("gems/pdf-writer-*/demo")) # Creative Commons Attribution NonCommercial
 
+          # Remove files with private keys in sample / example directories
+          FileUtils.rm_rf(Dir.glob("gems/httpclient-*/sample"))
+          FileUtils.rm_rf(Dir.glob("gems/qpid_proton-*/examples"))
+
           # Remove ffi ext directory, this causes rpm build failure
           FileUtils.rm_rf(Dir.glob("gems/ffi-*/ext"))
 
