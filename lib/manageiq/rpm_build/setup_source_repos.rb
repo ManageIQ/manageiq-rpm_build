@@ -39,7 +39,15 @@ module ManageIQ
           git_clone(OPTIONS.repos.manageiq, "manageiq")
           git_clone(OPTIONS.repos.manageiq_ui_service, "manageiq-ui-service")
         end
+        setup_bundler_d_dir
         post_setup_source_repo
+      end
+
+      def setup_bundler_d_dir
+        bundler_d_dir = OPTIONS_DIR.join("bundler.d")
+        return unless bundler_d_dir.exist?
+
+        FileUtils.cp_r(bundler_d_dir.glob("*"), BUILD_DIR.join("manageiq", "bundler.d"))
       end
 
       def post_setup_source_repo
