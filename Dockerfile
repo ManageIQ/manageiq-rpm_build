@@ -50,6 +50,8 @@ RUN if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install py
 RUN npm install yarn -g
 
 RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
+COPY Gemfile /build_scripts/Gemfile
+RUN cd /build_scripts && bundle
 
 COPY . /build_scripts
 
