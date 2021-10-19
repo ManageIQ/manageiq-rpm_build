@@ -1,21 +1,24 @@
 FROM registry.access.redhat.com/ubi8/ubi:8.4
 
-ARG ARCH=x86_64
 ARG BUNDLER_VERSION
 
 ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
+
 RUN dnf -y update
 
 RUN curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo
 
 RUN sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf
 
-RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
-                                                    http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm; fi && \
-    dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
-                   https://rpm.manageiq.org/release/14-najdorf/el8/noarch/manageiq-release-14.0-1.el8.noarch.rpm && \
+RUN ARCH=$(uname -m) && \
+    if [ ${ARCH} != "s390x" ] ; then dnf -y install \
+      http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
+      http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm ; fi && \
+    dnf -y install \
+      https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
+      https://rpm.manageiq.org/release/14-najdorf/el8/noarch/manageiq-release-14.0-1.el8.noarch.rpm && \
     dnf -y module enable ruby:2.6 && \
     dnf -y module enable nodejs:12 && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y module disable virt:rhel; fi && \
@@ -43,9 +46,8 @@ RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/cen
       ruby-devel \
       wget && \
     dnf -y update libarchive && \
+    if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi && \
     dnf clean all
-
-RUN if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi
 
 RUN npm install yarn -g
 
