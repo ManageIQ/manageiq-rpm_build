@@ -1,6 +1,7 @@
 FROM registry.access.redhat.com/ubi8/ubi:8.4
 
 ARG ARCH=x86_64
+ARG BUNDLER_VERSION
 
 ENV TERM=xterm \
     APPLIANCE=true \
@@ -40,7 +41,6 @@ RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/cen
       postgresql-server-devel \
       qpid-proton-c-devel \
       ruby-devel \
-      rubygem-bundler \
       wget && \
     dnf -y update libarchive && \
     dnf clean all
@@ -52,5 +52,7 @@ RUN npm install yarn -g
 RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
 
 COPY . /build_scripts
+
+RUN gem install bundler -v $BUNDLER_VERSION
 
 ENTRYPOINT ["/build_scripts/container-assets/user-entrypoint.sh"]
