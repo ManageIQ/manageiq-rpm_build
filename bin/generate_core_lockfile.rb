@@ -14,7 +14,7 @@ exit $?.exitstatus unless system("git clone https://github.com/ManageIQ/manageiq
 FileUtils.cp("/tmp/manageiq-appliance/manageiq-appliance-dependencies.rb", "/tmp/lock_generator/bundler.d/")
 
 # Generate Gemfile.lock
-exit $?.exitstatus unless system({"APPLIANCE" => "true", "BUNDLE_GEMFILE" => ENV["BUNDLE_GEMFILE"]}, "bundle update --jobs=8")
+exit $?.exitstatus unless system({"APPLIANCE" => "true", "BUNDLE_GEMFILE" => ENV["BUNDLE_GEMFILE"]}, "bundle update --jobs=8 --retry=3")
 
 # Generate the lockfiles
 p = Bundler::LockfileParser.new(Bundler.read_file("#{ENV["BUNDLE_GEMFILE"]}.lock"))
