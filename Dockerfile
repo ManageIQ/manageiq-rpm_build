@@ -4,13 +4,10 @@ ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
 
-RUN dnf -y update
-
-RUN curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo
-
-RUN sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf
-
-RUN ARCH=$(uname -m) && \
+RUN sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf && \
+    dnf -y update && \
+    curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo && \
+    ARCH=$(uname -m) && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y install \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm ; fi && \
@@ -45,7 +42,8 @@ RUN ARCH=$(uname -m) && \
       wget && \
     dnf -y update libarchive && \
     if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi && \
-    dnf clean all
+    dnf clean all && \
+    rm -rf /var/cache/dnf
 
 RUN npm install yarn -g
 
