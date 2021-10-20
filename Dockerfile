@@ -1,7 +1,5 @@
 FROM registry.access.redhat.com/ubi8/ubi:8.4
 
-ARG BUNDLER_VERSION
-
 ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
@@ -55,6 +53,6 @@ RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
 
 COPY . /build_scripts
 
-RUN gem install bundler -v $BUNDLER_VERSION
+RUN gem install bundler
 
 ENTRYPOINT ["/build_scripts/container-assets/user-entrypoint.sh"]

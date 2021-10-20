@@ -8,11 +8,10 @@ module ManageIQ
     class GenerateGemSet
       include Helper
 
-      attr_reader :current_env, :bundler_version, :manifest_dir, :miq_dir
+      attr_reader :current_env, :manifest_dir, :miq_dir
 
       def initialize
         where_am_i
-        @bundler_version = OPTIONS.bundler_version
         @manifest_dir    = BUILD_DIR.join("manifest")
         @miq_dir         = BUILD_DIR.join("manageiq")
       end
@@ -50,7 +49,6 @@ module ManageIQ
         FileUtils.rm_rf(GEM_HOME) if GEM_HOME.exist?
         FileUtils.mkdir(GEM_HOME)
         cmd = "gem install bundler"
-        cmd << " -v #{bundler_version}" if bundler_version
         shell_cmd(cmd)
       end
 
@@ -74,10 +72,10 @@ module ManageIQ
           lock_release = miq_dir.join("Gemfile.lock.release")
           if lock_release.exist?
             FileUtils.ln_s(lock_release, "Gemfile.lock", :force => true)
-            shell_cmd("bundle _#{bundler_version}_ lock --update --conservative --patch") if build_type == "nightly"
+            shell_cmd("bundle lock --update --conservative --patch") if build_type == "nightly"
           end
 
-          shell_cmd("bundle _#{bundler_version}_ install --jobs #{cpus} --retry 3")
+          shell_cmd("bundle install --jobs #{cpus} --retry 3")
 
           if OPTIONS.npm_registry
             shell_cmd("#{SCRIPT_DIR.join("npm_registry/yarn_registry_setup.sh")} #{OPTIONS.npm_registry}")
@@ -140,7 +138,7 @@ module ManageIQ
 
         output  = manifest_dir.join("#{type}_manifest.csv")
         columns = "name version licenses"
-        shell_cmd("BUNDLER_VERSION=#{bundler_version} license_finder report --format csv --write-headers --aggregate-paths #{repos} --columns #{columns} --save #{output}")
+        shell_cmd("license_finder report --format csv --write-headers --aggregate-paths #{repos} --columns #{columns} --save #{output}")
       end
 
       private
