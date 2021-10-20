@@ -21,7 +21,6 @@ rpm:
   product_summary: ManageIQ Management Engine
   product_url:     https://github.com/ManageIQ/manageiq
   changelog:
-bundler_version:   2.1.4
 npm_registry:      https://npm.manageiq.org
 rpm_repository:
   digitalocean_access_token:
