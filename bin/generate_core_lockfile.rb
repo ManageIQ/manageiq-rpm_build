@@ -10,7 +10,7 @@ FileUtils.cp("/mnt/Gemfile", "/tmp/lock_generator/")
 FileUtils.cp("/mnt/Gemfile.release.rb", "/tmp/lock_generator/bundler.d/") if File.file?("/mnt/Gemfile.release.rb")
 branch = Bundler.load.dependencies.detect { |i| i.name == "manageiq-api" }.branch
 puts "Bundling for branch: #{branch}..."
-exit $?.exitstatus unless system("git clone https://github.com/ManageIQ/manageiq-appliance.git -b #{branch} /tmp/manageiq-appliance")
+exit $?.exitstatus unless system("git clone --branch #{branch} --depth 1 https://github.com/ManageIQ/manageiq-appliance.git  /tmp/manageiq-appliance")
 FileUtils.cp("/tmp/manageiq-appliance/manageiq-appliance-dependencies.rb", "/tmp/lock_generator/bundler.d/")
 
 # Generate Gemfile.lock
