@@ -39,7 +39,6 @@ RUN dnf -y remove subscription-manager* && \
       postgresql-server-devel \
       qpid-proton-c-devel \
       ruby-devel \
-      rubygem-bundler \
       wget && \
     dnf -y update libarchive && \
     dnf clean all
@@ -51,5 +50,7 @@ RUN npm install yarn -g
 RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
 
 COPY . /build_scripts
+
+RUN gem install bundler
 
 ENTRYPOINT ["/build_scripts/container-assets/user-entrypoint.sh"]
