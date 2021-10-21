@@ -83,7 +83,7 @@ module ManageIQ
 
           # HACK: Use Python 2.7 for ppc64 and s390x
           # TODO: Find out why...
-          shell_cmd("npm config --global set python /usr/bin/python2.7") if RUBY_PLATFORM.split("-").first != "x86_64"
+          shell_cmd("npm config --global set python /usr/bin/python2.7") if Gem::Platform.local.cpu != "x86_64"
 
           shell_cmd("rake update:ui")
 
