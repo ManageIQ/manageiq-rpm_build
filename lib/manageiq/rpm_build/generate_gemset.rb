@@ -81,6 +81,10 @@ module ManageIQ
             shell_cmd("#{SCRIPT_DIR.join("npm_registry/yarn_registry_setup.sh")} #{OPTIONS.npm_registry}")
           end
 
+          # HACK: Use Python 2.7 for ppc64 and s390x
+          # TODO: Find out why...
+          shell_cmd("npm config --global set python /usr/bin/python2.7") if RUBY_PLATFORM.split("-").first != "x86_64"
+
           shell_cmd("rake update:ui")
 
           # Add .bundle, bin, manifest and Gemfile.lock to the gemset
