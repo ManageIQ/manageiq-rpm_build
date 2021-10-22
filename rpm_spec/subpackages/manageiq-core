@@ -14,12 +14,14 @@ Requires: net-snmp
 Requires: net-snmp-libs
 Requires: net-snmp-utils
 Requires: socat
+Requires: core-utils
+Requires: shadow-utils
 
 %description core
 %{product_summary} Core
 
 %pre core
-# ensure this user exists (build and upgrade)
+# if this user does not exist, then add them (with no password or home directory)
 /usr/bin/id manageiq > /dev/null 2>&1 || /usr/sbin/useradd --system manageiq
 
 %posttrans core
