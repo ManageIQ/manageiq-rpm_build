@@ -32,9 +32,6 @@ Requires: cyrus-sasl-plain
 Requires: python3-vspk
 Requires: qpid-proton-c
 
-# For IMS
-Requires: v2v-conversion-host-ansible
-
 # For Appliance Console
 Requires: libsodium-devel
 Requires: network-scripts
