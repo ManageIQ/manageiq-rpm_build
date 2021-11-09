@@ -82,6 +82,20 @@ namespace :release do
     root = Pathname.new(__dir__).join("../..")
 
     branch_number = branch[0].ord - 96
+    rpm_repo_name = "#{branch_number}-#{branch}"
+
+    date     = Time.now.strftime("%a %b %-d %Y")
+    username = `git config user.name`.chomp
+    email    = `git config user.email`.chomp
+    changelog_version = "* #{date} #{username} <#{email}> - #{branch_number}.0"
+    changelog_text    = "- Initial build of manageiq-release for #{branch.capitalize}."
+
+    # Modify Dockerfile
+    dockerfile = root.join("Dockerfile")
+    content = dockerfile.read
+    content.sub!(%r{(rpm.manageiq.org/release/)\d+-\w+(/)}, "\\1#{rpm_repo_name}\\2")
+    content.sub!(%r{(manageiq-release-)\d+}, "\\1#{branch_number}")
+    dockerfile.write(content)
 
     # Modify options.yml
     options = root.join("config", "options.yml")
@@ -91,8 +105,31 @@ namespace :release do
     content.sub!(/^(\s{2}release:\s+).+$/, "\\10")
     options.write(content)
 
+    # Rename files
+    old_package = root.join("packages", "manageiq-release").glob("manageiq-*.repo").first
+    new_package = root.join("packages", "manageiq-release", "manageiq-#{rpm_repo_name}.repo")
+    FileUtils.mv(old_package, new_package) unless old_package == new_package
+
+    # Modify manageiq-release repo
+    content = new_package.read
+    content.gsub!(/(\[manageiq-)\d+-\w+/, "\\1#{rpm_repo_name}")
+    content.gsub!(/(name=ManageIQ )\d+ \(\w+\)/, "\\1#{branch_number} (#{branch.capitalize})")
+    content.gsub!(%r{(rpm.manageiq.org/release/)\d+-\w+(/)}, "\\1#{rpm_repo_name}\\2")
+    new_package.write(content)
+
+    # Modify manageiq-release spec
+    spec = root.join("packages", "manageiq-release", "manageiq-release.spec")
+    content = spec.read
+    content.sub!(/(Version:\s+)[\d.]+/, "\\1#{branch_number}.0")
+    content.sub!(/(Release:\s+).+$/, "\\11\%{dist}")
+    content.sub!(/(Source1:\s+manageiq-)\d+-\w+(\.repo)/, "\\1#{rpm_repo_name}\\2")
+    unless content.include?(changelog_text)
+      content.sub!("\%changelog", "\%changelog\n#{changelog_version}-1\%{dist}\n#{changelog_text}\n")
+    end
+    spec.write(content)
+
     # Commit
-    files_to_update = [options]
+    files_to_update = [dockerfile, options, old_package, new_package, spec]
     exit $?.exitstatus unless system("git add #{files_to_update.join(" ")}")
     exit $?.exitstatus unless system("git commit -m 'Changes for new branch #{branch}'")
 
@@ -135,7 +172,7 @@ namespace :release do
     username = `git config user.name`.chomp
     email    = `git config user.email`.chomp
     changelog_version = "* #{date} #{username} <#{email}> - #{next_branch_number}.0"
-    changelog_text    = "- Initial build of manageiq-release for #{next_branch.capitalize}"
+    changelog_text    = "- Initial build of manageiq-release for #{next_branch.capitalize}."
 
     # Modify Dockerfile
     dockerfile = root.join("Dockerfile")
@@ -172,13 +209,17 @@ namespace :release do
     content.sub!(/(Version:\s+)[\d.]+/, "\\1#{next_branch_number}.0")
     content.sub!(/(Release:\s+).+$/, "\\11\%{dist}")
     content.sub!(/(Source1:\s+manageiq-)\d+\w+(\.repo)/, "\\1#{rpm_repo_name}\\2")
-    content.sub!("\%changelog", "\%changelog\n#{changelog_version}-1\%{dist}\n#{changelog_text}\n")
+    unless content.include?(changelog_text)
+      content.sub!("\%changelog", "\%changelog\n#{changelog_version}-1\%{dist}\n#{changelog_text}\n")
+    end
     spec.write(content)
 
     # Modify rpm_spec changelog
     changelog = root.join("rpm_spec", "changelog")
     content = changelog.read
-    content.sub!("\%changelog", "\%changelog\n#{changelog_version}.0-1\n#{changelog_text}\n")
+    unless content.include?(changelog_text)
+      content.sub!("\%changelog", "\%changelog\n#{changelog_version}.0-1\n#{changelog_text}\n")
+    end
     changelog.write(content)
 
     # Commit
