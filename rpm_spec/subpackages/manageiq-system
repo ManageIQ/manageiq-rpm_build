@@ -21,7 +21,6 @@ Requires: openldap-clients
 %{app_root}/log/apache
 %dir %{manifest_root}
 %{_bindir}/cloud_ds_check.sh
-%{_bindir}/cockpit-auth-miq
 %{_bindir}/evm*
 %{_bindir}/fix_auth
 %{_bindir}/generate_miq_server_cert.sh

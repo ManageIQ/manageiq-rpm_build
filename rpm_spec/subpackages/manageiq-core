@@ -6,9 +6,6 @@ Requires: %{name}-gemset = %{version}-%{release}
 
 Requires: ansible
 Requires: ansible-runner
-Requires: cockpit
-Requires: cockpit-ssh
-Requires: cockpit-ws
 Requires: git
 Requires: net-snmp
 Requires: net-snmp-libs
