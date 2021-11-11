@@ -5,13 +5,12 @@ ARG ARCH=x86_64
 ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
-RUN dnf -y update
 
 RUN curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo
 
-RUN sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf
-
-RUN if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
+RUN dnf -y remove subscription-manager* && \
+    dnf -y update && \
+    if [ ${ARCH} != "s390x" ] ; then dnf -y install http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
                                                     http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm; fi && \
     dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
                    https://rpm.manageiq.org/release/13-morphy/el8/noarch/manageiq-release-13.0-1.el8.noarch.rpm && \
