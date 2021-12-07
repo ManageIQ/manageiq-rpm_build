@@ -14,8 +14,8 @@ repos:
 version:
 release:
 rpm:
-  version: 13.0.0
-  release: 0
+  version: 13.1.0
+  release: 0.1
   repo_name:
   org_name: manageiq
   product_summary: ManageIQ Management Engine
