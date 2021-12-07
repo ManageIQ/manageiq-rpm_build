@@ -23,7 +23,7 @@ task :release do
   minor_patch << ".0" unless minor_patch.include?(".")
   new_version = "#{major}.#{minor_patch}"
 
-  root = Pathname.new(__dir__)
+  root = Pathname.new(__dir__).join("../..")
 
   # Update rpm version and release
   options = root.join("config", "options.yml")
