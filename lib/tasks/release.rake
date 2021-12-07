@@ -52,7 +52,7 @@ task :release do
   exit $?.exitstatus unless system("git commit -m 'Release #{version}'")
 
   # Tag
-  exit $?.exitstatus unless system("git tag #{version}")
+  exit $?.exitstatus unless system("git tag #{version} -m 'Release #{version}'")
 
   puts
   puts "The commit on #{branch} with the tag #{version} has been created"
