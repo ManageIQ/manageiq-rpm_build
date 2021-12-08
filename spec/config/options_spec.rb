@@ -1,20 +1,22 @@
 RSpec.describe "options.yml" do
-  let(:options) { ManageIQ::RPMBuild::OPTIONS }
+  options = ManageIQ::RPMBuild::OPTIONS
+  major_version = options.rpm.version.split(".").first
+  name_version = options.rpm_repository.content.keys.first.to_s.split("-")[0..1].join("-")
 
   nightly_versions = [
-    "14.1.0-20211208000053",
-    "14.1.0-20211209000053",
+    "#{major_version}.1.0-20211208000053",
+    "#{major_version}.1.0-20211209000053",
   ]
 
   release_versions = [
-    "14.1.0-alpha1",
-    "14.1.1-beta1",
-    "14.1.2-rc1",
-    "14.1.3-rc2",
-    "14.1.4-1",
-    "14.1.4-1.1",
-    "14.1.5-1",
-    "14.2.1-1",
+    "#{major_version}.1.0-alpha1",
+    "#{major_version}.1.1-beta1",
+    "#{major_version}.1.2-rc1",
+    "#{major_version}.1.3-rc2",
+    "#{major_version}.1.4-1",
+    "#{major_version}.1.4-1.1",
+    "#{major_version}.1.5-1",
+    "#{major_version}.2.1-1",
   ]
 
   suffixes = [
@@ -37,7 +39,7 @@ RSpec.describe "options.yml" do
   end
 
   describe "nightly repo" do
-    let(:repo) { "14-najdorf-nightly" }
+    let(:repo) { "#{name_version}-nightly" }
     context "manageiq rpms" do
       suffixes.each do |suffix|
         release_versions.each do |version|
@@ -54,11 +56,11 @@ RSpec.describe "options.yml" do
   end
 
   describe "release repo" do
-    let(:repo) { "14-najdorf" }
+    let(:repo) { name_version }
     context "manageiq-release rpms" do
       [
-        "manageiq-release-14.0-1.el8.noarch.rpm",
-        "manageiq-release-14.0-2.el8.noarch.rpm",
+        "manageiq-release-#{major_version}.0-1.el8.noarch.rpm",
+        "manageiq-release-#{major_version}.0-2.el8.noarch.rpm",
       ].each { |file| include_examples("expect_included_rpm", file, "manageiq-release") }
     end
 
