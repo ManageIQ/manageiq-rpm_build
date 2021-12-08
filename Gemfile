@@ -9,3 +9,7 @@ gem 'more_core_extensions'
 gem 'optimist'
 gem 'rake',           ">=12.3.3"
 gem 'term-ansicolor'
+
+group :test do
+  gem "rspec-rails", "~>4.0"
+end
