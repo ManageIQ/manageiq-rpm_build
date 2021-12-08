@@ -41,7 +41,7 @@ rpm_repository:
       - el8
       :rpms:
         :kafka: !ruby/regexp /.+-2\.3.+/
-        :manageiq: !ruby/regexp /.+-13\.\d\.\d-\d(\.\d\.(alpha|beta|rc)\d(\.\d)?)?\.el.+/
+        :manageiq: !ruby/regexp /.+-13\.\d\.\d-(alpha|beta|rc)?\d(\.\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-13\.0.+/
         :python-bambou: !ruby/regexp /.+-3\.1\.1.+/
         :python-pylxca: !ruby/regexp /.+-2\.1\.1.+/
@@ -55,4 +55,4 @@ rpm_repository:
       :targets:
       - el8
       :rpms:
-        :manageiq-nightly: !ruby/regexp /.+-13\.\d\.\d-(\d\.\d\.)?\d+\.el.+/
+        :manageiq-nightly: !ruby/regexp /.+-13\.\d\.\d-(\d\.\d\.)?\d{14,}+\.el.+/
