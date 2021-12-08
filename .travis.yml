@@ -1,6 +1,12 @@
 ---
+language: ruby
+cache: bundler
+rvm:
+- 2.5.8
+- 2.6.6
 jobs:
   include:
   - stage: build and push container image
+    rvm: 2.6.6
     script: bin/build_container_image
 dist: bionic
