@@ -1,6 +1,7 @@
 require 'json'
 require 'pathname'
 require 'yaml'
+require 'active_support'
 require 'active_support/core_ext/time/calculations' # Required for Time#change
 
 module ManageIQ
