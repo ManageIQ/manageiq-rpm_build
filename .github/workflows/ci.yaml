@@ -20,6 +20,7 @@ jobs:
     - name: Run tests
       run: bundle exec rake
   build:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up environment
