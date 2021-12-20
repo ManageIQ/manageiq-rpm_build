@@ -4,7 +4,7 @@ ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
 
-RUN dnf -y remove subscription-manager* && \
+RUN dnf -y remove *subscription-manager* && \
     dnf -y update && \
     curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo && \
     ARCH=$(uname -m) && \
