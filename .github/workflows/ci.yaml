@@ -20,18 +20,17 @@ jobs:
     - name: Run tests
       run: bundle exec rake
   build:
+    needs: ci
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up environment
-      run: |
-        echo "TRAVIS_PULL_REQUEST=${{ github.base_ref == '' && 'false' || 'true' }}" >> $GITHUB_ENV
     - name: Set up registry credentials
-      if: ${{ github.base_ref == '' }}
+      if: ${{ github.event_name != 'pull_request' }}
       run: |
-        echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
         echo "REGISTRY_USERNAME=${{ secrets.REGISTRY_USERNAME }}" >> $GITHUB_ENV
+        echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
     - name: Run container build script
       run: bin/build_container_image
       env:
+        TRAVIS_PULL_REQUEST: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
         TRAVIS_BRANCH: ${{ env.GITHUB_REF_NAME }}
