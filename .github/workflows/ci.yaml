@@ -24,6 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Set TRAVIS ENV variables
+      run: |
+        echo "TRAVIS_PULL_REQUEST=${{ github.event.number || false }}" >> $GITHUB_ENV
+        TRAVIS_BRANCH="${{ github.head_ref }}" && \
+          echo "TRAVIS_BRANCH=${TRAVIS_BRANCH:-$(echo $GITHUB_REF | cut -d '/' -f 3-)}" >> $GITHUB_ENV
     - name: Set up registry credentials
       if: ${{ github.event_name != 'pull_request' }}
       run: |
@@ -31,6 +36,3 @@ jobs:
         echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
     - name: Run container build script
       run: bin/build_container_image
-      env:
-        TRAVIS_PULL_REQUEST: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
-        TRAVIS_BRANCH: ${{ env.GITHUB_REF_NAME }}
