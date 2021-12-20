@@ -32,5 +32,5 @@ jobs:
     - name: Run container build script
       run: bin/build_container_image
       env:
+        TRAVIS_BRANCH: ${{ github.ref }}
         TRAVIS_PULL_REQUEST: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
-        TRAVIS_BRANCH: ${{ env.GITHUB_REF_NAME }}
