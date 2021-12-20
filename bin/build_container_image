@@ -3,7 +3,8 @@
 REGISTRY=${REGISTRY:-"docker.io"}
 ORGANIZATION=${ORGANIZATION:-"manageiq"}
 DEFAULT_TAG="latest"
-[[ $TRAVIS_BRANCH != "master" ]] && DEFAULT_TAG="$DEFAULT_TAG-$TRAVIS_BRANCH"
+[ "$GITHUB_EVENT_NAME" == "push" -a "$GITHUB_REF_NAME" != "master" ] && \
+  DEFAULT_TAG="$DEFAULT_TAG-${GITHUB_REF_NAME/\//-}"
 TAG=${TAG:-"$DEFAULT_TAG"}
 DEFAULT_IMAGE_NAME=$REGISTRY/$ORGANIZATION/rpm_build:$TAG
 IMAGE_NAME=${IMAGE_NAME:-"$DEFAULT_IMAGE_NAME"}
@@ -12,7 +13,7 @@ set -e
 
 docker build . -t $IMAGE_NAME
 
-[[ $TRAVIS_PULL_REQUEST != "false" ]] && exit 0
+[[ -z "$REGISTRY_USERNAME" ]] && exit 0
 
 echo "$REGISTRY_PASSWORD" | docker login $REGISTRY -u $REGISTRY_USERNAME --password-stdin
 

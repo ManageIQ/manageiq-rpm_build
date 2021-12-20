@@ -24,11 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set TRAVIS ENV variables
-      run: |
-        echo "TRAVIS_PULL_REQUEST=${{ github.event.number || false }}" >> $GITHUB_ENV
-        TRAVIS_BRANCH="${{ github.head_ref }}" && \
-          echo "TRAVIS_BRANCH=${TRAVIS_BRANCH:-$(echo $GITHUB_REF | cut -d '/' -f 3-)}" >> $GITHUB_ENV
     - name: Set up registry credentials
       if: ${{ github.event_name != 'pull_request' }}
       run: |
