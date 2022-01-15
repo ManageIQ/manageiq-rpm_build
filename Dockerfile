@@ -4,8 +4,7 @@ ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
 
-RUN dnf -y remove *subscription-manager* && \
-    dnf -y update && \
+RUN dnf -y update && \
     curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo && \
     ARCH=$(uname -m) && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y install \
@@ -16,8 +15,7 @@ RUN dnf -y remove *subscription-manager* && \
       https://rpm.manageiq.org/release/14-najdorf/el8/noarch/manageiq-release-14.0-1.el8.noarch.rpm && \
     dnf -y module enable ruby:2.7 && \
     dnf -y module enable nodejs:12 && \
-    if [ ${ARCH} != "s390x" ] ; then dnf -y module disable virt:rhel; fi && \
-    dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save && \
+    dnf -y module disable virt:rhel && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --setopt=tsflags=nodocs --save && \
     dnf -y install \
