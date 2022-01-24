@@ -48,7 +48,7 @@ module ManageIQ
       def recreate_gem_home
         FileUtils.rm_rf(GEM_HOME) if GEM_HOME.exist?
         FileUtils.mkdir(GEM_HOME)
-        cmd = "gem install bundler"
+        cmd = "gem install bundler:#{`bundle -v`.chomp.split(" ").last}"
         shell_cmd(cmd)
       end
 
