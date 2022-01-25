@@ -4,9 +4,10 @@ ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
 
-RUN dnf -y update && \
+RUN ARCH=$(uname -m) && \
+    if [ ${ARCH} != "s390x" ] ; then dnf -y remove *subscription-manager*; fi && \
+    dnf -y update && \
     curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo && \
-    ARCH=$(uname -m) && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y install \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm ; fi && \
@@ -16,6 +17,7 @@ RUN dnf -y update && \
     dnf -y module enable ruby:2.7 && \
     dnf -y module enable nodejs:12 && \
     dnf -y module disable virt:rhel && \
+    if [ ${ARCH} != "s390x" ] ; then dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save; fi && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --setopt=tsflags=nodocs --save && \
     dnf -y install \
@@ -49,6 +51,6 @@ RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
 
 COPY . /build_scripts
 
-RUN gem install bundler
+RUN gem install bundler:2.3.4
 
 ENTRYPOINT ["/build_scripts/container-assets/user-entrypoint.sh"]
