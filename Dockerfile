@@ -40,6 +40,7 @@ RUN dnf -y remove subscription-manager* && \
       qpid-proton-c-devel \
       ruby-devel \
       wget && \
+    mkdir -p /root/.gem/ruby # $GEM_HOME && \
     dnf -y update libarchive && \
     dnf clean all
 
