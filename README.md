@@ -1,5 +1,7 @@
 # ManageIQ RPM Build
 
+[![CI](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml/badge.svg)](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml)
+
 ## Summary
 
 This repository contains code to build RPMs for ManageIQ appliances and container images.
