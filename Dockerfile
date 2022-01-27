@@ -51,6 +51,6 @@ RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
 
 COPY . /build_scripts
 
-RUN gem install bundler:2.3.4
+RUN gem install bundler
 
 ENTRYPOINT ["/build_scripts/container-assets/user-entrypoint.sh"]
