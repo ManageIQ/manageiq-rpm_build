@@ -1,4 +1,7 @@
 %changelog
+* Thu Feb 10 2022 ManageIQ <contact@manageiq.org> - 13.1.0-1
+- Morphy 1 build
+
 * Tue Dec 7 2021 ManageIQ <contact@manageiq.org> - 13.1.0-0.1.beta1
 - Morphy 1 Beta1 build
 
