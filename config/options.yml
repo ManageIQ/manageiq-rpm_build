@@ -1,7 +1,7 @@
 ---
 product_name:      manageiq
 repos:
-  ref:             master
+  ref:             najdorf
   manageiq:
     url:           https://github.com/ManageIQ/manageiq.git
     ref:
