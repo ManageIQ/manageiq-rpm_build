@@ -202,7 +202,7 @@ namespace :release do
     content = new_package.read
     content.gsub!(/(\[manageiq-)\d+-\w+/, "\\1#{rpm_repo_name}")
     content.gsub!(/(name=ManageIQ )\d+ \(\w+\)/, "\\1#{next_branch_number} (#{next_branch.capitalize})")
-    content.gsub!(%r{(rpm.manageiq.org/release/)\d+-\w+(/)}, "\\1#{rpm_repo_name}\\2")
+    content.gsub!(%r{(rpm.manageiq.org/release/)\d+-\w+([/-])}, "\\1#{rpm_repo_name}\\2")
     new_package.write(content)
 
     # Modify manageiq-release spec
