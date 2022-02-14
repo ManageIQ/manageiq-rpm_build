@@ -1,11 +1,11 @@
 Name:      manageiq-release
-Version:   14.0
-Release:   2%{dist}
+Version:   15.0
+Release:   1%{dist}
 Summary:   ManageIQ RPM repository configuration
 License:   Apache-2.0
 URL:       https://rpm.manageiq.org/release/
 Source0:   RPM-GPG-KEY-MANAGEIQ
-Source1:   manageiq-14-najdorf.repo
+Source1:   manageiq-15-oparin.repo
 BuildArch: noarch
 
 %description
@@ -36,6 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
+* Mon Feb 14 2022 Jason Frey <fryguy9@gmail.com> - 15.0-1%{dist}
+- Initial build of manageiq-release for Oparin.
+
 * Fri Sep 10 2021 Brandon Dunne <brandondunne@hotmail.com> - 14.0-2%{dist}
 - Fix repo url for Najdorf nightly
 
