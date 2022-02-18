@@ -26,7 +26,8 @@ module ManageIQ
             shell_cmd("rpmbuild -bs --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{RPM_SPEC_DIR}' #{rpm_spec}")
             shell_cmd("copr-cli build -r epel-8-x86_64 #{rpm_repo_name} #{OPTIONS.product_name}-*.src.rpm")
           else
-            shell_cmd("rpmbuild -bb --define '_sourcedir #{RPM_SPEC_DIR}' --define '_rpmdir #{BUILD_DIR.join("rpms")}' #{rpm_spec}")
+            arch = RUBY_PLATFORM.split("-").first
+            shell_cmd("rpmbuild -ba --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{BUILD_DIR.join("rpms", arch)}' --define '_rpmdir #{BUILD_DIR.join("rpms")}' #{rpm_spec}")
           end
         end
       end
