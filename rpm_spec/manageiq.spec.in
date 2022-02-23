@@ -90,7 +90,13 @@ cd %{_builddir}
 # Copy systemd unit files
 %{__mkdir} -p %{buildroot}%{_prefix}/lib/systemd/system
 %{__cp} -a %{core_builddir}/systemd/* %{buildroot}/%{_prefix}/lib/systemd/system
-%{__cp} -a %{gemset_builddir}/bundler/gems/*/systemd/* %{buildroot}/%{_prefix}/lib/systemd/system
+for gem_dir in %{gemset_builddir}/bundler/gems/*
+do
+  if [[ ! -L $gem_dir ]]
+    %{__cp} -a $gem_dir/systemd/* %{buildroot}/%{_prefix}/lib/systemd/system
+  then
+  fi
+done
 
 ### from manifest
 %{__mkdir} -p %{buildroot}%{manifest_root}
