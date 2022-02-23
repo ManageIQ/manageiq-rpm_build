@@ -12,8 +12,6 @@ Requires: repmgr10 >= 4.0.6
 Requires: lvm2
 Requires: memcached
 
-Requires: kafka
-
 # NTP
 Requires: chrony
 
