@@ -1,0 +1,41 @@
+[manageiq-14-najdorf]
+name=ManageIQ 14 (Najdorf) Release - $basearch
+baseurl=https://rpm.manageiq.org/release/14-najdorf/el$releasever/$basearch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-14-najdorf-noarch]
+name=ManageIQ 14 (Najdorf) Release - noarch
+baseurl=https://rpm.manageiq.org/release/14-najdorf/el$releasever/noarch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-14-najdorf-source]
+name=ManageIQ 14 (Najdorf) Release - source
+baseurl=https://rpm.manageiq.org/release/14-najdorf/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-14-najdorf-nightly]
+name=ManageIQ 14 (Najdorf) Nightly - $basearch
+baseurl=https://rpm.manageiq.org/release/14-najdorf-nightly/el$releasever/$basearch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-14-najdorf-nightly-noarch]
+name=ManageIQ 14 (Najdorf) Nightly - noarch
+baseurl=https://rpm.manageiq.org/release/14-najdorf-nightly/el$releasever/noarch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-14-najdorf-nightly-source]
+name=ManageIQ 14 (Najdorf) Nightly - source
+baseurl=https://rpm.manageiq.org/release/14-najdorf-nightly/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
