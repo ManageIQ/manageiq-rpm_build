@@ -57,6 +57,7 @@ module ManageIQ
           if RUBY_PLATFORM.match?(/powerpc64le|s390x/)
             shell_cmd("npm config --global set python /usr/bin/python2.7")
           end
+          system("yarn set version 1.22.18") || abort("\n== yarn failed to set version to 1.22.18 in #{engine.path} ==") if RUBY_PLATFORM.include?("s390x")
           shell_cmd("yarn install")
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
