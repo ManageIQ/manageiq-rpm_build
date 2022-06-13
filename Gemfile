@@ -11,5 +11,6 @@ gem 'rake',           ">=12.3.3"
 gem 'term-ansicolor'
 
 group :test do
-  gem "rspec-rails", "~>4.0"
+  gem "nokogiri", "~> 1.13", ">= 1.13.6" # indirect dependency of rspec-rails; added to fix CVEs
+  gem "rspec-rails", "~>5.1"
 end
