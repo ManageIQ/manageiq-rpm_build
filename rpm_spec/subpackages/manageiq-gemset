@@ -1,6 +1,7 @@
 %package gemset
 Summary: %{product_summary} Gemset
 BuildRequires: /usr/bin/pathfix.py
+BuildRequires: nodejs
 
 Requires: cifs-utils
 Requires: libpq
@@ -12,7 +13,6 @@ Requires: libxslt
 Requires: nfs-utils
 Requires: openscap-scanner
 Requires: openssl
-Requires: nodejs
 
 %ifarch x86_64
 Requires: wmi
