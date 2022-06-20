@@ -1,5 +1,6 @@
 %package ui
 Summary: %{product_summary} UI
+BuildRequires: nodejs
 Requires: %{name}-core = %{version}-%{release}
 Requires: httpd
 Requires: mod_ssl
