@@ -9,11 +9,13 @@ module ManageIQ
     class GenerateCore
       include Helper
 
-      attr_reader :miq_dir, :ui_service_dir
+      attr_reader :miq_dir, :ui_service_dir, :appliance_dir, :manifest_dir
 
       def initialize
-        @miq_dir = BUILD_DIR.join("manageiq")
+        @miq_dir        = BUILD_DIR.join("manageiq")
         @ui_service_dir = BUILD_DIR.join("manageiq-ui-service")
+        @appliance_dir  = BUILD_DIR.join("manageiq-appliance")
+        @manifest_dir   = MANIFEST_DIR
       end
 
       def build_file
@@ -85,6 +87,7 @@ module ManageIQ
         build_service_ui
         seed_ansible_runner
         compile_locale_files
+        generate_manifests
 
         if OPTIONS.npm_registry
           Dir.chdir(miq_dir) do
@@ -160,6 +163,20 @@ module ManageIQ
         end
         shell_cmd("rm #{miq_dir.join('locale/*/*.po')}")
         shell_cmd("rm #{miq_dir.join('locale/*.pot')}")
+      end
+
+      def generate_manifests
+        FileUtils.mkdir_p(manifest_dir)
+
+        [
+          miq_dir,        "BUILD",
+          appliance_dir,  "BUILD_APPLIANCE",
+          ui_service_dir, "BUILD_UI_SERVICE",
+          ROOT_DIR,       "BUILD_RPM_BUILD"
+        ].each_slice(2).each do |dir, file|
+          git_sha = Dir.chdir(dir) { `git rev-parse --short HEAD`.chomp }
+          manifest_dir.join(file).write("#{BUILD_DATE}_#{git_sha}")
+        end
       end
     end
   end
