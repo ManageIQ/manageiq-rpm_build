@@ -21,6 +21,7 @@ if [[ -e %{app_root}/public/upload/* ]]; then %{__chown} -f manageiq.manageiq %{
 %{app_root}/public/assets
 %{app_root}/public/packs
 %{app_root}/public/ui
+%{manifest_root}/BUILD_UI_SERVICE
 %{manifest_root}/npm_manifest.csv
 %{manifest_root}/webpack_modules_manifest.json
 %{manifest_root}/webpack_packages_manifest.json

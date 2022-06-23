@@ -61,4 +61,6 @@ done
 %exclude %{app_root}/public/ui
 %exclude %{app_root}/public/upload
 %exclude %{app_root}/log/apache
+%{manifest_root}/BUILD
+%{manifest_root}/BUILD_RPM_BUILD
 /usr/share/ansible/roles/

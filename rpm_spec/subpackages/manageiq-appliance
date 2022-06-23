@@ -86,3 +86,4 @@ fi
 %{_prefix}/lib/systemd/system/manageiq-initialize.service
 %{_prefix}/lib/systemd/system/miqtop.service
 %{_prefix}/lib/systemd/system/miqvmstat.service
+%{manifest_root}/BUILD_APPLIANCE

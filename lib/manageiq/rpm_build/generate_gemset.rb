@@ -12,7 +12,7 @@ module ManageIQ
 
       def initialize
         where_am_i
-        @manifest_dir    = BUILD_DIR.join("manifest")
+        @manifest_dir    = MANIFEST_DIR
         @miq_dir         = BUILD_DIR.join("manageiq")
       end
 
@@ -109,8 +109,7 @@ module ManageIQ
       def generate_dependency_manifest
         where_am_i
 
-        FileUtils.rm_rf(manifest_dir) if manifest_dir.exist?
-        FileUtils.mkdir(manifest_dir)
+        FileUtils.mkdir_p(manifest_dir)
 
         shell_cmd("gem install license_finder")
         generate_gem_manifest
