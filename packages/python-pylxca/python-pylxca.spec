@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        2.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        It is tool/api to connect LXCA from command line
 
 License:        Apache-2.0
@@ -38,6 +38,9 @@ Requires:       python3-unittest2
 # Remove bundled egg-info
 rm -rf pylxca.egg-info
 
+# Remove the test directory
+rm -rf pylxca/test
+
 %build
 %py3_build
 
@@ -51,5 +54,8 @@ rm -rf pylxca.egg-info
 %{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
 
 %changelog
+* Wed Jul 06 2022 Brandon Dunne <brandondunne@hotmail.com> - 2.1.1-2
+- Drop test directory since it shouldn't be needed in production and it pulls in python 2.7 due to the shebang
+
 * Thu Sep 24 2020 Satoe Imaishi <simaishi@redhat.com> - 2.1.1-1
 - Initial Release for ManageIQ
