@@ -36,7 +36,7 @@ Requires:       python3-unittest2
 %prep
 %autosetup -n %{srcname}-%{version}
 # Remove bundled egg-info
-rm -rf %{pypi_name}.egg-info
+rm -rf pylxca.egg-info
 
 %build
 %py3_build
@@ -48,7 +48,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE
 %{_bindir}/lxca_shell
 %{python3_sitelib}/%{srcname}
-%{python3_sitelib}/%{srcname}-%{version}-py?.?.egg-info
+%{python3_sitelib}/%{srcname}-%{version}-py*.egg-info
 
 %changelog
 * Thu Sep 24 2020 Satoe Imaishi <simaishi@redhat.com> - 2.1.1-1
