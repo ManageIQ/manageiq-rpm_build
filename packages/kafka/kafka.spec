@@ -1,7 +1,7 @@
 Name:             kafka
 Summary:          Apache Kafka is an open-source stream-processing software platform
-Version:          2.3.1
-Release:          2%{?dist}
+Version:          3.2.0
+Release:          1%{?dist}
 License:          Apache (v2)
 Group:            Applications
 URL:              https://kafka.apache.org
@@ -20,7 +20,7 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-root
 
 %global debug_package %{nil}
 %define __jar_repack 0
-%define gradle_version 5.6.4
+%define gradle_version 7.4.2
 %define kafka_home /opt/kafka
 %define kafka_group %{name}
 %define kafka_user %{name}
