@@ -108,6 +108,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jul 08 2022 "Adam Grare" <adam@grare.com> - 3.2.0-1
+- Upgrade to v3.2.0
+
 * Wed Nov 11 2020 "Brandon Dunne" <bdunne@redhat.com> - 2.3.1-2
 - Copy modified server.properties and zookeeper.properties config files to config-sample
 
