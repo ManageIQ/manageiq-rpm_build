@@ -2,6 +2,12 @@
 Summary:  %{product_summary} Core
 
 Requires: ruby
+# Include weak dependencies of Ruby that we actually need
+Requires: ruby-default-gems
+Requires: rubygem-bigdecimal
+Requires: rubygem-io-console
+Requires: rubygem-irb
+
 Requires: %{name}-gemset = %{version}-%{release}
 
 Requires: ansible
