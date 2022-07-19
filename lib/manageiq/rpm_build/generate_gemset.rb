@@ -68,6 +68,7 @@ module ManageIQ
           end
 
           shell_cmd("bundle config set --local with qpid_proton systemd")
+          shell_cmd("bundle config set --local build.rugged --with-ssh")
 
           lock_release = miq_dir.join("Gemfile.lock.release")
           if lock_release.exist?
