@@ -56,9 +56,6 @@ module ManageIQ
         where_am_i
 
         Dir.chdir(miq_dir) do
-          FileUtils.ln_s(BUILD_DIR.join("manageiq-appliance/manageiq-appliance-dependencies.rb"),
-                         "bundler.d/manageiq-appliance-dependencies.rb", :force => true)
-
           shell_cmd("gem env")
           shell_cmd("gem install mime-types -v 2.6.1")
 

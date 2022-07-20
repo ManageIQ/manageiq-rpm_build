@@ -8,10 +8,6 @@ require 'fileutils'
 FileUtils.mkdir_p("/tmp/lock_generator/bundler.d")
 FileUtils.cp("/mnt/Gemfile", "/tmp/lock_generator/")
 FileUtils.cp("/mnt/Gemfile.release.rb", "/tmp/lock_generator/bundler.d/") if File.file?("/mnt/Gemfile.release.rb")
-branch = Bundler.load.dependencies.detect { |i| i.name == "manageiq-api" }.branch
-puts "Bundling for branch: #{branch}..."
-exit $?.exitstatus unless system("git clone --branch #{branch} --depth 1 https://github.com/ManageIQ/manageiq-appliance.git  /tmp/manageiq-appliance")
-FileUtils.cp("/tmp/manageiq-appliance/manageiq-appliance-dependencies.rb", "/tmp/lock_generator/bundler.d/")
 
 # Generate Gemfile.lock
 exit $?.exitstatus unless system({"APPLIANCE" => "true", "BUNDLE_GEMFILE" => ENV["BUNDLE_GEMFILE"]}, "bundle update --jobs=8 --retry=3")
