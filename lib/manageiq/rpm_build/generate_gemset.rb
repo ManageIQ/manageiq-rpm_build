@@ -57,7 +57,6 @@ module ManageIQ
 
         Dir.chdir(miq_dir) do
           shell_cmd("gem env")
-          shell_cmd("gem install mime-types -v 2.6.1")
 
           if RUBY_PLATFORM.match?(/powerpc64le|s390x/)
             shell_cmd("bundle config set build.sassc --disable-march-tune-native")
