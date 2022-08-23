@@ -64,8 +64,9 @@ module ManageIQ
             shell_cmd("bundle config set build.unf_ext --with-cxxflags='-fsigned-char'")
           end
 
-          shell_cmd("bundle config set --local with qpid_proton systemd")
           shell_cmd("bundle config set --local build.rugged --with-ssh")
+          shell_cmd("bundle config set --local with appliance qpid_proton systemd")
+          shell_cmd("bundle config set --local without development test")
 
           lock_release = miq_dir.join("Gemfile.lock.release")
           if lock_release.exist?
