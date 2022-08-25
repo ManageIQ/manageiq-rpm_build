@@ -35,8 +35,8 @@ done
 # These directories contain files not owned by this rpm.
 #  For upgrades, ensure the files have the correct group privs
 #  so root and manageiq users can read them.
-[ -e %{app_root}/certs/v2_key ] && %{__chown} manageiq.manageiq %{app_root}/certs/v2_key
-[ -e %{app_root}/certs/v2_key ] && %{__chmod} o-rw %{app_root}/certs/v2_key
+[ -e %{app_root}/certs/v2_key ] && %{__chown} manageiq.manageiq %{app_root}/certs/*
+[ -e %{app_root}/certs/v2_key ] && %{__chmod} o-rw %{app_root}/certs/*
 
 %{__chown} -R manageiq.manageiq %{app_root}/log
 %{__chmod} -R o-rw %{app_root}/log
