@@ -43,8 +43,8 @@ done
 #  so root and manageiq users can read them.
 [ -e %{app_root}/certs/v2_key ] && %{__chown} manageiq.manageiq %{app_root}/certs/v2_key
 [ -e %{app_root}/certs/v2_key ] && %{__chmod} o-rw %{app_root}/certs/v2_key
-[ -e %{app_root}/certs/server.cer ] && %{__chmod} g+rw %{app_root}/certs/server.cer
-[ -e %{app_root}/certs/server.cer.key ] && %{__chmod} g+rw %{app_root}/certs/server.cer.key
+[ -e %{app_root}/certs/server.cer ] && %{__chmod} g+r %{app_root}/certs/server.cer
+[ -e %{app_root}/certs/server.cer.key ] && %{__chmod} g+r %{app_root}/certs/server.cer.key
 
 %{__chown} -R manageiq.manageiq %{app_root}/log
 %{__chmod} -R o-rw %{app_root}/log
