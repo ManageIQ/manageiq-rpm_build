@@ -138,6 +138,9 @@ module ManageIQ
       def run_license_finder(repos, type)
         where_am_i
 
+        shell_cmd("license_finder ignored_groups add development")
+        shell_cmd("license_finder ignored_groups add test")
+
         output  = manifest_dir.join("#{type}_manifest.csv")
         columns = "name version licenses"
         shell_cmd("license_finder report --format csv --write-headers --aggregate-paths #{repos} --columns #{columns} --save #{output}")
