@@ -165,6 +165,9 @@ module ManageIQ
           # Vendored libgit2 isn't needed once the gem is compiled
           FileUtils.rm_rf(Dir.glob("gems/rugged-*/vendor"))
 
+          # Vendored jquery 1.x has security issues caught by scanners, but isn't used by the application
+          FileUtils.rm_rf(Dir.glob("gems/jquery-rails-*/vendor/assets/javascripts/jquery.*"))
+
           # Remove files with inappropriate license
           FileUtils.rm_rf(Dir.glob("gems/pdf-writer-*/demo")) # Creative Commons Attribution NonCommercial
 
