@@ -67,6 +67,23 @@ module ManageIQ
         end
       end
 
+      def build_plugin_workers
+        where_am_i
+
+        Dir.chdir(miq_dir) do
+          # Get a list of rake tasks from plugins to build workers
+          # e.g. rake manageiq:providers:vmware:workers:build  # Build VMware Provider workers
+          worker_build_rake_tasks = `bundle exec rake -T 2>/dev/null`
+            .split("\n")
+            .map { |line| line.match(/^rake (manageiq:\S+:workers:build).+$/)&.captures&.first }
+            .compact
+
+          worker_build_rake_tasks.each do |task|
+            shell_cmd("bundle exec rake #{task}")
+          end
+        end
+      end
+
       def seed_ansible_runner
         Dir.chdir(miq_dir) do
           shell_cmd("bundle exec rake evm:ansible_runner:seed")
@@ -85,6 +102,7 @@ module ManageIQ
         precompile_assets
         precompile_sti_loader
         build_service_ui
+        build_plugin_workers
         seed_ansible_runner
         compile_locale_files
         generate_manifests
