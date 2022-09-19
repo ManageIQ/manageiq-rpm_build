@@ -3,8 +3,8 @@ Summary: %{product_summary} Ansible Runner Virtual Environment
 
 %global __requires_exclude ^\/var\/lib\/manageiq\/venv\/bin\/python
 
-Requires: ansible >= 5, ansible < 6
-Requires: python38
+Requires: ansible >= 1:7, ansible < 1:8
+Requires: python3-virtualenv
 AutoReqProv: no
 
 %description ansible-venv

@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi
+FROM registry.access.redhat.com/ubi9/ubi
 
 ENV TERM=xterm \
     APPLIANCE=true \
@@ -10,16 +10,16 @@ RUN chmod +t /tmp
 RUN ARCH=$(uname -m) && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y remove *subscription-manager*; fi && \
     dnf -y update && \
-    if [ ${ARCH} != "s390x" ] ; then dnf -y install \
-      http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
-      http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm ; fi && \
+    dnf -y --setopt=protected_packages= remove redhat-release && \
+    dnf -y install --releasever 9 \
+      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-release-9.0-24.el9.noarch.rpm \
+      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-9.0-24.el9.noarch.rpm \
+      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-9.0-24.el9.noarch.rpm && \
     dnf -y install \
-      https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
-      https://rpm.manageiq.org/release/18-radjabov/el8/noarch/manageiq-release-18.0-1.el8.noarch.rpm && \
+      https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
+      https://rpm.manageiq.org/release/18-radjabov/el9/noarch/manageiq-release-18.0-1.el9.noarch.rpm && \
     dnf -y module enable ruby:3.1 && \
     dnf -y module enable nodejs:18 && \
-    dnf -y module disable virt:rhel && \
-    if [ ${ARCH} != "s390x" ] ; then dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save; fi && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=tsflags=nodocs --save && \
     dnf -y install \
@@ -37,12 +37,11 @@ RUN ARCH=$(uname -m) && \
       openssl-devel \
       platform-python-devel \
       postgresql-server \
-      postgresql-server-devel \
       qpid-proton-c-devel \
       ruby-devel \
       wget \
       # For seeding ansible runner with ansible-galaxy, and for ansible-venv
-      ansible-5.4.0-3.el8 \
+      ansible \
       # For ansible-venv
       cargo \
       gcc \
@@ -53,8 +52,9 @@ RUN ARCH=$(uname -m) && \
       libxslt-devel \
       make \
       openssl-devel \
-      python38-devel \
-      python38-pip \
+      python3-devel \
+      python3-pip \
+      python3-virtualenv \
       rpm-build && \
     dnf -y update libarchive && \
     dnf clean all && \
