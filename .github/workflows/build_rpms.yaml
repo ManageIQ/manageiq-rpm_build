@@ -1,0 +1,31 @@
+name: Build RPMs
+
+on:
+  schedule:
+  - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build_rpm_build_container:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up registry credentials
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |
+        echo "REGISTRY_USERNAME=${{ secrets.REGISTRY_USERNAME }}" >> $GITHUB_ENV
+        echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
+    - name: Run container build script
+      run: bin/build_container_image
+  build_rpms:
+    needs: build_rpm_build_container
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up registry credentials
+      run: |
+        echo "REGISTRY_USERNAME=${{ secrets.REGISTRY_USERNAME }}" >> $GITHUB_ENV
+        echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
+    - name: Build and push RPMs
+      run: |
+        echo $REGISTRY_PASSWORD | docker login docker.io --password-stdin --username $REGISTRY_USERNAME
+        docker run docker.io/manageiq/rpm_build:latest build --build-type nightly
