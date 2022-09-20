@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi
+FROM registry.access.redhat.com/ubi9/ubi
 
 # For productization
 ENV ORG_NAME=manageiq \
@@ -9,13 +9,14 @@ ENV RPM_SPEC=manageiq-ansible-venv.spec \
     VENV_ROOT=/var/lib/manageiq \
     VERSION=1.0.0
 
-# CentOS repo needed for rpm-build
-RUN ARCH=$(uname -m) && \
-    if [ ${ARCH} != "s390x" ] ; then dnf -y remove *subscription-manager*; fi && \
+RUN ARCH=$(uname -m ) && \
     dnf config-manager --setopt=tsflags=nodocs --save && \
+    dnf -y --setopt=protected_packages= remove redhat-release && \
+    dnf -y remove *subscription-manager* && \
     dnf -y install \
-      http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
-      http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm && \
+      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-release-9.0-12.el9.noarch.rpm \
+      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-9.0-12.el9.noarch.rpm \
+      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-9.0-12.el9.noarch.rpm && \
     dnf -y install \
       gcc \
       krb5-devel \
