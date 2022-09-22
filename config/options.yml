@@ -39,6 +39,7 @@ rpm_repository:
     :16-petrosian:
       :targets:
         - el8
+        - el9
       :rpms:
         :kafka: !ruby/regexp /.+-3\.3.+/
         :manageiq: !ruby/regexp /.+-16\.\d\.\d-(alpha|beta|rc)?\d(\.\d)?\.el.+/
@@ -53,5 +54,6 @@ rpm_repository:
     :16-petrosian-nightly:
       :targets:
         - el8
+        - el9
       :rpms:
         :manageiq-nightly: !ruby/regexp /.+-16\.\d\.\d-(\d\.\d\.)?\d{14,}+\.el.+/
