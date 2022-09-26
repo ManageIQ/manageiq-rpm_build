@@ -73,7 +73,6 @@ cd %{_builddir}
 %{__mkdir} -p %{buildroot}/etc/httpd/conf.d
 
 %{__cp} -a %{appliance_builddir}/* %{buildroot}%{appliance_root}
-%{__rm} -rf %{buildroot}%{appliance_root}/COPY
 
 ### from gemset
 %{__mkdir} -p %{buildroot}%{gemset_root}
