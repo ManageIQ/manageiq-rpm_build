@@ -1,5 +1,6 @@
-%global pgmajorversion 10
+%global pgmajorversion 13
 %global pgpackageversion %(echo %{pgmajorversion} | tr -d .)
+%global pginstdir /usr/pgsql-%{pgmajorversion}
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
@@ -12,12 +13,12 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:        %{sname}%{pgpackageversion}
-Version:    4.0.6
+Version:    5.2.1
 Release:    1%{nil}%{?dist}
 Summary:    Replication Manager for PostgreSQL Clusters
 License:    GPLv3+
-URL:        https://www.repmgr.org
-Source0:    http://repmgr.org/download/%{sname}-%{version}%{extra_version}.tar.bz2
+URL:        https://repmgr.org
+Source0:    https://repmgr.org/download/%{sname}-%{version}%{extra_version}.tar.bz2
 Source1:    repmgr-pg%{pgpackageversion}.service
 Source2:    repmgr-pg%{pgpackageversion}.init
 Source3:    repmgr-pg%{pgpackageversion}.sysconfig
@@ -41,9 +42,19 @@ Requires(postun):   initscripts
 Group:        Applications/Databases
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{extra_version}-%{release}-root-%(%{__id_u} -n)
 %endif
-BuildRequires:    postgresql, postgresql-devel, postgresql-static
-BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel
-Requires:         postgresql-server
+BuildRequires:    postgresql%{pgpackageversion}, postgresql%{pgpackageversion}-devel
+BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel flex
+Requires:    postgresql%{pgpackageversion}-server
+
+%if 0%{?pgpackageversion} >= 11 && 0%{?pgpackageversion} < 90 && 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:  llvm-toolset-7
+BuildRequires:  llvm5.0
+%endif
+
+%if 0%{?pgpackageversion} >= 11 && 0%{?pgpackageversion} < 90 && 0%{?rhel} && 0%{?rhel} == 8
+BuildRequires:  llvm-toolset ccache
+BuildRequires:  clang-devel
+%endif
 
 %description
 repmgr is an open-source tool suite for managing replication and failover in a
@@ -64,12 +75,12 @@ command line option handling.
 
 %build
 
-PG_CONFIG=/usr/bin/pg_config ./configure
+PG_CONFIG=%{pginstdir}/bin/pg_config ./configure
 
-%{__make} PG_CONFIG=/usr/bin/pg_config USE_PGXS=1 %{?_smp_mflags}
+%{__make} PG_CONFIG=%{pginstdir}/bin/pg_config USE_PGXS=1 %{?_smp_mflags}
 
 %install
-%{__mkdir} -p %{buildroot}/usr/bin/
+%{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
 %if %{systemd_enabled}
 # Use new %%make_install macro:
 USE_PGXS=1 %make_install  DESTDIR=%{buildroot}
@@ -77,8 +88,10 @@ USE_PGXS=1 %make_install  DESTDIR=%{buildroot}
 # Use older version
 USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
 %endif
-%{__mkdir} -p %{buildroot}/usr/bin/
+%{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
+# Install sample conf file
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/%{sname}/%{pgmajorversion}/
+install -m 644 repmgr.conf.sample %{buildroot}/%{_sysconfdir}/%{sname}/%{pgmajorversion}/%{sname}.conf
 
 %if %{systemd_enabled}
 install -d %{buildroot}%{_unitdir}
@@ -130,13 +143,31 @@ fi
 %defattr(-,root,root,-)
 %doc CREDITS HISTORY README.md LICENSE
 %endif
+%dir %{pginstdir}/bin
 %dir %{_sysconfdir}/%{sname}/%{pgmajorversion}/
-/usr/bin/repmgr
-/usr/bin/repmgrd
-/usr/lib64/pgsql/repmgr.so
-/usr/share/pgsql/extension/repmgr.control
-/usr/share/pgsql/extension/repmgr--unpackaged--4.0.sql
-/usr/share/pgsql/extension/repmgr--4.0.sql
+%config(noreplace) %{_sysconfdir}/%{sname}/%{pgmajorversion}/%{sname}.conf
+%{pginstdir}/bin/repmgr
+%{pginstdir}/bin/repmgrd
+%{pginstdir}/lib/repmgr.so
+%{pginstdir}/share/extension/repmgr.control
+%{pginstdir}/share/extension/repmgr--unpackaged--4.0.sql
+%{pginstdir}/share/extension/repmgr--4.0.sql
+%{pginstdir}/share/extension/repmgr--4.0--4.1.sql
+%{pginstdir}/share/extension/repmgr--4.1.sql
+%{pginstdir}/share/extension/repmgr--4.1--4.2.sql
+%{pginstdir}/share/extension/repmgr--4.2.sql
+%{pginstdir}/share/extension/repmgr--4.2--4.3.sql
+%{pginstdir}/share/extension/repmgr--4.3.sql
+%{pginstdir}/share/extension/repmgr--4.3--4.4.sql
+%{pginstdir}/share/extension/repmgr--4.4.sql
+%{pginstdir}/share/extension/repmgr--4.4--5.0.sql
+%{pginstdir}/share/extension/repmgr--5.0.sql
+%{pginstdir}/share/extension/repmgr--5.0--5.1.sql
+%{pginstdir}/share/extension/repmgr--unpackaged--5.1.sql
+%{pginstdir}/share/extension/repmgr--5.1.sql
+%{pginstdir}/share/extension/repmgr--5.1--5.2.sql
+%{pginstdir}/share/extension/repmgr--unpackaged--5.2.sql
+%{pginstdir}/share/extension/repmgr--5.2.sql
 %if %{systemd_enabled}
 %ghost %{_varrundir}
 %{_tmpfilesdir}/%{name}.conf
@@ -145,8 +176,35 @@ fi
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 %config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
+%if 0%{?pgpackageversion} >= 11
+%if 0%{?rhel} && 0%{?rhel} >= 7
+%exclude %{pginstdir}/include/server/extension/repmgr/
+%exclude %{pginstdir}/lib/bitcode
+%endif
+%endif
 
 %changelog
+* Thu Oct 22 2020 - Ian Barwick <ian.barwick@2ndquadrant.com> 5.2.0-1
+- Upstream release 5.2.0-1
+
+* Mon Apr 13 2020 - Ian Barwick <ian.barwick@2ndquadrant.com> 5.1.0-1
+- Upstream release 5.1.0-1
+
+* Tue Oct 15 2019 - Ian Barwick <ian.barwick@2ndquadrant.com> 5.0.0-1
+- Upstream release 5.0.0-1
+
+* Wed Jun 26 2019 - Ian Barwick <ian.barwick@2ndquadrant.com> 4.4.0-1
+- Upstream release 4.4.0-1
+
+* Tue Apr 02 2019 - Ian Barwick <ian.barwick@2ndquadrant.com> 4.3.0-1
+- Upstream release 4.3.0-1
+
+* Tue Sep 04 2018 - Amruta Deolasee <amruta.deolasee@2ndquadrant.com> 4.1.1-1
+- Upstream release 4.1.1-1
+
+* Mon Jul 30 2018 - Pallavi Sontakke <pallavi.sontakke@2ndquadrant.com> 4.1.0-1
+- Upstream release 4.1.0-1
+
 * Mon Jun 11 2018 - Giulio Calacoci <giulio.calacoci@2ndquadrant.it> 4.0.6-1
 - Upstream release 4.0.6-1
 
@@ -168,5 +226,5 @@ fi
 * Mon Nov 20 2017 - Giulio Calacoci <giulio.calacoci@2ndquadrant.it> 4.0.0-1
 - Upstream release 4.0.0-1
 
-* Tue Sep 10 2017 - Ian Barwick <ian@2ndquadrant.com> 4.0-0.1.beta1
+* Tue Sep 12 2017 - Ian Barwick <ian@2ndquadrant.com> 4.0-0.1.beta1
 - Upstream release 4.0-beta1
