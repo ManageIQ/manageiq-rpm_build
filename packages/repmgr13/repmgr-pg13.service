@@ -29,7 +29,7 @@ Environment=PIDFILE=/var/run/repmgr/repmgrd-13.pid
 # Where to send early-startup messages from the server 
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
-ExecStart=/usr/pgsql-13/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d --verbose 
+ExecStart=/usr/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d --verbose
 ExecStop=/usr/bin/kill -TERM $MAINPID
 ExecReload=/usr/bin/kill -HUP $MAINPID
 

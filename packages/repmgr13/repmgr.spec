@@ -1,6 +1,6 @@
 %global pgmajorversion 13
 %global pgpackageversion %(echo %{pgmajorversion} | tr -d .)
-%global pginstdir /usr/pgsql-%{pgmajorversion}
+%global pginstdir /usr
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
@@ -12,13 +12,16 @@
 
 %global _varrundir %{_localstatedir}/run/%{sname}
 
+# Disable /usr/lib/.build-id/* artifacts
+%define _build_id_links none
+
 Name:        %{sname}%{pgpackageversion}
 Version:    5.2.1
 Release:    1%{nil}%{?dist}
 Summary:    Replication Manager for PostgreSQL Clusters
 License:    GPLv3+
 URL:        https://repmgr.org
-Source0:    https://repmgr.org/download/%{sname}-%{version}%{extra_version}.tar.bz2
+Source0:    https://repmgr.org/download/%{sname}-%{version}%{extra_version}.tar.gz
 Source1:    repmgr-pg%{pgpackageversion}.service
 Source2:    repmgr-pg%{pgpackageversion}.init
 Source3:    repmgr-pg%{pgpackageversion}.sysconfig
@@ -42,9 +45,9 @@ Requires(postun):   initscripts
 Group:        Applications/Databases
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{extra_version}-%{release}-root-%(%{__id_u} -n)
 %endif
-BuildRequires:    postgresql%{pgpackageversion}, postgresql%{pgpackageversion}-devel
-BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel flex
-Requires:    postgresql%{pgpackageversion}-server
+BuildRequires:    postgresql, postgresql-devel, postgresql-static
+BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel, flex
+Requires:    postgresql-server
 
 %if 0%{?pgpackageversion} >= 11 && 0%{?pgpackageversion} < 90 && 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:  llvm-toolset-7
@@ -143,31 +146,30 @@ fi
 %defattr(-,root,root,-)
 %doc CREDITS HISTORY README.md LICENSE
 %endif
-%dir %{pginstdir}/bin
 %dir %{_sysconfdir}/%{sname}/%{pgmajorversion}/
 %config(noreplace) %{_sysconfdir}/%{sname}/%{pgmajorversion}/%{sname}.conf
 %{pginstdir}/bin/repmgr
 %{pginstdir}/bin/repmgrd
-%{pginstdir}/lib/repmgr.so
-%{pginstdir}/share/extension/repmgr.control
-%{pginstdir}/share/extension/repmgr--unpackaged--4.0.sql
-%{pginstdir}/share/extension/repmgr--4.0.sql
-%{pginstdir}/share/extension/repmgr--4.0--4.1.sql
-%{pginstdir}/share/extension/repmgr--4.1.sql
-%{pginstdir}/share/extension/repmgr--4.1--4.2.sql
-%{pginstdir}/share/extension/repmgr--4.2.sql
-%{pginstdir}/share/extension/repmgr--4.2--4.3.sql
-%{pginstdir}/share/extension/repmgr--4.3.sql
-%{pginstdir}/share/extension/repmgr--4.3--4.4.sql
-%{pginstdir}/share/extension/repmgr--4.4.sql
-%{pginstdir}/share/extension/repmgr--4.4--5.0.sql
-%{pginstdir}/share/extension/repmgr--5.0.sql
-%{pginstdir}/share/extension/repmgr--5.0--5.1.sql
-%{pginstdir}/share/extension/repmgr--unpackaged--5.1.sql
-%{pginstdir}/share/extension/repmgr--5.1.sql
-%{pginstdir}/share/extension/repmgr--5.1--5.2.sql
-%{pginstdir}/share/extension/repmgr--unpackaged--5.2.sql
-%{pginstdir}/share/extension/repmgr--5.2.sql
+%{pginstdir}/lib64/pgsql/repmgr.so
+%{pginstdir}/share/pgsql/extension/repmgr.control
+%{pginstdir}/share/pgsql/extension/repmgr--unpackaged--4.0.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.0.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.0--4.1.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.1.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.1--4.2.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.2.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.2--4.3.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.3.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.3--4.4.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.4.sql
+%{pginstdir}/share/pgsql/extension/repmgr--4.4--5.0.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.0.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.0--5.1.sql
+%{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.1.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.1.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.1--5.2.sql
+%{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.2.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.2.sql
 %if %{systemd_enabled}
 %ghost %{_varrundir}
 %{_tmpfilesdir}/%{name}.conf
