@@ -26,6 +26,7 @@ module ManageIQ
     BUILD_DIR    = Pathname.new(ENV.fetch("BUILD_DIR", "~/BUILD")).expand_path
     RPM_SPEC_DIR = BUILD_DIR.join("rpm_spec")
     MANIFEST_DIR = BUILD_DIR.join("manifest")
+    PACKAGES_DIR = ROOT_DIR.join("packages")
 
     OPTIONS_DIR  = Pathname.new(ENV.fetch("OPTIONS_DIR", "~/OPTIONS")).expand_path
     OPTIONS      = Config.load_files(CONFIG_DIR.join("options.yml"), OPTIONS_DIR.join("options.yml"))

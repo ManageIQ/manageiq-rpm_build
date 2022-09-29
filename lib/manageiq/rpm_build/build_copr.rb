@@ -16,6 +16,13 @@ module ManageIQ
         @rpm_spec      = "#{OPTIONS.product_name}.spec"
       end
 
+      def run_rpmbuild(spec)
+        Dir.chdir(PACKAGES_DIR.join(spec).dirname) do
+          arch = RUBY_PLATFORM.split("-").first
+          shell_cmd("rpmbuild -ba --undefine=_disable_source_fetch --define '_sourcedir #{Dir.pwd}' --define '_srcrpmdir #{BUILD_DIR.join("rpms", arch)}' --define '_rpmdir #{BUILD_DIR.join("rpms")}' #{File.basename(spec)}")
+        end
+      end
+
       def generate_rpm
         where_am_i
 
