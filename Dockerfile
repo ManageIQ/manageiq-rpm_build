@@ -16,6 +16,7 @@ RUN ARCH=$(uname -m) && \
       https://rpm.manageiq.org/release/16-petrosian/el8/noarch/manageiq-release-16.0-1.el8.noarch.rpm && \
     dnf -y module enable ruby:3.0 && \
     dnf -y module enable nodejs:14 && \
+    dnf -y module enable postgresql:13 && \
     dnf -y module disable virt:rhel && \
     if [ ${ARCH} != "s390x" ] ; then dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save; fi && \
     dnf -y group install "development tools" && \
@@ -27,6 +28,7 @@ RUN ARCH=$(uname -m) && \
       createrepo \
       glibc-langpack-en \
       libcurl-devel \
+      libpq \
       libpq-devel \
       librdkafka \
       libssh2-devel \
@@ -35,8 +37,15 @@ RUN ARCH=$(uname -m) && \
       nodejs \
       openssl-devel \
       platform-python-devel \
+      postgresql \
+      postgresql-static \
       postgresql-server \
       postgresql-server-devel \
+      ccache \
+      clang-devel \
+      llvm-toolset \
+      pam-devel \
+      readline-devel \
       qpid-proton-c-devel \
       ruby-devel \
       wget && \
