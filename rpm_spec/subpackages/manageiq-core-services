@@ -21,4 +21,5 @@ done
 %files core-services
 %{_prefix}/lib/systemd/system/manageiq*
 %exclude %{_prefix}/lib/systemd/system/manageiq-db-ready.service
+%exclude %{_prefix}/lib/systemd/system/manageiq-messaging-ready.service
 %exclude %{_prefix}/lib/systemd/system/manageiq-providers*
