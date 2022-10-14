@@ -10,10 +10,6 @@ Builds RPM for ManageIQ Ansible Virtualenv in a container image
 
   Bind mount `/root/rpms` to obtain the artifacts
 
-- To build RPM in Copr:
-
-  `docker run -ti -v <path to copr config>:/root/.config/copr -e COPR_CHROOT=<chroot> -e COPR_PROJECT=<project> manageiq/ansible_venv_rpm_build`
-
 - To run container without kicking off build:
 
   `docker run -ti manageiq/ansible_venv_rpm_build bash`

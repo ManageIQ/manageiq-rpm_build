@@ -2,8 +2,6 @@
 %global app_root VENV_ROOT
 %global manifest_root /opt/ORG_NAME/manifest
 
-%global _python_bytecompile_extra 0
-
 Name:     PRODUCT_NAME
 Version:  VERSION
 Release:  1%{?dist}
@@ -13,14 +11,11 @@ URL:      https://github.com/ManageIQ/manageiq
 Source0:  %{name}-%{version}.tar.gz
 AutoReqProv: no
 
-BuildRequires: /usr/bin/pathfix.py
-
 %description
 %{product_summary}
 
 %prep
 %setup -q
-pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 
 %install
 %{__mkdir} -p %{buildroot}%{app_root}
@@ -29,9 +24,10 @@ pathfix.py -pni "%{__python3} %{py3_shbang_opts}" .
 %{__mkdir} -p %{buildroot}%{manifest_root}
 %{__mv} %{buildroot}/%{app_root}/ansible_venv_manifest.csv %{buildroot}%{manifest_root}
 
-ln -s %{app_root}/venv/lib %{buildroot}%{app_root}/venv/lib64
-ln -s %{__python3} %{buildroot}%{app_root}/venv/bin/python3
-ln -s %{app_root}/venv/bin/python3 %{buildroot}%{app_root}/venv/bin/python
+ln -s ./lib %{buildroot}%{app_root}/venv/lib64
+ln -s /usr/bin/python3.8 %{buildroot}%{app_root}/venv/bin/python3.8
+ln -s ./python3.8 %{buildroot}%{app_root}/venv/bin/python3
+ln -s ./python3 %{buildroot}%{app_root}/venv/bin/python
 
 %clean
 rm -rf $RPM_BUILD_ROOT
