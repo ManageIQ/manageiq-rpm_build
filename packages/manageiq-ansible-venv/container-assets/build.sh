@@ -7,7 +7,7 @@ rpm_name=$PRODUCT_NAME-ansible-venv
 rpm_path=/root/rpms
 
 echo "*** Installing python system packages"
-pip3.8 install virtualenv psutil==5.6.6
+pip3.9 install virtualenv psutil==5.6.6
 
 echo "*** Setting up venv"
 mkdir -p $venv_path
@@ -15,12 +15,12 @@ virtualenv --system-site-packages $venv_path
 source $venv_path/bin/activate
 
 echo "*** Installing packages"
-pip3.8 install --no-compile -r $VENV_ROOT/requirements.txt
+pip3.9 install --no-compile -r $VENV_ROOT/requirements.txt
 
 echo "*** Generating manifest"
-pip3.8 install pip-licenses
+pip3.9 install pip-licenses
 pip-licenses --from=mixed --format=csv --output-file=$VENV_ROOT/ansible_venv_manifest.csv
-pip3.8 uninstall -y pip-licenses PTable
+pip3.9 uninstall -y pip-licenses PTable
 
 deactivate
 
@@ -33,7 +33,7 @@ mkdir -p $rpm_path
 tar -C $VENV_ROOT --transform "s,^,$rpm_name-$VERSION/," \
   --exclude='venv/bin/python' \
   --exclude='venv/bin/python3' \
-  --exclude='venv/bin/python3.8' \
+  --exclude='venv/bin/python3.9' \
   --exclude='venv/lib64' \
   -zcf $rpm_path/$rpm_name-$VERSION.tar.gz .
 

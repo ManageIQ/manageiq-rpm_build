@@ -26,8 +26,8 @@ RUN ARCH=$(uname -m ) && \
       libxslt-devel \
       make \
       openssl-devel \
-      python38-devel \
-      python38-pip \
+      python3-devel \
+      python3-pip \
       rpm-build && \
     dnf clean all && \
     rm -rf /var/cache/dnf

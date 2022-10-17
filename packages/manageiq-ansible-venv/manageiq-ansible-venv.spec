@@ -25,8 +25,8 @@ AutoReqProv: no
 %{__mv} %{buildroot}/%{app_root}/ansible_venv_manifest.csv %{buildroot}%{manifest_root}
 
 ln -s ./lib %{buildroot}%{app_root}/venv/lib64
-ln -s /usr/bin/python3.8 %{buildroot}%{app_root}/venv/bin/python3.8
-ln -s ./python3.8 %{buildroot}%{app_root}/venv/bin/python3
+ln -s /usr/bin/python3.9 %{buildroot}%{app_root}/venv/bin/python3.9
+ln -s ./python3.9 %{buildroot}%{app_root}/venv/bin/python3
 ln -s ./python3 %{buildroot}%{app_root}/venv/bin/python
 
 %clean
