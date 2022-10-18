@@ -7,11 +7,11 @@ on:
 
 jobs:
   build_rpm_build_container:
+    if: github.repository_owner == 'ManageIQ'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Set up registry credentials
-      if: ${{ github.event_name != 'pull_request' }}
       run: |
         echo "REGISTRY_USERNAME=${{ secrets.REGISTRY_USERNAME }}" >> $GITHUB_ENV
         echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
@@ -19,6 +19,7 @@ jobs:
       run: bin/build_container_image
   build_rpms:
     needs: build_rpm_build_container
+    if: github.repository_owner == 'ManageIQ'
     runs-on: ubuntu-latest
     steps:
     - name: Set up registry credentials
@@ -38,6 +39,7 @@ jobs:
         docker run docker.io/manageiq/rpm_build:latest build -v options:/root/OPTIONS --build-type nightly
   notify_builders:
     needs: build_rpms
+    if: github.repository_owner == 'ManageIQ'
     runs-on: ubuntu-latest
     steps:
     - name: Notify manageiq-pods on RPM build
