@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Notify manageiq-pods on RPM build
-      uses: peter-evans/repository-dispatch@v1
+      uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.DEPLOY_TOKEN }}
         repository: ManageIQ/manageiq-pods
