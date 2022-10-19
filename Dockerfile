@@ -21,7 +21,6 @@ RUN ARCH=$(uname -m) && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --setopt=tsflags=nodocs --save && \
     dnf -y install \
-      ansible \
       cmake \
       copr-cli \
       createrepo \
@@ -39,7 +38,21 @@ RUN ARCH=$(uname -m) && \
       postgresql-server-devel \
       qpid-proton-c-devel \
       ruby-devel \
-      wget && \
+      wget \
+      # For seeding ansible runner / ansible-galaxy
+      ansible \
+      # For ansible-venv
+      gcc \
+      krb5-devel \
+      libcurl-devel \
+      libffi-devel \
+      libxml2-devel \
+      libxslt-devel \
+      make \
+      openssl-devel \
+      python38-devel \
+      python38-pip \
+      rpm-build && \
     dnf -y update libarchive && \
     if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi && \
     dnf clean all && \
