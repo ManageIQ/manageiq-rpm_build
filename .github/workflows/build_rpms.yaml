@@ -36,7 +36,7 @@ jobs:
         echo "  s3_api:" >> options/options.yml
         echo "    access_key: ${{ secrets.RPM_BUILD_S3_ACCESS_KEY }}" >> options/options.yml
         echo "    secret_key: ${{ secrets.RPM_BUILD_S3_SECRET_KEY }}" >> options/options.yml
-        docker run docker.io/manageiq/rpm_build:latest build -v options:/root/OPTIONS --build-type nightly
+        docker run -v options:/root/OPTIONS docker.io/manageiq/rpm_build:latest build --build-type nightly
   notify_builders:
     needs: build_rpms
     if: github.repository_owner == 'ManageIQ'
