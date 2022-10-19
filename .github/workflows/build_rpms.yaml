@@ -36,14 +36,14 @@ jobs:
         echo "  s3_api:" >> options/options.yml
         echo "    access_key: ${{ secrets.RPM_BUILD_S3_ACCESS_KEY }}" >> options/options.yml
         echo "    secret_key: ${{ secrets.RPM_BUILD_S3_SECRET_KEY }}" >> options/options.yml
-        docker run -v options:/root/OPTIONS docker.io/manageiq/rpm_build:latest build --build-type nightly
+        docker run -v options:/root/OPTIONS docker.io/manageiq/rpm_build:latest build --build-type nightly --update-rpm-repo
   notify_builders:
     needs: build_rpms
     if: github.repository_owner == 'ManageIQ'
     runs-on: ubuntu-latest
     steps:
     - name: Notify manageiq-pods on RPM build
-      uses: peter-evans/repository-dispatch@v1
+      uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.DEPLOY_TOKEN }}
         repository: ManageIQ/manageiq-pods
