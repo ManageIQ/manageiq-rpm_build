@@ -1,4 +1,4 @@
 /BUILD/
 /OPTIONS/
-/rpm_cache/
+/rpm_cache/*.rpm
 Gemfile.lock
