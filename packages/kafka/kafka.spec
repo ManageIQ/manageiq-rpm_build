@@ -6,6 +6,7 @@ License:          Apache (v2)
 Group:            Applications
 URL:              https://kafka.apache.org
 BuildRequires:    java-1.8.0-openjdk-devel >= 1.8
+BuildRequires:    systemd-rpm-macros
 Requires:         jre >= 1.8
 Requires(post):   systemd
 Requires(postun): systemd
