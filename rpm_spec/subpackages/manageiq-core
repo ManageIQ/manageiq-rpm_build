@@ -9,9 +9,8 @@ Requires: rubygem-io-console
 Requires: rubygem-irb
 
 Requires: %{name}-gemset = %{version}-%{release}
+Requires: %{name}-ansible-venv = %{version}-%{release}
 
-Requires: ansible
-Requires: ansible-runner
 Requires: git
 Requires: net-snmp
 Requires: net-snmp-libs

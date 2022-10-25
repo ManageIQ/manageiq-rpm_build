@@ -1,0 +1,16 @@
+%package ansible-venv
+Summary: %{product_summary} Ansible Runner Virtual Environment
+
+%global __requires_exclude ^\/var\/lib\/manageiq\/venv\/bin\/python
+
+Requires: ansible
+Requires: ansible-runner
+Requires: python38
+
+%description ansible-venv
+%{product_summary} Ansible Runner Virtual Environment
+
+%files ansible-venv
+%defattr(-,root,root,-)
+%{ansible_venv_root}
+%{manifest_root}/ansible_venv_manifest.csv
