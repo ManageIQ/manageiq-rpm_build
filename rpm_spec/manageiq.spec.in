@@ -49,7 +49,7 @@ umask 0002
 # buildsubdir is set to the last extracted archive, reset
 cd %{_builddir}
 
-%py3_shebang_fix %{gemset_builddir}
+%py3_shebang_fix %{gemset_builddir} 2>&1 | grep -v "^recursedown" | grep -v "no change"
 
 %build
 cd %{_builddir}
