@@ -33,4 +33,4 @@ RUN ARCH=$(uname -m) && \
 
 COPY . /root
 
-CMD ["/root/container-assets/build.sh"]
+ENTRYPOINT ["/root/container-assets/build.sh"]
