@@ -2,7 +2,7 @@
 
 set -ev
 
-rpm_path="/root/rpms"
+rpm_path="/root/BUILD/rpms"
 root="/root"
 
 # Build RPM
