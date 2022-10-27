@@ -12,7 +12,7 @@ RUN ARCH=$(uname -m) && \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
     dnf -y module enable postgresql:13 && \
-    dnf -y group install "development tools" && \
+    dnf -y group install --disablerepo=ubi-8-appstream-rpms "development tools" && \
     dnf -y install \
       ccache \
       clang-devel \
