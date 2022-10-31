@@ -41,6 +41,7 @@ Requires(preun):    chkconfig
 # This is for /sbin/service
 Requires(preun):    initscripts
 Requires(postun):   initscripts
+
 # This is for older spec files (RHEL <= 6)
 Group:        Applications/Databases
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{extra_version}-%{release}-root-%(%{__id_u} -n)
@@ -58,6 +59,9 @@ BuildRequires:  llvm5.0
 BuildRequires:  llvm-toolset ccache
 BuildRequires:  clang-devel
 %endif
+
+# Obsolete old repmgr10 built against postgres10
+Obsoletes: repmgr10
 
 %description
 repmgr is an open-source tool suite for managing replication and failover in a
