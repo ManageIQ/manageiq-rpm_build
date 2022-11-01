@@ -6,7 +6,7 @@
 REPMGRD_ENABLED=no
 
 # Repmgr conf file
-REPMGR_CONF=/etc/repmgr/10/repmgr.conf
+REPMGR_CONF=/etc/repmgr/13/repmgr.conf
 
 # Options for repmgrd (required)
 #REPMGRD_OPTS="--verbose -d "
@@ -15,10 +15,10 @@ REPMGR_CONF=/etc/repmgr/10/repmgr.conf
 REPMGRD_USER=postgres
 
 # repmgrd binary
-REPMGRD_BIN=/usr/pgsql-10/bin/repmgrd
+REPMGRD_BIN=/usr/pgsql-13/bin/repmgrd
 
 # pid file
-REPMGRD_PIDFILE=/var/run/repmgr/repmgrd-10.pid
+REPMGRD_PIDFILE=/var/run/repmgr/repmgrd-13.pid
 
 # log file
-REPMGRD_LOG=/var/log/repmgr/repmgrd-10.log
+REPMGRD_LOG=/var/log/repmgr/repmgrd-13.log
