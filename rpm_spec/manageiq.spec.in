@@ -6,6 +6,7 @@
 %global app_root /var/www/miq/vmdb
 %global org_root /opt/%{org_name}
 %global ansible_venv_root /var/lib/manageiq
+%global ansible_venv_site_packages /usr/local/lib64/python3.6/site-packages
 %global appliance_root %{org_root}/%{name}-appliance
 %global gemset_root %{org_root}/%{name}-gemset
 %global manifest_root %{org_root}/manifest
@@ -135,13 +136,17 @@ done
 # Install ansible-venv #
 ########################
 %{__mkdir} -p %{buildroot}%{ansible_venv_root}
-%{__cp} -r %{ansible_venv_builddir}/* %{buildroot}%{ansible_venv_root}
+%{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{ansible_venv_root}
 
 ln -s /usr/bin/python3.8 %{buildroot}%{ansible_venv_root}/venv/bin/python3.8
 ln -s ./python3.8 %{buildroot}%{ansible_venv_root}/venv/bin/python3
 ln -s ./python3 %{buildroot}%{ansible_venv_root}/venv/bin/python
 
-%{__mv} %{buildroot}%{ansible_venv_root}/ansible_venv_manifest.csv %{buildroot}%{manifest_root}
+# Copy site-packages
+%{__mkdir} -p %{buildroot}%{ansible_venv_site_packages}
+%{__cp} -a %{ansible_venv_builddir}/site-packages/* %{buildroot}%{ansible_venv_site_packages}
+
+%{__cp} %{ansible_venv_builddir}/ansible_venv_manifest.csv %{buildroot}%{manifest_root}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
