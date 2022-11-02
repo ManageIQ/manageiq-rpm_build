@@ -7,7 +7,7 @@ Requires: %{name}-core-services = %{version}-%{release}
 Requires: %{name}-gemset-services = %{version}-%{release}
 
 Requires: postgresql-server
-Requires: repmgr10 >= 4.0.6
+Requires: repmgr13 >= 5.2.1
 
 Requires: lvm2
 Requires: memcached
@@ -85,6 +85,7 @@ fi
 %{_prefix}/lib/systemd/system/evminit.service
 %{_prefix}/lib/systemd/system/evmserverd.service
 %{_prefix}/lib/systemd/system/manageiq-db-ready.service
+%{_prefix}/lib/systemd/system/manageiq-messaging-ready.service
 %{_prefix}/lib/systemd/system/miqtop.service
 %{_prefix}/lib/systemd/system/miqvmstat.service
 %{manifest_root}/BUILD_APPLIANCE

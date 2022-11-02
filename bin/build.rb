@@ -15,10 +15,13 @@ Optimist.die "build type must be either nightly or release" unless %w[nightly re
 build_type = opts[:build_type]
 git_ref    = opts[:git_ref]
 
-# Clone source repos
+# Setup source repos and build environment
 ManageIQ::RPMBuild::SetupSourceRepos.new(git_ref).populate
 
-# Generate gemset
+# Generate 'ansible-venv' contents
+ManageIQ::RPMBuild::GenerateAnsibleVenv.new.populate
+
+# Generate 'gemset' contents
 gemset = ManageIQ::RPMBuild::GenerateGemSet.new
 gemset.backup_environment_variables
 gemset.set_environment_variables

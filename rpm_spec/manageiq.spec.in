@@ -5,10 +5,13 @@
 
 %global app_root /var/www/miq/vmdb
 %global org_root /opt/%{org_name}
+%global ansible_venv_root /var/lib/manageiq
+%global ansible_venv_site_packages /usr/local/lib/python3.8/site-packages
 %global appliance_root %{org_root}/%{name}-appliance
 %global gemset_root %{org_root}/%{name}-gemset
 %global manifest_root %{org_root}/manifest
 
+%global ansible_venv_builddir %{name}-ansible-venv-%{version}
 %global appliance_builddir %{name}-appliance-%{version}
 %global core_builddir %{name}-core-%{version}
 %global gemset_builddir %{name}-gemset-%{version}
@@ -16,6 +19,8 @@
 
 %global debug_package %{nil}
 %global __requires_exclude ^\/usr\/bin\/jruby
+# Turn off the brp-python-bytecompile automagic
+%global _python_bytecompile_extra 0
 
 Name:     %{product_name}
 Version:  RPM_VERSION
@@ -25,25 +30,27 @@ Summary:  %{product_summary}
 License:  Apache-2.0
 URL:      %{product_url}
 
-Source0:  %{name}-appliance-%{version}.tar.gz
-Source1:  %{name}-core-%{version}.tar.gz
-Source2:  %{name}-gemset-%{version}.tar.gz
-Source3:  %{name}-manifest-%{version}.tar.gz
+Source0:  %{name}-ansible-venv-%{version}.tar.gz
+Source1:  %{name}-appliance-%{version}.tar.gz
+Source2:  %{name}-core-%{version}.tar.gz
+Source3:  %{name}-gemset-%{version}.tar.gz
+Source4:  %{name}-manifest-%{version}.tar.gz
 
 %description
 %{product_summary}
 
 %prep
 umask 0002
-%setup -q -n %{appliance_builddir}
-%setup -q -T -D -b 1 -n %{core_builddir}
-%setup -q -T -D -b 2 -n %{gemset_builddir}
-%setup -q -T -D -b 3 -n %{manifest_builddir}
+%setup -q -T -b 0 -n %{ansible_venv_builddir}
+%setup -q -T -b 1 -n %{appliance_builddir}
+%setup -q -T -b 2 -n %{core_builddir}
+%setup -q -T -b 3 -n %{gemset_builddir}
+%setup -q -T -b 4 -n %{manifest_builddir}
 
-# buildsubdir is set to the last extracted archive (gemset), reset
+# buildsubdir is set to the last extracted archive, reset
 cd %{_builddir}
 
-pathfix.py -pni "%{__python3} %{py3_shbang_opts}" %{gemset_builddir}
+%py3_shebang_fix %{gemset_builddir} 2>&1 | grep -v "^recursedown" | grep -v "no change"
 
 %build
 cd %{_builddir}
@@ -59,7 +66,15 @@ EOF
 %install
 cd %{_builddir}
 
-### from core
+####################
+# Install manifest #
+####################
+%{__mkdir} -p %{buildroot}%{manifest_root}
+%{__cp} -a %{manifest_builddir}/* %{buildroot}%{manifest_root}
+
+################
+# Install core #
+################
 %{__mkdir} -p %{buildroot}%{app_root}
 %{__cp} -a %{core_builddir}/* %{buildroot}%{app_root}
 %{__mkdir} -p %{buildroot}%{app_root}/log/apache
@@ -67,7 +82,24 @@ cd %{_builddir}
 %{__chmod} 6750 %{buildroot}%{app_root}/{log,config,certs,data,data/git_repos}
 %{__chmod} 700 %{buildroot}%{app_root}/tmp/{,pids,sockets}
 
-### from appliance
+# Move webpack manifests
+%{__mv} %{buildroot}%{app_root}/public/packs/webpack_modules_manifest.json %{buildroot}%{manifest_root}
+%{__mv} %{buildroot}%{app_root}/public/packs/webpack_packages_manifest.json %{buildroot}%{manifest_root}
+%{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_modules_manifest.json %{buildroot}%{manifest_root}/webpack_modules_manifest_service_ui.json
+%{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_packages_manifest.json %{buildroot}%{manifest_root}/webpack_packages_manifest_service_ui.json
+
+# Sample configuration files
+%{__mv} %{buildroot}%{app_root}/config/cable.yml.sample %{buildroot}%{app_root}/config/cable.yml
+
+# Move roles to ansible share
+mkdir -p %{buildroot}/usr/share/ansible/roles/
+for i in %{buildroot}%{app_root}/content/ansible_consolidated/roles/* ; do
+  %{__mv} $i %{buildroot}/usr/share/ansible/roles/
+done
+
+#####################
+# Install appliance #
+#####################
 %{__mkdir} -p %{buildroot}%{appliance_root}
 %{__cp} -a %{appliance_builddir}/COPY/. %{buildroot}/
 %{__mkdir} -p %{buildroot}/etc/httpd/conf.d
@@ -75,7 +107,9 @@ cd %{_builddir}
 %{__cp} -a %{appliance_builddir}/* %{buildroot}%{appliance_root}
 %{__rm} -rf %{buildroot}%{appliance_root}/COPY
 
-### from gemset
+##################
+# Install gemset #
+##################
 %{__mkdir} -p %{buildroot}%{gemset_root}
 %{__cp} -a %{gemset_builddir}/bin %{buildroot}%{gemset_root}
 %{__cp} -a %{gemset_builddir}/build_info %{buildroot}%{gemset_root}
@@ -87,35 +121,35 @@ cd %{_builddir}
 %{__cp} -a %{gemset_builddir}/specifications %{buildroot}%{gemset_root}
 %{__cp} -a %{gemset_builddir}/vmdb %{buildroot}%{gemset_root}
 
-# Copy systemd unit files
+################################################
+# Copy systemd unit files from core and gemset #
+################################################
 %{__mkdir} -p %{buildroot}%{_prefix}/lib/systemd/system
 %{__cp} -a %{core_builddir}/systemd/* %{buildroot}/%{_prefix}/lib/systemd/system
-for gem_dir in %{gemset_builddir}/bundler/gems/*
-do
-  if [[ ! -L $gem_dir ]]
-  then
+for gem_dir in %{gemset_builddir}/bundler/gems/*; do
+  if [[ ! -L $gem_dir ]]; then
     [[ -e $gem_dir/systemd ]] && %{__cp} -a $gem_dir/systemd/* %{buildroot}/%{_prefix}/lib/systemd/system
   fi
 done
 
-### from manifest
-%{__mkdir} -p %{buildroot}%{manifest_root}
-%{__cp} -a %{manifest_builddir}/* %{buildroot}%{manifest_root}
+########################
+# Install ansible-venv #
+########################
+%{__mkdir} -p %{buildroot}%{ansible_venv_root}
+%{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{ansible_venv_root}
 
-# Move webpack manifests
-%{__mv} %{buildroot}%{app_root}/public/packs/webpack_modules_manifest.json %{buildroot}%{manifest_root}
-%{__mv} %{buildroot}%{app_root}/public/packs/webpack_packages_manifest.json %{buildroot}%{manifest_root}
-%{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_modules_manifest.json %{buildroot}%{manifest_root}/webpack_modules_manifest_service_ui.json
-%{__mv} %{buildroot}%{app_root}/public/ui/service/webpack_packages_manifest.json %{buildroot}%{manifest_root}/webpack_packages_manifest_service_ui.json
+ln -s /usr/bin/python3.8 %{buildroot}%{ansible_venv_root}/venv/bin/python3.8
+ln -s ./python3.8 %{buildroot}%{ansible_venv_root}/venv/bin/python3
+ln -s ./python3 %{buildroot}%{ansible_venv_root}/venv/bin/python
 
-#sample configuration files
-%{__mv} %{buildroot}%{app_root}/config/cable.yml.sample %{buildroot}%{app_root}/config/cable.yml
+# Copy site-packages and ansible-runner bin file
+%{__mkdir} -p %{buildroot}%{ansible_venv_site_packages}
+%{__cp} -a %{ansible_venv_builddir}/site-packages/* %{buildroot}%{ansible_venv_site_packages}
+%{__mkdir} -p %{buildroot}/usr/local/bin
+%{__cp} -a %{ansible_venv_builddir}/ansible-runner %{buildroot}/usr/local/bin
 
-# Move roles to ansible share
-mkdir -p %{buildroot}/usr/share/ansible/roles/
-for i in %{buildroot}%{app_root}/content/ansible_consolidated/roles/* ; do
-  %{__mv} $i %{buildroot}/usr/share/ansible/roles/
-done
+# Copy manifest
+%{__cp} %{ansible_venv_builddir}/ansible_venv_manifest.csv %{buildroot}%{manifest_root}
 
 %clean
 rm -rf $RPM_BUILD_ROOT

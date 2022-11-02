@@ -7,21 +7,19 @@ ENV TERM=xterm \
 RUN ARCH=$(uname -m) && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y remove *subscription-manager*; fi && \
     dnf -y update && \
-    curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y install \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm ; fi && \
     dnf -y install \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
-      https://rpm.manageiq.org/release/15-oparin/el8/noarch/manageiq-release-15.0-1.el8.noarch.rpm && \
-    dnf -y module enable ruby:2.7 && \
+      https://rpm.manageiq.org/release/16-petrosian/el8/noarch/manageiq-release-16.0-1.el8.noarch.rpm && \
+    dnf -y module enable ruby:3.0 && \
     dnf -y module enable nodejs:14 && \
     dnf -y module disable virt:rhel && \
     if [ ${ARCH} != "s390x" ] ; then dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save; fi && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --setopt=tsflags=nodocs --save && \
     dnf -y install \
-      ansible \
       cmake \
       copr-cli \
       createrepo \
@@ -39,7 +37,21 @@ RUN ARCH=$(uname -m) && \
       postgresql-server-devel \
       qpid-proton-c-devel \
       ruby-devel \
-      wget && \
+      wget \
+      # For seeding ansible runner / ansible-galaxy
+      ansible \
+      # For ansible-venv
+      gcc \
+      krb5-devel \
+      libcurl-devel \
+      libffi-devel \
+      libxml2-devel \
+      libxslt-devel \
+      make \
+      openssl-devel \
+      python38-devel \
+      python38-pip \
+      rpm-build && \
     dnf -y update libarchive && \
     if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi && \
     dnf clean all && \

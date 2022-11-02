@@ -91,8 +91,7 @@ module ManageIQ
         retry_count ||= 0
         retry_count += 1
         if retry_count > 5
-          puts "Failed to flush CDN cache, exiting..."
-          exit 1
+          puts "Failed to flush CDN cache."
         else
           puts "Failed to flush CDN cache, retrying #{retry_count}..."
           retry

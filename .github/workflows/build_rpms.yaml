@@ -1,0 +1,54 @@
+name: Build RPMs
+
+on:
+  schedule:
+  - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build_rpm_build_container:
+    if: github.repository_owner == 'ManageIQ'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up registry credentials
+      run: |
+        echo "REGISTRY_USERNAME=${{ secrets.REGISTRY_USERNAME }}" >> $GITHUB_ENV
+        echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
+    - name: Run container build script
+      run: bin/build_container_image
+  build_rpms:
+    needs: build_rpm_build_container
+    if: github.repository_owner == 'ManageIQ'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up registry credentials
+      run: |
+        echo "REGISTRY_USERNAME=${{ secrets.REGISTRY_USERNAME }}" >> $GITHUB_ENV
+        echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
+    - name: Build and push RPMs
+      run: |
+        echo $REGISTRY_PASSWORD | docker login docker.io --password-stdin --username $REGISTRY_USERNAME
+        mkdir /tmp/options
+        echo "---" > /tmp/options/options.yml
+        echo "rpm_repository:" >> /tmp/options/options.yml
+        echo "  digitalocean_access_token: ${{ secrets.RPM_BUILD_DO_ACCESS_TOKEN }}" >> /tmp/options/options.yml
+        echo "  s3_api:" >> /tmp/options/options.yml
+        echo "    access_key: ${{ secrets.RPM_BUILD_S3_ACCESS_KEY }}" >> /tmp/options/options.yml
+        echo "    secret_key: ${{ secrets.RPM_BUILD_S3_SECRET_KEY }}" >> /tmp/options/options.yml
+        docker run -v /tmp/options:/root/OPTIONS:z docker.io/manageiq/rpm_build:latest build --build-type nightly --git-ref ${{ github.ref_name }} --update-rpm-repo
+  notify_builders:
+    needs: build_rpms
+    if: github.repository_owner == 'ManageIQ'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notify manageiq-pods on RPM build
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.DEPLOY_TOKEN }}
+        repository: ManageIQ/manageiq-pods
+        event-type: build
+        client-payload: |
+          { "repository": "${{ github.repository }}",
+            "ref_name": "${{ github.ref_name }}",
+            "sha": "${{ github.sha }}" }
