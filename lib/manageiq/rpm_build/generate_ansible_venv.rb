@@ -46,10 +46,7 @@ module ManageIQ
       def install_python_system_packages
         where_am_i
 
-        # NOTE: This is intentionally _not_ versioned so as to install in the system python path.
-        shell_cmd("pip3 install --no-compile psutil==5.6.6")
-
-        shell_cmd("#{pip_versioned} install --no-compile virtualenv")
+        shell_cmd("#{pip_versioned} install --no-compile virtualenv ansible-runner")
       end
 
       def create_venv
@@ -89,10 +86,14 @@ module ManageIQ
         # Copy the venv dir
         FileUtils.mv(@venv_build_dir, venv_dir)
 
-        # Copy python 3.6 site-packages
+        # Copy python 3.8 site-packages for ansible-runner
         site_packages_dir = venv_dir.join("site-packages")
         FileUtils.mkdir_p(site_packages_dir)
-        FileUtils.cp_r(Dir.glob("/usr/local/lib64/python3.6/site-packages/psutil*"), site_packages_dir)
+        dirs_to_copy = Dir.glob("/usr/local/lib/python3.8/site-packages/*").grep_v(%r{/(distlib|filelock|platformdirs|virtualenv)})
+        FileUtils.cp_r(dirs_to_copy, site_packages_dir)
+
+        # Copy ansible-runner bin file
+        FileUtils.cp("/usr/local/bin/ansible-runner", venv_dir)
       end
 
       def pip_versioned

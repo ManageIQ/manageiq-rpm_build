@@ -7,7 +7,6 @@ ENV TERM=xterm \
 RUN ARCH=$(uname -m) && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y remove *subscription-manager*; fi && \
     dnf -y update && \
-    curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y install \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm ; fi && \
