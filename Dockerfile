@@ -6,6 +6,9 @@ ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
 
+# Force the sticky bit on /tmp - https://bugzilla.redhat.com/show_bug.cgi?id=2138434
+RUN chmod +t /tmp
+
 RUN curl -L https://releases.ansible.com/ansible-runner/ansible-runner.el8.repo > /etc/yum.repos.d/ansible-runner.repo
 
 RUN dnf -y remove subscription-manager* && \
