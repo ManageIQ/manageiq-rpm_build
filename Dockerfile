@@ -4,6 +4,9 @@ ENV TERM=xterm \
     APPLIANCE=true \
     RAILS_USE_MEMORY_STORE=true
 
+# Force the sticky bit on /tmp - https://bugzilla.redhat.com/show_bug.cgi?id=2138434
+RUN chmod +t /tmp
+
 RUN ARCH=$(uname -m) && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y remove *subscription-manager*; fi && \
     dnf -y update && \
