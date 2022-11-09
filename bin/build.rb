@@ -52,6 +52,7 @@ ManageIQ::RPMBuild::BuildCopr.new(release_name).generate_rpm
 
 if opts[:update_rpm_repo]
   ManageIQ::RPMBuild::BuildUploader.new(:release => build_type == "release").upload
+  ManageIQ::RPMBuild::NightlyBuildPurger.new.run
   ManageIQ::RPMBuild::RpmRepo.new.update
 end
 
