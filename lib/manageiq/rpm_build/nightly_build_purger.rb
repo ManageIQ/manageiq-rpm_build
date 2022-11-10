@@ -17,7 +17,7 @@ module ManageIQ
             next
           end
 
-          position = (timestamp.to_i - 20_000_000_000_000) / 10_000 # YYMMDDHH i.e. 22091300
+          position = timestamp[2, 8].to_i # YYYYMMDDHHMMSS -> YYMMDDHH
           candidates[package][position] = object.key
         end
 
