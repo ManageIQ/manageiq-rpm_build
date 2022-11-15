@@ -10,11 +10,9 @@ RSpec.describe(ManageIQ::RPMBuild::NightlyBuildPurger) do
 
     expect(subject.send(:recent?, "20221110170640")).to eq(true) # Now
     expect(subject.send(:recent?, "20221230170640")).to eq(true) # Future
-    expect(subject.send(:recent?, "20221103170640")).to eq(true) # 1 week ago
-    expect(subject.send(:recent?, "20221028170640")).to eq(true) # 13 days ago
+    expect(subject.send(:recent?, "20221104170640")).to eq(true) # 6 days ago
+    expect(subject.send(:recent?, "20221103170640")).to eq(false) # 1 week ago
     expect(subject.send(:recent?, "20221027170640")).to eq(false) # 2 weeks ago
-    expect(subject.send(:recent?, "20221020170640")).to eq(false) # 3 weeks ago
-    expect(subject.send(:recent?, "20221013170640")).to eq(false) # 4 weeks ago
     expect(subject.send(:recent?, "19700101000000")).to eq(false)
     expect { subject.send(:recent?, "xyz") }.to raise_error(Date::Error)
   end

@@ -22,8 +22,8 @@ module ManageIQ
         end
 
         candidates.each_key do |package|
-          # Keep the most recent 14 nightly builds of any package
-          (candidates[package].compact[0..-14] - keepers[package]).each { |i| delete(i) }
+          # Keep the most recent 7 nightly builds of any package
+          (candidates[package].compact[0..-7] - keepers[package]).each { |i| delete(i) }
         end
       end
 
@@ -45,8 +45,8 @@ module ManageIQ
 
       def recent?(timestamp)
         require 'date'
-        # Keep anything 2.weeks or newer
-        (now - DateTime.parse(timestamp).to_time) < 1209600
+        # Keep anything 1.week or newer
+        (now - DateTime.parse(timestamp).to_time) < 604800
       end
     end
   end
