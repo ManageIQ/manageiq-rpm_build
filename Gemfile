@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'activesupport',              :require => false
 gem 'awesome_spawn',  ">=1.3.0"
 gem 'aws-sdk-s3'
 gem 'config'

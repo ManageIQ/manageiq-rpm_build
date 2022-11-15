@@ -15,6 +15,7 @@ require 'manageiq/rpm_build/build_uploader'
 require 'manageiq/rpm_build/generate_ansible_venv'
 require 'manageiq/rpm_build/generate_gemset'
 require 'manageiq/rpm_build/generate_tar_files'
+require 'manageiq/rpm_build/nightly_build_purger'
 require 'manageiq/rpm_build/rpm_repo'
 require 'manageiq/rpm_build/setup_source_repos'
 
