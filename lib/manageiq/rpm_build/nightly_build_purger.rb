@@ -44,9 +44,11 @@ module ManageIQ
       end
 
       def recent?(timestamp)
+        require 'active_support'
+        require 'active_support/time'
         require 'date'
         # Keep anything 1.week or newer
-        (now - DateTime.parse(timestamp).to_time) < 604800
+        DateTime.parse(timestamp) > 1.week.before(now)
       end
     end
   end
