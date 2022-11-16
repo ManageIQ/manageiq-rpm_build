@@ -89,7 +89,7 @@ module ManageIQ
           },
           "repmgr13"    => {
             :os => "centos-stream+epel",
-          }
+          },
         }.freeze
 
         attr_reader :merged_config
