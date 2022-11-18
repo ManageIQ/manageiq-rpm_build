@@ -4,7 +4,7 @@ $LOAD_PATH << File.expand_path("../lib", __dir__)
 require 'manageiq/rpm_build/extra_package'
 
 Dir.chdir(ManageIQ::RPMBuild::ExtraPackage::PACKAGES_DIR) do
-  directories = (Dir["*"] - ["."]).reject { |o| !File.directory?(o) }
+  directories = (Dir["*"] - ["."]).sort.reject { |o| !File.directory?(o) }
   packages    = ARGV & directories
   extras      = ARGV - directories
   packages    = directories if packages.empty?
