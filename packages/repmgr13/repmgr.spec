@@ -17,7 +17,7 @@
 
 Name:        %{sname}%{pgpackageversion}
 Version:    5.2.1
-Release:    1%{nil}%{?dist}
+Release:    2%{nil}%{?dist}
 Summary:    Replication Manager for PostgreSQL Clusters
 License:    GPLv3+
 URL:        https://repmgr.org
@@ -190,6 +190,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 22 2022 - Brandon Dunne <brandondunne@hotmail.com> 5.2.1-2
+- Upstream release 5.2.1-2
+
 * Thu Oct 22 2020 - Ian Barwick <ian.barwick@2ndquadrant.com> 5.2.0-1
 - Upstream release 5.2.0-1
 
