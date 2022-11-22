@@ -46,7 +46,7 @@ Requires(postun):   initscripts
 Group:        Applications/Databases
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{extra_version}-%{release}-root-%(%{__id_u} -n)
 %endif
-BuildRequires:    postgresql, postgresql-devel, postgresql-static
+BuildRequires:    postgresql >= 13, postgresql < 14, postgresql-devel, postgresql-static
 BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel, flex
 Requires:    postgresql-server
 
