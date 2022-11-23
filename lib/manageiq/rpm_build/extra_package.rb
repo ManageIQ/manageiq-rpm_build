@@ -88,6 +88,7 @@ module ManageIQ
             :os => "centos-stream+epel",
           },
           "repmgr13"    => {
+            :mock_extras => "--config-opts=module_setup_commands.module_install=postgresql:13",
             :os => "centos-stream+epel",
           },
         }.freeze
