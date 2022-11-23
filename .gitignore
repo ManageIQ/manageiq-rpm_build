@@ -2,5 +2,10 @@
 Gemfile.lock
 BUILD/
 OPTIONS/
+packages/*/*.bz2
+packages/*/*.gz
+packages/*/*.rpm
+packages/*/*.tgz
+packages/*/*.zip
 rpm_cache/
 rpm_spec/*.spec
