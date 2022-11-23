@@ -43,7 +43,7 @@ EOF
 
 
 %build
-
+ulimit -n 500000
 cd Samba/source
  ./autogen.sh
 ./configure
