@@ -108,7 +108,7 @@ module ManageIQ
         FileUtils.rm_rf(manifest_dir) if manifest_dir.exist?
         FileUtils.mkdir(manifest_dir)
 
-        shell_cmd("gem install license_finder")
+        shell_cmd("gem install license_finder -v '~> 7.0.1'")
         generate_gem_manifest
         generate_npm_manifest
       end
