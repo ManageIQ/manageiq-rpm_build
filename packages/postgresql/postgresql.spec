@@ -31,22 +31,22 @@
 
 %{!?beta:%global beta 0}
 
-%{!?test:%global test 1}
-%{!?upgrade:%global upgrade 1}
-%{!?plpython:%global plpython 1}
-%{!?plpython3:%global plpython3 1}
-%{!?pltcl:%global pltcl 1}
-%{!?plperl:%global plperl 1}
-%{!?ssl:%global ssl 1}
-%{!?kerberos:%global kerberos 1}
-%{!?ldap:%global ldap 1}
-%{!?nls:%global nls 1}
-%{!?uuid:%global uuid 1}
-%{!?xml:%global xml 1}
-%{!?pam:%global pam 1}
-%{!?sdt:%global sdt 1}
-%{!?selinux:%global selinux 1}
-%{!?runselftest:%global runselftest 1}
+%global test 1
+%global upgrade 1
+%global plpython 1
+%global plpython3 1
+%global pltcl 1
+%global plperl 1
+%global ssl 1
+%global kerberos 1
+%global ldap 1
+%global nls 1
+%global uuid 1
+%global xml 1
+%global pam 1
+%global sdt 1
+%global selinux 1
+%global runselftest 1
 
 # By default, patch(1) creates backup files when chunks apply with offsets.
 # Turn that off to ensure such files don't get included in RPMs.
@@ -64,7 +64,7 @@ Name: postgresql
 %global majorversion 10
 Version: %{majorversion}.21
 %{?dirty_hack_epoch}
-Release: 1%{?dist}
+Release: 2%{?dist}
 
 # The PostgreSQL license is very similar to other MIT licenses, but the OSI
 # recognizes it as an independent license, so we do as well.
@@ -1272,6 +1272,9 @@ make -C postgresql-setup-%{setup_version} check
 
 
 %changelog
+* Wed Nov 30 2022 Brandon Dunne <brandondunne@hotmail.com> - 10.21-2
+- Force globals enabling features
+
 * Tue Jun 14 2022 Filip Janus <fjanus@redhat.com> - 10.21-1
 - Update to 10.21
 
