@@ -80,6 +80,9 @@ module ManageIQ
             :os         => "centos-stream",
             :os_version => "8",
           },
+          "ansible" => {
+            :os => "centos-stream+epel",
+          },
           "kafka"       => {
             :mock_extras => "--enable-network",
             :os          => "centos-stream+epel",
