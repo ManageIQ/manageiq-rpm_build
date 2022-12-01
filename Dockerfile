@@ -41,8 +41,8 @@ RUN ARCH=$(uname -m) && \
       qpid-proton-c-devel \
       ruby-devel \
       wget \
-      # For seeding ansible runner / ansible-galaxy
-      ansible \
+      # For seeding ansible runner with ansible-galaxy, and for ansible-venv
+      ansible-5.4.0-3.el8 \
       # For ansible-venv
       gcc \
       krb5-devel \
