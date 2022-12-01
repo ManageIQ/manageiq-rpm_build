@@ -52,8 +52,8 @@ RUN ARCH=$(uname -m) && \
       libxslt-devel \
       make \
       openssl-devel \
-      python38-devel \
-      python38-pip \
+      python39-devel \
+      python39-pip \
       rpm-build && \
     dnf -y update libarchive && \
     if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi && \

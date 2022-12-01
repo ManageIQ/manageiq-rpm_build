@@ -5,7 +5,7 @@ module ManageIQ
     class GenerateAnsibleVenv
       include Helper
 
-      VENV_PYTHON_VERSION = "3.8".freeze
+      VENV_PYTHON_VERSION = "3.9".freeze
 
       attr_reader :current_env, :manifest_dir, :venv_dir
 
@@ -46,7 +46,12 @@ module ManageIQ
       def install_python_system_packages
         where_am_i
 
-        shell_cmd("#{pip_versioned} install --no-compile virtualenv ansible-runner")
+        shell_cmd("#{pip_versioned} install --no-compile virtualenv")
+
+        # Install ansible-core dependencies which aren't auto-installed with ansible-core
+        shell_cmd("#{pip_versioned} install --no-compile 'jinja2>=3.0.0' 'resolvelib<0.9.0,>=0.5.3' packaging")
+
+        shell_cmd("#{pip_versioned} install --no-compile ansible-runner")
       end
 
       def create_venv
@@ -66,7 +71,9 @@ module ManageIQ
 
         shell_cmd_in_venv("#{pip_versioned} install pip-licenses", @venv_build_path)
         shell_cmd_in_venv("pip-licenses --from=mixed --format=csv --output-file=#{@venv_build_dir.join("ansible_venv_manifest.csv")}", @venv_build_path)
-        shell_cmd_in_venv("#{pip_versioned} uninstall -y pip-licenses PTable", @venv_build_path)
+
+        # TODO: Detect which packages were installed by pip-licenses so we can subsequently remove them
+        shell_cmd_in_venv("#{pip_versioned} uninstall -y pip-licenses prettytable wcwidth", @venv_build_path)
       end
 
       def scrub
@@ -86,10 +93,10 @@ module ManageIQ
         # Copy the venv dir
         FileUtils.mv(@venv_build_dir, venv_dir)
 
-        # Copy python 3.8 site-packages for ansible-runner
+        # Copy python site-packages for ansible-runner
         site_packages_dir = venv_dir.join("site-packages")
         FileUtils.mkdir_p(site_packages_dir)
-        dirs_to_copy = Dir.glob("/usr/local/lib/python3.8/site-packages/*").grep_v(%r{/(distlib|filelock|platformdirs|virtualenv)})
+        dirs_to_copy = Dir.glob("/usr/local/lib/python#{VENV_PYTHON_VERSION}/site-packages/*").grep_v(%r{/(distlib|filelock|platformdirs|virtualenv)})
         FileUtils.cp_r(dirs_to_copy, site_packages_dir)
 
         # Copy ansible-runner bin file
