@@ -24,7 +24,6 @@ RUN dnf -y remove subscription-manager* && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --setopt=tsflags=nodocs --save && \
     dnf -y install \
-      ansible \
       cmake \
       copr-cli \
       createrepo \
@@ -42,7 +41,9 @@ RUN dnf -y remove subscription-manager* && \
       postgresql-server-devel \
       qpid-proton-c-devel \
       ruby-devel \
-      wget && \
+      wget \
+      # For seeding ansible runner with ansible-galaxy
+      ansible-5.4.0-3.el8 && \
     dnf -y update libarchive && \
     dnf clean all
 
