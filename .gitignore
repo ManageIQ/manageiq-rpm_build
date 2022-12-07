@@ -4,6 +4,7 @@ BUILD/
 OPTIONS/
 packages/*/*.bz2
 packages/*/*.gz
+packages/*/*.pdf
 packages/*/*.rpm
 packages/*/*.tgz
 packages/*/*.zip
