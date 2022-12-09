@@ -55,12 +55,38 @@ done
 
 %files core
 %defattr(-,root,root,-)
-%{app_root}
+%{app_root}/AUTHORS
+%{app_root}/CHANGELOG.md
+%{app_root}/CONTRIBUTING.md
+%{app_root}/Dockerfile
+%{app_root}/Gemfile
+%{app_root}/LICENSE.txt
+%{app_root}/NOTICE.txt
+%{app_root}/Procfile.example
+%{app_root}/README.md
+%{app_root}/Rakefile
+%{app_root}/VERSION
+%{app_root}/app
+%{app_root}/bin
+%{app_root}/bundler.d
 %attr(-,manageiq,manageiq) %{app_root}/certs
 %attr(-,manageiq,manageiq) %{app_root}/config
-%attr(-,manageiq,manageiq) %{app_root}/log
-%attr(-,manageiq,manageiq) %{app_root}/tmp
+%{app_root}/config.ru
+%{app_root}/container-assets
+%{app_root}/content
 %attr(-,manageiq,manageiq) %{app_root}/data
+%{app_root}/db
+%{app_root}/lib
+%{app_root}/locale
+%attr(-,manageiq,manageiq) %{app_root}/log
+%{app_root}/product
+%{app_root}/public
+%{app_root}/script
+%{app_root}/spec
+%{app_root}/systemd
+%attr(-,manageiq,manageiq) %{app_root}/tmp
+%{app_root}/tools
+
 %config(noreplace) %{app_root}/config/cable.yml
 %exclude %{app_root}/public/pictures
 %exclude %{app_root}/public/assets
