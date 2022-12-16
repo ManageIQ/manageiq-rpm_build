@@ -13,8 +13,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: Set up registry credentials
       run: |
-        echo "REGISTRY_USERNAME=${{ secrets.REGISTRY_USERNAME }}" >> $GITHUB_ENV
-        echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
+        echo "REGISTRY_USERNAME=${{ secrets.DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
+        echo "REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" >> $GITHUB_ENV
     - name: Run container build script
       run: bin/build_container_image
   build_rpms:
@@ -24,8 +24,8 @@ jobs:
     steps:
     - name: Set up registry credentials
       run: |
-        echo "REGISTRY_USERNAME=${{ secrets.REGISTRY_USERNAME }}" >> $GITHUB_ENV
-        echo "REGISTRY_PASSWORD=${{ secrets.REGISTRY_PASSWORD }}" >> $GITHUB_ENV
+        echo "REGISTRY_USERNAME=${{ secrets.DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
+        echo "REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" >> $GITHUB_ENV
     - name: Build and push RPMs
       run: |
         echo $REGISTRY_PASSWORD | docker login docker.io --password-stdin --username $REGISTRY_USERNAME
@@ -45,7 +45,7 @@ jobs:
     - name: Notify manageiq-pods on RPM build
       uses: peter-evans/repository-dispatch@v2
       with:
-        token: ${{ secrets.DEPLOY_TOKEN }}
+        token: ${{ secrets.PR_TOKEN }}
         repository: ManageIQ/manageiq-pods
         event-type: build
         client-payload: |
