@@ -15,7 +15,7 @@ jobs:
       run: |
         echo "REGISTRY_USERNAME=${{ secrets.DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
         echo "REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" >> $GITHUB_ENV
-    - name: Run container build script
+    - name: Build and push RPM build image
       run: bin/build_container_image
   build_rpms:
     needs: build_rpm_build_container
@@ -26,17 +26,17 @@ jobs:
       run: |
         echo "REGISTRY_USERNAME=${{ secrets.DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
         echo "REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" >> $GITHUB_ENV
-    - name: Build and push RPMs
+    - name: Prepare options file
       run: |
-        echo $REGISTRY_PASSWORD | docker login docker.io --password-stdin --username $REGISTRY_USERNAME
-        mkdir /tmp/options
+        mkdir -p /tmp/options
         echo "---" > /tmp/options/options.yml
         echo "rpm_repository:" >> /tmp/options/options.yml
         echo "  digitalocean_access_token: ${{ secrets.RPM_BUILD_DO_ACCESS_TOKEN }}" >> /tmp/options/options.yml
         echo "  s3_api:" >> /tmp/options/options.yml
         echo "    access_key: ${{ secrets.RPM_BUILD_S3_ACCESS_KEY }}" >> /tmp/options/options.yml
         echo "    secret_key: ${{ secrets.RPM_BUILD_S3_SECRET_KEY }}" >> /tmp/options/options.yml
-        docker run -v /tmp/options:/root/OPTIONS:z docker.io/manageiq/rpm_build:latest build --build-type nightly --git-ref ${{ github.ref_name }} --update-rpm-repo
+    - name: Build and push RPMs
+      run: run_container_image
   notify_builders:
     needs: build_rpms
     if: github.repository_owner == 'ManageIQ'
