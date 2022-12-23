@@ -45,7 +45,7 @@ jobs:
     - name: Notify manageiq-pods on RPM build
       uses: peter-evans/repository-dispatch@v2
       with:
-        token: ${{ secrets.PR_TOKEN }}
+        token: ${{ secrets.BUILD_TOKEN }}
         repository: ManageIQ/manageiq-pods
         event-type: build
         client-payload: |
