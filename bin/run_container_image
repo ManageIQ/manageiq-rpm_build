@@ -11,12 +11,8 @@ IMAGE_NAME=${IMAGE_NAME:-"$DEFAULT_IMAGE_NAME"}
 
 set -e
 
-docker build . -t $IMAGE_NAME
-
-[[ -z "$REGISTRY_USERNAME" ]] && exit 0
-
 echo "$REGISTRY_PASSWORD" | docker login $REGISTRY -u $REGISTRY_USERNAME --password-stdin
 
-docker push $IMAGE_NAME
+docker run -v /tmp/options:/root/OPTIONS:z $IMAGE_NAME build --build-type nightly --git-ref $GITHUB_REF_NAME --update-rpm-repo
 
 set +e
