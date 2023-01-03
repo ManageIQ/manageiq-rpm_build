@@ -33,5 +33,5 @@ jobs:
       run: |
         echo "REGISTRY_USERNAME=${{ secrets.DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
         echo "REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" >> $GITHUB_ENV
-    - name: Run container build script
+    - name: Build and push RPM build image
       run: bin/build_container_image
