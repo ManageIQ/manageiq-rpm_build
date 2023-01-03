@@ -28,10 +28,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up registry credentials
-      if: "${{ github.event_name != 'pull_request' }}"
-      run: |
-        echo "REGISTRY_USERNAME=${{ secrets.DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
-        echo "REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" >> $GITHUB_ENV
-    - name: Build and push RPM build image
+    - name: Build RPM build image
       run: bin/build_container_image
