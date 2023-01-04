@@ -1,4 +1,7 @@
 %changelog
+* Wed Jan 4 2023 ManageIQ <contact@manageiq.org> - 15.1.1-1
+- Oparin 1.1 build
+
 * Thu Dec 22 2022 ManageIQ <contact@manageiq.org> - 15.1.0-1
 - Oparin 1 build
 
