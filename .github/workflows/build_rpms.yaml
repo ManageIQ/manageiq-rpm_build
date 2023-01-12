@@ -36,7 +36,7 @@ jobs:
         echo "    access_key: ${{ secrets.RPM_BUILD_S3_ACCESS_KEY }}" >> /tmp/options/options.yml
         echo "    secret_key: ${{ secrets.RPM_BUILD_S3_SECRET_KEY }}" >> /tmp/options/options.yml
     - name: Build and push RPMs
-      run: run_container_image
+      run: bin/run_container_image
   notify_builders:
     needs: build_rpms
     if: github.repository_owner == 'ManageIQ'
