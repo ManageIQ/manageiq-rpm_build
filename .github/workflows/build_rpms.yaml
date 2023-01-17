@@ -22,6 +22,7 @@ jobs:
     if: github.repository_owner == 'ManageIQ'
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: Set up registry credentials
       run: |
         echo "REGISTRY_USERNAME=${{ secrets.DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
