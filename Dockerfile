@@ -15,7 +15,7 @@ RUN ARCH=$(uname -m) && \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm ; fi && \
     dnf -y install \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
-      https://rpm.manageiq.org/release/16-petrosian/el8/noarch/manageiq-release-16.0-1.el8.noarch.rpm && \
+      https://rpm.manageiq.org/release/17-quinteros/el8/noarch/manageiq-release-17.0-1.el8.noarch.rpm && \
     dnf -y module enable ruby:3.0 && \
     dnf -y module enable nodejs:14 && \
     dnf -y module disable virt:rhel && \
