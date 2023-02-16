@@ -1,27 +1,27 @@
 ---
-product_name:      manageiq
+product_name: manageiq
 repos:
-  ref:             master
+  ref: master
   manageiq:
-    url:           https://github.com/ManageIQ/manageiq.git
+    url: https://github.com/ManageIQ/manageiq.git
     ref:
   manageiq_appliance:
-    url:           https://github.com/ManageIQ/manageiq-appliance.git
+    url: https://github.com/ManageIQ/manageiq-appliance.git
     ref:
   manageiq_ui_service:
-    url:           https://github.com/ManageIQ/manageiq-ui-service.git
+    url: https://github.com/ManageIQ/manageiq-ui-service.git
     ref:
 version:
 release:
 rpm:
-  version:         16.0.0
-  release:         0
+  version: 16.0.0
+  release: 0
   repo_name:
-  org_name:        manageiq
+  org_name: manageiq
   product_summary: ManageIQ Management Engine
-  product_url:     https://github.com/ManageIQ/manageiq
+  product_url: https://github.com/ManageIQ/manageiq
   changelog:
-# npm_registry:      https://npm.manageiq.org
+# npm_registry: https://npm.manageiq.org
 rpm_repository:
   digitalocean_access_token:
   s3_api:
@@ -30,16 +30,16 @@ rpm_repository:
     bucket: rpm-manageiq-org
     endpoint: nyc3.digitaloceanspaces.com
   :arches:
-    - "src"
-    - "noarch"
-    - "ppc64le"
-    - "s390x"
-    - "x86_64"
+  - src
+  - noarch
+  - ppc64le
+  - s390x
+  - x86_64
   :content:
     :16-petrosian:
       :targets:
-        - el8
-        - el9
+      - el8
+      - el9
       :rpms:
         :ansible: !ruby/regexp /.+-5\.4.+/
         :kafka: !ruby/regexp /.+-3\.3.+/
@@ -55,7 +55,7 @@ rpm_repository:
         :wmi: !ruby/regexp /.+-1\.3\.14.+/
     :16-petrosian-nightly:
       :targets:
-        - el8
-        - el9
+      - el8
+      - el9
       :rpms:
         :manageiq-nightly: !ruby/regexp /.+-16\.\d\.\d-(\d\.\d\.)?\d{14,}+\.el.+/
