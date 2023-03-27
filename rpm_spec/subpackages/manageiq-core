@@ -24,7 +24,7 @@ Requires: socat
 # ensure this user exists (build and upgrade)
 /usr/bin/id manageiq > /dev/null 2>&1 || /usr/sbin/useradd --system --create-home manageiq
 # create a manageiq home directory if it doesn't exist
-[[ ! -e /home/manageiq ]] && mkdir /home/manageiq && chown manageiq:manageiq /home/manageiq
+mkdir -p /home/manageiq && chown manageiq:manageiq /home/manageiq
 
 %posttrans core
 # 'bin' needs to be copied, not symlinked
