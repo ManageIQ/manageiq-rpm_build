@@ -17,13 +17,13 @@ module ManageIQ
             next
           end
 
-          position = timestamp[2, 8].to_i # YYYYMMDDHHMMSS -> YYMMDDHH
-          candidates[package][position] = object.key
+          candidates[package] << object.key
+          candidates[package].sort!
         end
 
         candidates.each_key do |package|
           # Keep the most recent 7 nightly builds of any package
-          (candidates[package].compact[0..-7] - keepers[package]).each { |i| delete(i) }
+          (candidates[package][0..-7] - keepers[package]).each { |i| delete(i) }
         end
       end
 
