@@ -17,7 +17,7 @@ RUN ARCH=$(uname -m) && \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
       https://rpm.manageiq.org/release/17-quinteros/el8/noarch/manageiq-release-17.0-1.el8.noarch.rpm && \
     dnf -y module enable ruby:3.0 && \
-    dnf -y module enable nodejs:14 && \
+    dnf -y module enable nodejs:18 && \
     dnf -y module disable virt:rhel && \
     if [ ${ARCH} != "s390x" ] ; then dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save; fi && \
     dnf -y group install "development tools" && \
