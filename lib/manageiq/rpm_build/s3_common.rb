@@ -6,12 +6,11 @@ module ManageIQ
       def client
         @client ||= begin
           require 'aws-sdk-s3'
-          Aws::S3::Client.new(
-            :access_key_id     => OPTIONS.rpm_repository.s3_api.access_key,
-            :secret_access_key => OPTIONS.rpm_repository.s3_api.secret_key,
-            :region            => 'us-east-1',
-            :endpoint          => "https://#{OPTIONS.rpm_repository.s3_api.endpoint}"
-          )
+          Aws::S3::Resource.new(
+            :credentials => Aws::Credentials.new(OPTIONS.rpm_repository.s3_api.access_key, OPTIONS.rpm_repository.s3_api.secret_key),
+            :region      => 'us-east',
+            :endpoint    => "https://#{OPTIONS.rpm_repository.s3_api.endpoint}"
+          ).client
         end
       end
 
