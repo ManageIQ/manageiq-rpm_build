@@ -28,7 +28,7 @@ rpm_repository:
     access_key:
     secret_key:
     bucket: rpm-manageiq-org
-    endpoint: nyc3.digitaloceanspaces.com
+    endpoint: s3.us-east.cloud-object-storage.appdomain.cloud
   :arches:
   - src
   - noarch
