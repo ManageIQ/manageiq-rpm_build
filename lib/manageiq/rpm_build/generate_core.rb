@@ -56,9 +56,6 @@ module ManageIQ
         symlink_plugin_paths("manageiq-ui-service", ui_service_dir)
 
         Dir.chdir(ui_service_dir) do
-          if RUBY_PLATFORM.match?(/powerpc64le|s390x/)
-            shell_cmd("npm config --global set python /usr/bin/python2.7")
-          end
           shell_cmd("yarn set version 1.22.18") if RUBY_PLATFORM.include?("s390x")
           shell_cmd("yarn install")
           shell_cmd("yarn run available-languages")
