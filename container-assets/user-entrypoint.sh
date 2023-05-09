@@ -8,6 +8,9 @@ if [[ $# -eq 0 ]]; then
 elif [[ $1 == "build" ]]; then
   shift
   cmd="bin/build.rb $@"
+elif [[ $1 == "build_hotfix" ]]; then
+  shift
+  cmd="bin/build_hotfix.rb $@"
 else
   echo "Run with no argument to setup build environment, or"
   echo "Run with 'build <build.rb options>' to start bin/build.rb (e.g. build --git-ref jansa)"
