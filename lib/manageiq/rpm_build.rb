@@ -11,6 +11,7 @@ require 'manageiq/rpm_build/s3_common'
 
 require 'manageiq/rpm_build/helper'
 require 'manageiq/rpm_build/build_copr'
+require 'manageiq/rpm_build/build_hotfix'
 require 'manageiq/rpm_build/build_uploader'
 require 'manageiq/rpm_build/generate_ansible_venv'
 require 'manageiq/rpm_build/generate_gemset'
@@ -26,6 +27,7 @@ module ManageIQ
     SCRIPT_DIR   = ROOT_DIR.join("scripts")
 
     BUILD_DIR    = Pathname.new(ENV.fetch("BUILD_DIR", "~/BUILD")).expand_path
+    HOTFIX_DIR   = BUILD_DIR.join("hotfix")
     RPM_SPEC_DIR = BUILD_DIR.join("rpm_spec")
     MANIFEST_DIR = BUILD_DIR.join("manifest")
 

@@ -36,6 +36,8 @@ Source2:  %{name}-core-%{version}.tar.gz
 Source3:  %{name}-gemset-%{version}.tar.gz
 Source4:  %{name}-manifest-%{version}.tar.gz
 
+# Declare any patches here
+
 %description
 %{product_summary}
 
@@ -49,6 +51,8 @@ umask 0002
 
 # buildsubdir is set to the last extracted archive, reset
 cd %{_builddir}
+
+# Apply any patches here
 
 %py3_shebang_fix %{gemset_builddir} 2>&1 | grep -v "^recursedown" | grep -v "no change"
 
