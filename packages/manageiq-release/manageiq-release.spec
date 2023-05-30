@@ -1,11 +1,11 @@
 Name:      manageiq-release
-Version:   17.0
+Version:   16.0
 Release:   1%{dist}
 Summary:   ManageIQ RPM repository configuration
 License:   Apache-2.0
 URL:       https://rpm.manageiq.org/release/
 Source0:   RPM-GPG-KEY-MANAGEIQ
-Source1:   manageiq-17-quinteros.repo
+Source1:   manageiq-16-petrosian.repo
 BuildArch: noarch
 
 %description
@@ -36,9 +36,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
-* Thu Feb 16 2023 Jason Frey <fryguy9@gmail.com> - 17.0-1%{dist}
-- Initial build of manageiq-release for Quinteros.
-
 * Wed Aug 17 2022 Jason Frey <fryguy9@gmail.com> - 16.0-1%{dist}
 - Initial build of manageiq-release for Petrosian.
 
