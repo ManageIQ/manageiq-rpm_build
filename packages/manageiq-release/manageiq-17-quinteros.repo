@@ -1,0 +1,41 @@
+[manageiq-17-quinteros]
+name=ManageIQ 17 (Quinteros) Release - $basearch
+baseurl=https://rpm.manageiq.org/release/17-quinteros/el$releasever/$basearch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-17-quinteros-noarch]
+name=ManageIQ 17 (Quinteros) Release - noarch
+baseurl=https://rpm.manageiq.org/release/17-quinteros/el$releasever/noarch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-17-quinteros-source]
+name=ManageIQ 17 (Quinteros) Release - source
+baseurl=https://rpm.manageiq.org/release/17-quinteros/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-17-quinteros-nightly]
+name=ManageIQ 17 (Quinteros) Nightly - $basearch
+baseurl=https://rpm.manageiq.org/release/17-quinteros-nightly/el$releasever/$basearch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-17-quinteros-nightly-noarch]
+name=ManageIQ 17 (Quinteros) Nightly - noarch
+baseurl=https://rpm.manageiq.org/release/17-quinteros-nightly/el$releasever/noarch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-17-quinteros-nightly-source]
+name=ManageIQ 17 (Quinteros) Nightly - source
+baseurl=https://rpm.manageiq.org/release/17-quinteros-nightly/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ

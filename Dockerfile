@@ -15,9 +15,9 @@ RUN ARCH=$(uname -m) && \
       http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm ; fi && \
     dnf -y install \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
-      https://rpm.manageiq.org/release/16-petrosian/el8/noarch/manageiq-release-16.0-1.el8.noarch.rpm && \
+      https://rpm.manageiq.org/release/17-quinteros/el8/noarch/manageiq-release-17.0-1.el8.noarch.rpm && \
     dnf -y module enable ruby:3.0 && \
-    dnf -y module enable nodejs:14 && \
+    dnf -y module enable nodejs:18 && \
     dnf -y module disable virt:rhel && \
     if [ ${ARCH} != "s390x" ] ; then dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save; fi && \
     dnf -y group install "development tools" && \
@@ -56,7 +56,6 @@ RUN ARCH=$(uname -m) && \
       python38-pip \
       rpm-build && \
     dnf -y update libarchive && \
-    if [ ${ARCH} = "s390x" ] || [ ${ARCH} = "ppc64le" ] ; then dnf -y install python2 ; fi && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 

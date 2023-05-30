@@ -1,4 +1,7 @@
 %changelog
+* Thu Feb 16 2023 Jason Frey <fryguy9@gmail.com> - 17.0.0-1
+- Initial build of manageiq-release for Quinteros.
+
 * Wed Aug 17 2022 Jason Frey <fryguy9@gmail.com> - 16.0.0-1
 - Initial build of manageiq-release for Petrosian.
 
