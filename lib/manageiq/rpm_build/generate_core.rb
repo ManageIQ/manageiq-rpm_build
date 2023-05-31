@@ -59,7 +59,7 @@ module ManageIQ
           shell_cmd("yarn install")
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
-          shell_cmd("git clean -xdf") unless RUBY_PLATFORM.include?("s390x")
+          shell_cmd("git clean -xdf")  # cleanup temp files
         end
       end
 
