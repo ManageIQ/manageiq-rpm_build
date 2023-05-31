@@ -56,7 +56,6 @@ module ManageIQ
         symlink_plugin_paths("manageiq-ui-service", ui_service_dir)
 
         Dir.chdir(ui_service_dir) do
-          shell_cmd("yarn set version 1.22.18") if RUBY_PLATFORM.include?("s390x")
           shell_cmd("yarn install")
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
