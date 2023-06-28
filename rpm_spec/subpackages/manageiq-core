@@ -4,7 +4,7 @@ Summary:  %{product_summary} Core
 Requires: ruby
 Requires: %{name}-gemset = %{version}-%{release}
 
-Requires: ansible
+Requires: ansible >= 5, ansible < 6
 Requires: ansible-runner
 Requires: cockpit
 Requires: cockpit-ssh
@@ -13,6 +13,7 @@ Requires: git
 Requires: net-snmp
 Requires: net-snmp-libs
 Requires: net-snmp-utils
+Requires: python38
 Requires: socat
 
 %description core
