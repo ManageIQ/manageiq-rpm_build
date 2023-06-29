@@ -13,6 +13,7 @@ Requires: lvm2
 Requires: memcached
 
 Requires: kafka
+Requires: podman
 
 # NTP
 Requires: chrony
