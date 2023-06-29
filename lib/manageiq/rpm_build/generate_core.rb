@@ -61,6 +61,7 @@ module ManageIQ
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
           shell_cmd("git clean -xdf")  # cleanup temp files
+          shell_cmd("yarn set version 1.22.18") if RUBY_PLATFORM.include?("s390x")
         end
       end
 
