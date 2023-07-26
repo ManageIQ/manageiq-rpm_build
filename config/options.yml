@@ -21,7 +21,7 @@ rpm:
   product_summary: ManageIQ Management Engine
   product_url: https://github.com/ManageIQ/manageiq
   changelog:
-# npm_registry: https://npm.manageiq.org
+npm_registry: https://npm.manageiq.org
 rpm_repository:
   digitalocean_access_token:
   s3_api:
