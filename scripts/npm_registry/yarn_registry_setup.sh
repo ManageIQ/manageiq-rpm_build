@@ -2,8 +2,12 @@
 
 NPM_REGISTRY_OVERRIDE="$1"
 
-yarn config set npmRegistryServer ${NPM_REGISTRY_OVERRIDE}
-yarn config set enableStrictSsl false
+if [[ $(uname -m) == "s390x" ]]; then
+  # For yarn v1
+  yarn config set registry ${NPM_REGISTRY_OVERRIDE}
+else
+  yarn config set npmRegistryServer ${NPM_REGISTRY_OVERRIDE}
+fi
 
 # Replace registry in existing yarn.lock
 ui_plugin_repos=`rake update:print_engines | grep path: | cut -d: -f2`

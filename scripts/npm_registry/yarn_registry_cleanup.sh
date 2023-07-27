@@ -2,8 +2,12 @@
 
 NPM_REGISTRY_OVERRIDE="$1"
 
-yarn config delete npmRegistryServer
-yarn config delete enableStrictSsl
+if [[ $(uname -m) == "s390x" ]]; then
+  # For yarn v1
+  yarn config delete registry
+else
+  yarn config delete npmRegistryServer
+fi
 
 # Replace registry in yarn.lock
 default_yarn_registry=`yarn config get npmRegistryServer`
