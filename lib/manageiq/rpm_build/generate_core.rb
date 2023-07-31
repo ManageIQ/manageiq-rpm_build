@@ -57,7 +57,7 @@ module ManageIQ
 
         Dir.chdir(ui_service_dir) do
           shell_cmd("yarn set version 1.22.18") if RUBY_PLATFORM.include?("s390x")
-          shell_cmd("yarn install")
+          shell_cmd("yarn install --frozen-lockfile") # Switch --frozen-lockfile to --immutable once s390x is off of yarn 1.
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
           shell_cmd("git clean -xdf")  # cleanup temp files
