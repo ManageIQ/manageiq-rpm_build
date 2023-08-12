@@ -1,8 +1,8 @@
 # ManageIQ RPM Build
 
-[![CI](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml/badge.svg)](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml)
+[![CI](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml/badge.svg?branch=quinteros)](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml)
 
-[![Build history for master branch](https://buildstats.info/github/chart/ManageIQ/manageiq-rpm_build?branch=master&buildCount=50&includeBuildsFromPullRequest=false&showstats=false)](https://github.com/ManageIQ/manageiq-rpm_build/actions?query=branch%3Amaster)
+[![Build history for quinteros branch](https://buildstats.info/github/chart/ManageIQ/manageiq-rpm_build?branch=quinteros&buildCount=50&includeBuildsFromPullRequest=false&showstats=false)](https://github.com/ManageIQ/manageiq-rpm_build/actions?query=branch%3Amaster)
 
 
 ## Summary
