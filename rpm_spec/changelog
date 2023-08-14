@@ -1,4 +1,7 @@
 %changelog
+* Mon Aug 14 2023 ManageIQ <contact@manageiq.org> - 16.1.0-1
+- Petrosian 1 build
+
 * Wed Aug 17 2022 Jason Frey <fryguy9@gmail.com> - 16.0.0-1
 - Initial build of manageiq-release for Petrosian.
 
