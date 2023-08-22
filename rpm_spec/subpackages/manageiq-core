@@ -16,6 +16,8 @@ Requires: net-snmp
 Requires: net-snmp-libs
 Requires: net-snmp-utils
 Requires: socat
+Requires: core-utils     # rpm %pre calls uses id
+Requires: shadow-utils   # rpm %pre calls uses useradd
 
 %description core
 %{product_summary} Core
