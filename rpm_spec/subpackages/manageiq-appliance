@@ -61,6 +61,11 @@ Requires: cockpit-ws
 %description appliance
 %{product_summary} Appliance
 
+%pre appliance
+# Add sub uids/gids for running non-privileged containers
+grep manageiq /etc/subuid >/dev/null 2>&1 || /usr/sbin/usermod --add-subuids 100000-165535 manageiq
+grep manageiq /etc/subgid >/dev/null 2>&1 || /usr/sbin/usermod --add-subgids 100000-165535 manageiq
+
 %posttrans appliance
 %{_bindir}/systemctl try-restart evmserverd.service
 
