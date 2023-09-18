@@ -56,15 +56,10 @@ module ManageIQ
         symlink_plugin_paths("manageiq-ui-service", ui_service_dir)
 
         Dir.chdir(ui_service_dir) do
-          shell_cmd("yarn set version 1.22.18") if RUBY_PLATFORM.include?("s390x")
-          shell_cmd("yarn install") # Add --immutable once s390x is off of yarn 1.
+          shell_cmd("yarn install") # TODO: Add --immutable once s390x doesn't change the checksums.
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
-          shell_cmd("git clean -xdf")  # cleanup temp files
-          if RUBY_PLATFORM.include?("s390x")
-            shell_cmd("git checkout .yarn*")
-            shell_cmd("yarn set version 1.22.18")
-          end
+          shell_cmd("git clean -xdf") # cleanup temp files
         end
       end
 
