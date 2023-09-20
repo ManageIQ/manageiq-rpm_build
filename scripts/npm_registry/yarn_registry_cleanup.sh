@@ -1,13 +1,7 @@
 #!/bin/bash
 
 NPM_REGISTRY_OVERRIDE="$1"
-
-if [[ $(uname -m) == "s390x" ]]; then
-  # For yarn v1
-  yarn config delete registry
-else
-  yarn config delete npmRegistryServer
-fi
+yarn config delete npmRegistryServer
 
 # Replace registry in yarn.lock
 default_yarn_registry=`yarn config get npmRegistryServer`
