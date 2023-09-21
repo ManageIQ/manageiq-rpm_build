@@ -1,13 +1,7 @@
 #!/bin/bash
 
 NPM_REGISTRY_OVERRIDE="$1"
-
-if [[ $(uname -m) == "s390x" ]]; then
-  # For yarn v1
-  yarn config set registry ${NPM_REGISTRY_OVERRIDE}
-else
-  yarn config set npmRegistryServer ${NPM_REGISTRY_OVERRIDE}
-fi
+yarn config set npmRegistryServer ${NPM_REGISTRY_OVERRIDE}
 
 # Replace registry in existing yarn.lock
 ui_plugin_repos=`rake update:print_engines | grep path: | cut -d: -f2`
