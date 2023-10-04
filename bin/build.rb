@@ -7,7 +7,7 @@ require 'optimist'
 
 opts = Optimist.options do
   opt :build_type,      "nightly or release", :type => :string, :default => "nightly"
-  opt :git_ref,         "Git ref to use (default: git_ref specified in options.yml)", :type => :string
+  opt :git_ref,         "Git ref to use (default: git_ref specified in options.yml)", :type => :string, :default => ManageIQ::RPMBuild::OPTIONS.repos.ref
   opt :update_rpm_repo, "Publish the resulting RPMs to the public repository?"
 end
 Optimist.die "build type must be either nightly or release" unless %w[nightly release].include?(opts[:build_type])
