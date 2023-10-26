@@ -14,7 +14,7 @@ jobs:
         ruby-version:
         - '3.0'
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
@@ -27,6 +27,6 @@ jobs:
     needs: ci
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build RPM build image
       run: bin/build_container_image
