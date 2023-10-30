@@ -1,6 +1,6 @@
 %changelog
-* Sat Aug 12 2023 Jason Frey <fryguy9@gmail.com> - 18.0.0-1
-- Initial build of manageiq-release for Radjabov.
+* Thu Oct 30 2023 Jason Frey <fryguy9@gmail.com> - 17.1.0-1
+- Mid-release build of manageiq-release for Quinteros.
 
 * Thu Feb 16 2023 Jason Frey <fryguy9@gmail.com> - 17.0.0-1
 - Initial build of manageiq-release for Quinteros.
