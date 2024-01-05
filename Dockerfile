@@ -63,7 +63,14 @@ RUN npm install yarn -g
 
 RUN echo "gem: --no-ri --no-rdoc --no-document" > /root/.gemrc
 
+RUN curl -o /usr/lib/rpm/brp-strip https://raw.githubusercontent.com/rpm-software-management/rpm/rpm-4.19.1-release/scripts/brp-strip
+
+RUN chmod +x /usr/lib/rpm/brp-strip
+
 COPY . /build_scripts
+
+RUN cd /usr/lib/rpm/ && \
+  patch -p2 < /build_scripts/container-assets/Add-js-rb-filtering-on-top-of-4.19.1.patch
 
 RUN gem install bundler
 
