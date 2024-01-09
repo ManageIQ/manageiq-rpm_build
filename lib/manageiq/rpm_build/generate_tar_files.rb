@@ -8,10 +8,21 @@ module ManageIQ
       include Helper
 
       def create_tarballs
+puts "XXX #{Time.now.utc} create_core_tarball"
         create_core_tarball
+puts "XXX #{Time.now.utc} create_core_tarball DONE"
+
+puts "XXX #{Time.now.utc} create_gemset_tarball"
         create_gemset_tarball
+puts "XXX #{Time.now.utc} create_gemset_tarball DONE"
+
+puts "XXX #{Time.now.utc} create_appliance_tarball"
         create_appliance_tarball
+puts "XXX #{Time.now.utc} create_appliance_tarball DONE"
+
+puts "XXX #{Time.now.utc} create_ansible_venv_tarball"
         create_ansible_venv_tarball
+puts "XXX #{Time.now.utc} create_ansible_venv_tarball DONE"
       end
 
       def create_gemset_tarball
