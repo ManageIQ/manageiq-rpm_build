@@ -65,6 +65,8 @@ Requires: cockpit-ws
 # Add sub uids/gids for running non-privileged containers
 grep manageiq /etc/subuid >/dev/null 2>&1 || /usr/sbin/usermod --add-subuids 100000-165535 manageiq
 grep manageiq /etc/subgid >/dev/null 2>&1 || /usr/sbin/usermod --add-subgids 100000-165535 manageiq
+# Add manageiq user to disk group to allow ISCSI smartstate scans
+groups manageiq | grep disk >/dev/null 2>&1 || /usr/sbin/usermod --append --groups disk manageiq
 
 %posttrans appliance
 %{_bindir}/systemctl try-restart evmserverd.service
