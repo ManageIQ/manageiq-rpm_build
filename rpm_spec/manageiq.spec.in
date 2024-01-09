@@ -22,6 +22,11 @@
 # Turn off the brp-python-bytecompile automagic
 %global _python_bytecompile_extra 0
 
+# Turn off python dependency checking
+# This was externalized in subsequent versions of rpmbuild: https://github.com/rpm-software-management/rpm/pull/1607
+%global __python_provides %{nil}
+%global __python_requires %{nil}
+
 # Disable /usr/lib/.build-id/* artifacts
 %define _build_id_links none
 
