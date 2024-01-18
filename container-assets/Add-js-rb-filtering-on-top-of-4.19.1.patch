@@ -1,0 +1,33 @@
+From 7d0f0d9c34a934327cfdd68e721c250af39a5c13 Mon Sep 17 00:00:00 2001
+From: Joe Rafaniello <jrafanie@gmail.com>
+Date: Tue, 9 Jan 2024 15:00:25 -0500
+Subject: [PATCH] Add js/rb filtering on top of 4.19.1
+
+---
+ scripts/brp-strip | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/scripts/brp-strip b/scripts/brp-strip
+index 799bf2bc2..b258debc8 100755
+--- a/scripts/brp-strip
++++ b/scripts/brp-strip
+@@ -20,6 +20,7 @@ esac
+ 
+ # Below is the explanation of commands in the order of their appearance
+ # Ignore /usr/lib/debug entries
++# Ignore all js and rb javascript and ruby files
+ # Ignore all go(guile objects & golang) files
+ # Consider files with only single link
+ # Run the file command to find relevant non-stripped binaries, with bundle size of 32
+@@ -33,6 +34,8 @@ strip_elf_binaries()
+ 
+   find "$RPM_BUILD_ROOT" -type f \
+     ! -regex "${RPM_BUILD_ROOT}/*usr/lib/debug.*" \
++    ! -name "*.js" \
++    ! -name "*.rb" \
+     ! -name "*.go" -links "${nlinks}" -print0 | \
+     xargs -0 -r -P${nprocs} -n${MAX_ARGS} sh -c "file \"\$@\" | \
+     sed -n -e 's/^\(.*\):[ 	]*ELF.*, not stripped.*/\1/p' | \
+-- 
+2.42.0
+

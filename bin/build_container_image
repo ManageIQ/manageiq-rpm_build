@@ -11,7 +11,7 @@ IMAGE_NAME=${IMAGE_NAME:-"$DEFAULT_IMAGE_NAME"}
 
 set -e
 
-docker build . -t $IMAGE_NAME
+docker build --platform=linux/x86_64 . -t $IMAGE_NAME
 
 [[ -z "$REGISTRY_USERNAME" ]] && exit 0
 

@@ -8,10 +8,21 @@ module ManageIQ
       include Helper
 
       def create_tarballs
+puts "XXX #{Time.now.utc} create_core_tarball"
         create_core_tarball
+puts "XXX #{Time.now.utc} create_core_tarball DONE"
+
+puts "XXX #{Time.now.utc} create_gemset_tarball"
         create_gemset_tarball
+puts "XXX #{Time.now.utc} create_gemset_tarball DONE"
+
+puts "XXX #{Time.now.utc} create_appliance_tarball"
         create_appliance_tarball
+puts "XXX #{Time.now.utc} create_appliance_tarball DONE"
+
+puts "XXX #{Time.now.utc} create_ansible_venv_tarball"
         create_ansible_venv_tarball
+puts "XXX #{Time.now.utc} create_ansible_venv_tarball DONE"
       end
 
       def create_gemset_tarball
@@ -22,14 +33,14 @@ module ManageIQ
         plugin_index.write(plugin_index.read.gsub(BUILD_DIR.join("manageiq").to_s, '/var/www/miq/vmdb'))
 
         name = "gemset"
-        shell_cmd("tar -C #{BUILD_DIR} -zcf #{tar_full_path(name)} -X #{exclude_file(name)} #{tar_basename(name)}")
+        shell_cmd("tar -C #{BUILD_DIR} -zcf #{tar_full_path(name)} --exclude-vcs -X #{exclude_file(name)} #{tar_basename(name)}")
       end
 
       def create_appliance_tarball
         where_am_i
 
         name = "appliance"
-        shell_cmd("tar -C #{BUILD_DIR.join("manageiq-appliance")} #{transform(name)} --exclude='.git' -hzcf #{tar_full_path(name)} .")
+        shell_cmd("tar -C #{BUILD_DIR.join("manageiq-appliance")} #{transform(name)} --exclude-vcs -hzcf #{tar_full_path(name)} .")
       end
 
       def create_core_tarball
@@ -38,21 +49,21 @@ module ManageIQ
         name = "core"
 
         # Everything from */tmp/* should be excluded, except for tmp/cache/sti_loader.yml
-        shell_cmd("tar -C #{BUILD_DIR.join("manageiq")} #{transform(name)} --exclude-tag='cache/sti_loader.yml' -X #{exclude_file("manageiq")} -hczf #{tar_full_path(name)} .")
+        shell_cmd("tar -C #{BUILD_DIR.join("manageiq")} #{transform(name)} --exclude-vcs --exclude-tag='cache/sti_loader.yml' -X #{exclude_file("manageiq")} -hczf #{tar_full_path(name)} .")
       end
 
       def create_ansible_venv_tarball
         where_am_i
 
         name = "ansible-venv"
-        shell_cmd("tar -C #{BUILD_DIR.join("manageiq-ansible-venv")} #{transform(name)} -X #{exclude_file(name)} -hzcf #{tar_full_path(name)} .")
+        shell_cmd("tar -C #{BUILD_DIR.join("manageiq-ansible-venv")} #{transform(name)} --exclude-vcs -X #{exclude_file(name)} -hzcf #{tar_full_path(name)} .")
       end
 
       def create_manifest_tarball
         where_am_i
 
         name = "manifest"
-        shell_cmd("tar -C #{BUILD_DIR.join(name)} #{transform(name)} --exclude='.git' -hzcf #{tar_full_path(name)} .")
+        shell_cmd("tar -C #{BUILD_DIR.join(name)} #{transform(name)} --exclude-vcs -hzcf #{tar_full_path(name)} .")
       end
 
       private

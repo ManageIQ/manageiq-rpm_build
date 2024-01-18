@@ -19,4 +19,10 @@ fi
 
 cd /build_scripts
 bundle
-$cmd
+echo $cmd
+$cmd &
+
+while sleep 30
+do
+  echo "XXX $(date -u) Time check"
+done
