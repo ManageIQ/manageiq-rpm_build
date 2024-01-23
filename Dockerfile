@@ -16,12 +16,12 @@ RUN ARCH=$(uname -m) && \
     dnf -y install \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
       https://rpm.manageiq.org/release/18-radjabov/el8/noarch/manageiq-release-18.0-1.el8.noarch.rpm && \
-    dnf -y module enable ruby:3.0 && \
+    dnf -y module enable ruby:3.1 && \
     dnf -y module enable nodejs:18 && \
     dnf -y module disable virt:rhel && \
     if [ ${ARCH} != "s390x" ] ; then dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save; fi && \
     dnf -y group install "development tools" && \
-    dnf config-manager --setopt=epel.exclude=*qpid-proton* --setopt=tsflags=nodocs --save && \
+    dnf config-manager --setopt=tsflags=nodocs --save && \
     dnf -y install \
       cmake \
       copr-cli \

@@ -30,7 +30,7 @@ Requires: python3-pylxca
 Requires: cyrus-sasl
 Requires: cyrus-sasl-plain
 Requires: python3-vspk
-Requires: qpid-proton-c
+Requires: qpid-proton-c >= 0.37.0
 
 # For Appliance Console
 Requires: libsodium-devel

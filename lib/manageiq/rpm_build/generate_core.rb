@@ -104,7 +104,7 @@ module ManageIQ
 
       def fixup_sti_loader!
         sti_loader_yml_path = miq_dir.join("tmp/cache/sti_loader.yml")
-        sti_loader          = YAML.load_file(sti_loader_yml_path)
+        sti_loader          = YAML.unsafe_load(File.read(sti_loader_yml_path))
 
         # Replace paths from the rpm build with the paths that will exist at runtime
         sti_loader.transform_keys! do |path|
