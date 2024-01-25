@@ -44,6 +44,7 @@ RUN ARCH=$(uname -m) && \
       # For seeding ansible runner with ansible-galaxy, and for ansible-venv
       ansible-5.4.0-3.el8 \
       # For ansible-venv
+      cargo \
       gcc \
       krb5-devel \
       libcurl-devel \
