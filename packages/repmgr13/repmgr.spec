@@ -17,7 +17,7 @@
 
 Name:        %{sname}%{pgpackageversion}
 Version:    5.2.1
-Release:    2%{nil}%{?dist}
+Release:    3%{nil}%{?dist}
 Summary:    Replication Manager for PostgreSQL Clusters
 License:    GPLv3+
 URL:        https://repmgr.org
@@ -46,7 +46,7 @@ Requires(postun):   initscripts
 Group:        Applications/Databases
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{extra_version}-%{release}-root-%(%{__id_u} -n)
 %endif
-BuildRequires:    postgresql >= 13, postgresql < 14, postgresql-devel, postgresql-static
+BuildRequires:    postgresql-server-devel >= 13, postgresql-server-devel < 14, postgresql-static
 BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel, flex
 Requires:    postgresql-server
 
@@ -57,6 +57,11 @@ BuildRequires:  llvm5.0
 
 %if 0%{?pgpackageversion} >= 11 && 0%{?pgpackageversion} < 90 && 0%{?rhel} && 0%{?rhel} == 8
 BuildRequires:  llvm-toolset ccache
+BuildRequires:  clang-devel
+%endif
+
+%if 0%{?pgpackageversion} >= 11 && 0%{?pgpackageversion} < 90 && 0%{?rhel} && 0%{?rhel} == 9
+BuildRequires:  llvm-toolset
 BuildRequires:  clang-devel
 %endif
 
@@ -129,7 +134,6 @@ fi
 /sbin/ldconfig
 %if %{systemd_enabled}
 %systemd_post %{sname}-%{pgpackageversion}.service
-%tmpfiles_create
 %else
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{sname}-%{pgpackageversion}
@@ -190,6 +194,9 @@ fi
 %endif
 
 %changelog
+* Wed Feb 14 2024 - Brandon Dunne <brandondunne@hotmail.com> 5.2.1-3
+- Rebuild for EL9
+
 * Tue Nov 22 2022 - Brandon Dunne <brandondunne@hotmail.com> 5.2.1-2
 - Upstream release 5.2.1-2
 
