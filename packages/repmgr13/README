@@ -3,5 +3,5 @@ Build with:
 Fetch source files from https://rpm-manageiq-org.nyc3.digitaloceanspaces.com/index.html?prefix=sources_cache/repmgr13/ if needed.
 
 ```bash
-mock --spec=./repmgr.spec -r centos-stream+epel-8-x86_64 --config-opts=module_setup_commands.module_install=postgresql:13 --sources=./
+mock --spec=./repmgr.spec -r centos-stream-9-x86_64 --sources=./
 ```
