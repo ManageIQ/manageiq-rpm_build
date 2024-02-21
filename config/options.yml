@@ -41,8 +41,6 @@ rpm_repository:
       - el8
       - el9
       :rpms:
-        :ansible: !ruby/regexp /.+-5\.4.+/
-        :ansible-core: !ruby/regexp /.+-2\.12.+/
         :kafka: !ruby/regexp /.+-3\.3.+/
         :manageiq: !ruby/regexp /.+-18\.\d\.\d-(alpha|beta|rc)?\d(\.\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-18\.0.+/
