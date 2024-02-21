@@ -14,10 +14,6 @@ Requires: nfs-utils
 Requires: openscap-scanner
 Requires: openssl
 
-%ifarch x86_64
-Requires: wmi
-%endif
-
 # For Miq IPMI (gems-pending)
 Requires: OpenIPMI
 Requires: freeipmi
