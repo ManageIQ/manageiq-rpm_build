@@ -75,6 +75,18 @@ groups manageiq | grep disk >/dev/null 2>&1 || /usr/sbin/usermod --append --grou
 #motd is owned by system
 %{__cp} -f %{_sysconfdir}/motd.manageiq %{_sysconfdir}/motd
 
+# $1 is 1 for an install and greater for an upgrade
+# if we are upgrading ...
+if [ $1 -gt 1 ] ; then
+  # if the service is called manageiq and evmserverd alias does not exist ...
+  if [ -f %{_unitdir}/manageiq.service -a ! -e %{_unitdir}/evmserverd.service ] ; then
+    ln -s %{_unitdir}/manageiq.service %{_unitdir}/evmserverd.service
+  # if the service is called evmserverd and manageiq alias does not exist ...
+  elif [ -f %{_unitdir}/evmserverd.service -a ! -e %{_unitdir}/manageiq.service ] ; then
+    ln -s %{_unitdir}/evmserverd.service %{_unitdir}/manageiq.service
+  fi
+fi
+
 systemctl daemon-reload
 
 # Note, the last command from a scriplet sets the exit status
