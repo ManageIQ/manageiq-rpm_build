@@ -1,11 +1,11 @@
 Name:      manageiq-release
-Version:   18.0
+Version:   19.0
 Release:   1%{dist}
 Summary:   ManageIQ RPM repository configuration
 License:   Apache-2.0
 URL:       https://rpm.manageiq.org/release/
 Source0:   RPM-GPG-KEY-MANAGEIQ
-Source1:   manageiq-18-radjabov.repo
+Source1:   manageiq-19-spassky.repo
 BuildArch: noarch
 
 %description
@@ -36,6 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
+* Fri Feb 23 2024 Jason Frey <fryguy9@gmail.com> - 19.0-1%{dist}
+- Initial build of manageiq-release for Spassky.
+
 * Sat Aug 12 2023 Jason Frey <fryguy9@gmail.com> - 18.0-1%{dist}
 - Initial build of manageiq-release for Radjabov.
 
