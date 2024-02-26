@@ -24,7 +24,7 @@ module ManageIQ
 
           if File.exist?(File.expand_path("~/.config/copr"))
             shell_cmd("rpmbuild -bs --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{RPM_SPEC_DIR}' #{rpm_spec}")
-            shell_cmd("copr-cli build -r epel-8-x86_64 #{rpm_repo_name} #{OPTIONS.product_name}-*.src.rpm")
+            shell_cmd("copr-cli build -r epel-9-x86_64 #{rpm_repo_name} #{OPTIONS.product_name}-*.src.rpm")
           else
             arch = RUBY_PLATFORM.split("-").first
             shell_cmd("rpmbuild -ba --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{BUILD_DIR.join("rpms", arch)}' --define '_rpmdir #{BUILD_DIR.join("rpms")}' #{rpm_spec}")

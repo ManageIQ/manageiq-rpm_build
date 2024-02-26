@@ -78,7 +78,7 @@ module ManageIQ
           :defaults     => {
             :arch       => RUBY_PLATFORM.split("-")[0],
             :os         => "centos-stream",
-            :os_version => "8",
+            :os_version => "9",
           },
           "ansible" => {
             :os => "centos-stream+epel",
@@ -88,7 +88,6 @@ module ManageIQ
             :os          => "centos-stream+epel",
           },
           "repmgr13"    => {
-            :mock_extras => "--config-opts=module_setup_commands.module_install=postgresql:13",
             :os => "centos-stream+epel",
           },
         }.freeze
