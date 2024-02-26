@@ -43,12 +43,12 @@ RSpec.describe "options.yml" do
     context "manageiq rpms" do
       suffixes.each do |suffix|
         release_versions.each do |version|
-          file = ["manageiq", suffix, version].compact.join("-") + ".el8.x86_64.rpm"
+          file = ["manageiq", suffix, version].compact.join("-") + ".el9.x86_64.rpm"
           include_examples("expect_excluded_rpm", file, "manageiq-nightly")
         end
 
         nightly_versions.each do |version|
-          file = ["manageiq", suffix, version].compact.join("-") + ".el8.x86_64.rpm"
+          file = ["manageiq", suffix, version].compact.join("-") + ".el9.x86_64.rpm"
           include_examples("expect_included_rpm", file, "manageiq-nightly")
         end
       end
@@ -59,20 +59,20 @@ RSpec.describe "options.yml" do
     let(:repo) { name_version }
     context "manageiq-release rpms" do
       [
-        "manageiq-release-#{major_version}.0-1.el8.noarch.rpm",
-        "manageiq-release-#{major_version}.0-2.el8.noarch.rpm",
+        "manageiq-release-#{major_version}.0-1.el9.noarch.rpm",
+        "manageiq-release-#{major_version}.0-2.el9.noarch.rpm",
       ].each { |file| include_examples("expect_included_rpm", file, "manageiq-release") }
     end
 
     context "manageiq rpms" do
       suffixes.each do |suffix|
         release_versions.each do |version|
-          file = ["manageiq", suffix, version].compact.join("-") + ".el8.x86_64.rpm"
+          file = ["manageiq", suffix, version].compact.join("-") + ".el9.x86_64.rpm"
           include_examples("expect_included_rpm", file, "manageiq")
         end
 
         nightly_versions.each do |version|
-          file = ["manageiq", suffix, version].compact.join("-") + ".el8.x86_64.rpm"
+          file = ["manageiq", suffix, version].compact.join("-") + ".el9.x86_64.rpm"
           include_examples("expect_excluded_rpm", file, "manageiq")
         end
       end

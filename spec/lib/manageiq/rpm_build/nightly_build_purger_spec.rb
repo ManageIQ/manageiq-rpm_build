@@ -1,8 +1,8 @@
 RSpec.describe(ManageIQ::RPMBuild::NightlyBuildPurger) do
   it("#package_timestamp_from_key (private)") do
-    expect(described_class.new.send(:package_timestamp_from_key, "builds/manageiq-nightly/manageiq-pods-13.0.0-20211004000013.el8.x86_64.rpm")).to eq(["manageiq-pods-13.0.0", "20211004000013"])
-    expect(described_class.new.send(:package_timestamp_from_key, "builds/manageiq-nightly/manageiq-ui-13.0.0-20211004000013.el8.x86_64.rpm")).to eq(["manageiq-ui-13.0.0", "20211004000013"])
-    expect(described_class.new.send(:package_timestamp_from_key, "builds/manageiq-nightly/manageiq-ui-13.0.0-0.1.20210705000025.el8.x86_64.rpm")).to eq(["manageiq-ui-13.0.0", "20210705000025"])
+    expect(described_class.new.send(:package_timestamp_from_key, "builds/manageiq-nightly/manageiq-pods-13.0.0-20211004000013.el9.x86_64.rpm")).to eq(["manageiq-pods-13.0.0", "20211004000013"])
+    expect(described_class.new.send(:package_timestamp_from_key, "builds/manageiq-nightly/manageiq-ui-13.0.0-20211004000013.el9.x86_64.rpm")).to eq(["manageiq-ui-13.0.0", "20211004000013"])
+    expect(described_class.new.send(:package_timestamp_from_key, "builds/manageiq-nightly/manageiq-ui-13.0.0-0.1.20210705000025.el9.x86_64.rpm")).to eq(["manageiq-ui-13.0.0", "20210705000025"])
   end
 
   it("#recent? (private)") do

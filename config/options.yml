@@ -38,7 +38,6 @@ rpm_repository:
   :content:
     :18-radjabov:
       :targets:
-      - el8
       - el9
       :rpms:
         :kafka: !ruby/regexp /.+-3\.3.+/
@@ -52,7 +51,6 @@ rpm_repository:
         :wmi: !ruby/regexp /.+-1\.3\.14.+/
     :18-radjabov-nightly:
       :targets:
-      - el8
       - el9
       :rpms:
         :manageiq-nightly: !ruby/regexp /.+-18\.\d\.\d-(\d\.\d\.)?\d{14,}+\.el.+/
