@@ -1,7 +1,7 @@
 Name:             kafka
 Summary:          Apache Kafka is an open-source stream-processing software platform
 Version:          3.3.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 License:          Apache (v2)
 Group:            Applications
 URL:              https://kafka.apache.org
@@ -25,8 +25,6 @@ BuildRoot:        %{_tmppath}/%{name}-%{version}-root
 %define kafka_home /opt/kafka
 %define kafka_group %{name}
 %define kafka_user %{name}
-%define zookeeper_group zookeeper
-%define zookeeper_user zookeeper
 
 
 %description
@@ -36,8 +34,6 @@ Kafka® is used for building real-time data pipelines and streaming apps. It is 
 %pre
 groupadd -fr %{kafka_group}
 getent passwd %{kafka_user} >/dev/null || useradd -r -g %{kafka_group} -d %{_sharedstatedir}/kafka -s /sbin/nologin -c "User for kafka services" %{kafka_user}
-groupadd -fr %{zookeeper_group}
-getent passwd %{zookeeper_user} >/dev/null || useradd -r -g %{zookeeper_group} -d %{_sharedstatedir}/zookeeper -s /sbin/nologin -c "User for zookeeper services" %{zookeeper_user}
 
 
 %prep
@@ -85,8 +81,8 @@ install -pm644 %SOURCE2 %SOURCE3 %{buildroot}%{_unitdir}/
 %{kafka_home}
 %config %attr(-, %{kafka_user}, %{kafka_group}) %{_sharedstatedir}/kafka
 %config %attr(-, %{kafka_user}, %{kafka_group}) %{_localstatedir}/log/kafka
-%config %attr(-, %{zookeeper_user}, %{zookeeper_group}) %{_sharedstatedir}/zookeeper
-%config %attr(-, %{zookeeper_user}, %{zookeeper_group}) %{_localstatedir}/log/zookeeper
+%config %attr(-, %{kafka_user}, %{kafka_group}) %{_sharedstatedir}/zookeeper
+%config %attr(-, %{kafka_user}, %{kafka_group}) %{_localstatedir}/log/zookeeper
 
 
 %post
@@ -109,6 +105,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Feb 22 2024 "Brandon Dunne" <brandondunne@hotmail.com> - 3.3.1-2
+- Simplify permissions, both kafka and zookeeper need to read/write the same directories, share the same username & group
+
 * Mon Oct 24 2022 "Brandon Dunne" <bdunne@redhat.com> - 3.3.1-1
 - Upgrade to v3.3.1
 
