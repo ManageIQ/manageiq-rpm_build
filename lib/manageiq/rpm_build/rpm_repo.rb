@@ -11,7 +11,7 @@ module ManageIQ
         Dir.mktmpdir do |tmpdir|
           work_dir = Pathname.new(tmpdir)
 
-          # Build directory structure /release/{master,jansa}/el8/{noarch,src,x86_64}
+          # Build directory structure /release/{master,jansa}/el9/{noarch,src,x86_64}
           directories = OPTIONS.rpm_repository.content.flat_map do |branch, values|
             values[:targets].product(OPTIONS.rpm_repository.arches).map do |target, arch|
               work_dir.join("release", branch.to_s, target, arch)
