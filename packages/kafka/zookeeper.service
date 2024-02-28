@@ -5,8 +5,8 @@ After=network.target
 [Service]
 ExecStart=/opt/kafka/bin/zookeeper-server-start.sh /opt/kafka/config/zookeeper.properties
 Restart=on-failure
-User=zookeeper
-Group=zookeeper
+User=kafka
+Group=kafka
 
 [Install]
 WantedBy=multi-user.target
