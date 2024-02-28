@@ -1,27 +1,25 @@
 Name:             kafka
 Summary:          Apache Kafka is an open-source stream-processing software platform
-Version:          3.3.1
-Release:          2%{?dist}
+Version:          3.7.0
+Release:          1%{?dist}
 License:          Apache (v2)
 Group:            Applications
 URL:              https://kafka.apache.org
-BuildRequires:    java-1.8.0-openjdk-devel >= 1.8
+BuildRequires:    java-11-openjdk-devel
 BuildRequires:    systemd-rpm-macros
-Requires:         jre >= 1.8
+Requires:         java-11-openjdk
 Requires(post):   systemd
 Requires(postun): systemd
 Requires(preun):  systemd
 Source0:          http://archive.apache.org/dist/%{name}/%{version}/%{name}-%{version}-src.tgz
-Source1:          https://services.gradle.org/distributions/gradle-%{gradle_version}-bin.zip
-Source2:          kafka.service
-Source3:          zookeeper.service
+Source1:          kafka.service
+Source2:          zookeeper.service
 Provides:         kafka
 BuildRoot:        %{_tmppath}/%{name}-%{version}-root
 
 
 %global debug_package %{nil}
 %define __jar_repack 0
-%define gradle_version 7.4.2
 %define kafka_home /opt/kafka
 %define kafka_group %{name}
 %define kafka_user %{name}
@@ -41,8 +39,6 @@ getent passwd %{kafka_user} >/dev/null || useradd -r -g %{kafka_group} -d %{_sha
 
 
 %build
-unzip %{_sourcedir}/gradle-%{gradle_version}-bin.zip
-./gradle-%{gradle_version}/bin/gradle
 ./gradlew jar
 
 
@@ -71,7 +67,7 @@ cp -n */*/build/dependant-libs*/* %{buildroot}%{kafka_home}/libs
 
 # Install systemd units
 install -m755 -d %{buildroot}%{_unitdir}
-install -pm644 %SOURCE2 %SOURCE3 %{buildroot}%{_unitdir}/
+install -pm644 %SOURCE1 %SOURCE2 %{buildroot}%{_unitdir}/
 
 
 %files
@@ -105,6 +101,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Feb 28 2024 "Brandon Dunne" <brandondunne@hotmail.com> - 3.7.0-1
+- Upgrade to 3.7.0
+
 * Thu Feb 22 2024 "Brandon Dunne" <brandondunne@hotmail.com> - 3.3.1-2
 - Simplify permissions, both kafka and zookeeper need to read/write the same directories, share the same username & group
 
