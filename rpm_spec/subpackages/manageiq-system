@@ -29,13 +29,11 @@ Requires: openldap-clients
 %{_bindir}/miq*
 %{_bindir}/normalize_userid_to_upn
 %{_bindir}/pg_inspector_server.sh
-%{_sbindir}/ifup-local
 %{_sysconfdir}/cloud/cloud.cfg.d/10_miq_*.cfg
 %{_sysconfdir}/cron.hourly/miq*
 %{_sysconfdir}/cron.hourly/pg-inpsector-server-hourly.cron
 %{_sysconfdir}/default/evm
 %{_sysconfdir}/default/manage*.properties
-%{_sysconfdir}/issue.template
 %{_sysconfdir}/logrotate.d/miq_logs.conf
 %{_sysconfdir}/manageiq/postgresql.conf.d/01_miq_overrides.conf
 %{_sysconfdir}/profile.d/evm.sh
