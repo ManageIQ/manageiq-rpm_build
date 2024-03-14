@@ -32,3 +32,4 @@ done
 
 %files gemset-services
 %{_prefix}/lib/systemd/system/manageiq-providers*
+%{_prefix}/lib/systemd/system/opentofu-runner*
