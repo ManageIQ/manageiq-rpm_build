@@ -173,6 +173,9 @@ module ManageIQ
           # Remove ffi ext directory, this causes rpm build failure
           FileUtils.rm_rf(Dir.glob("gems/ffi-*/ext"))
 
+          # Remove Gemfile.lock files shipped by gems.  They are not a problem, but flagged by some scanners and they shouldn't be shipped with gems anyway
+          FileUtils.rm_rf(Dir.glob("gems/*/Gemfile.lock"))
+
           ["gems", "bundler/gems"].each do |path|
             FileUtils.rm_rf(Dir.glob("#{path}/**/*.o"))
             FileUtils.rm_rf(Dir.glob("#{path}/*/docs"))
