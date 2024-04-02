@@ -14,7 +14,7 @@ repos:
 version:
 release:
 rpm:
-  version: 17.1.0
+  version: 17.1.1
   release: 1
   repo_name:
   org_name: manageiq
@@ -39,7 +39,6 @@ rpm_repository:
     :17-quinteros:
       :targets:
       - el8
-      - el9
       :rpms:
         :ansible: !ruby/regexp /.+-5\.4.+/
         :ansible-core: !ruby/regexp /.+-2\.12.+/
@@ -56,6 +55,5 @@ rpm_repository:
     :17-quinteros-nightly:
       :targets:
       - el8
-      - el9
       :rpms:
         :manageiq-nightly: !ruby/regexp /.+-17\.\d\.\d-(\d\.\d\.)?\d{14,}+\.el.+/

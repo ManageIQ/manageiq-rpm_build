@@ -5,6 +5,7 @@ Summary: %{product_summary} Ansible Runner Virtual Environment
 
 Requires: ansible >= 5, ansible < 6
 Requires: python38
+AutoReqProv: no
 
 %description ansible-venv
 %{product_summary} Ansible Runner Virtual Environment
