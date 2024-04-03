@@ -1,0 +1,8 @@
+%package containers
+Summary: %{product_summary} Containers
+
+%description containers
+%{product_summary} Containers
+
+%post containers
+# TODO podman image import --root=/var/www/miq/vmdb/data/containers/storage /tmp/opentofu-runner_latest.tar
