@@ -38,7 +38,8 @@ RUN ARCH=$(uname -m) && \
       platform-python-devel \
       postgresql-server \
       qpid-proton-c-devel \
-      ruby-devel \
+      ruby-default-gems-3.1.2 \
+      ruby-devel-3.1.2 \
       wget \
       # For seeding ansible runner with ansible-galaxy, and for ansible-venv
       ansible \
