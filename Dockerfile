@@ -21,7 +21,7 @@ RUN ARCH=$(uname -m) && \
     dnf -y module enable ruby:3.1 && \
     dnf -y module enable nodejs:18 && \
     dnf -y group install "development tools" && \
-    dnf config-manager --setopt=tsflags=nodocs --save && \
+    dnf config-manager --save --setopt=tsflags=nodocs --setopt=exclude=openssl*-3.2* && \
     dnf -y install \
       cmake \
       copr-cli \
