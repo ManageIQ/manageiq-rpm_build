@@ -45,6 +45,6 @@ psutil==5.6.6 # Match the version installed directly into the venv
 pykerberos==1.2.1
 pyvmomi==6.5
 pywinrm==0.3.0
-requests==2.25.1
+requests==2.32.0
 requests-credssp==0.1.0
 requests-kerberos==0.14.0
