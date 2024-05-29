@@ -99,6 +99,7 @@ fi
 
 %files appliance
 %defattr(-,root,root,-)
+%{_sysconfdir}/default/manageiq-appliance.properties
 %{_sysconfdir}/httpd/conf.d/manageiq-*
 %{_sysconfdir}/motd.manageiq
 %{_unitdir}/cloud-ds-check.service
