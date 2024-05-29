@@ -38,3 +38,4 @@ Requires: openldap-clients
 %{_sysconfdir}/manageiq/postgresql.conf.d/01_miq_overrides.conf
 %{_sysconfdir}/profile.d/evm.sh
 %{_sysconfdir}/sudoers.d/repmgr
+%exclude %{_sysconfdir}/default/manageiq-appliance.properties
