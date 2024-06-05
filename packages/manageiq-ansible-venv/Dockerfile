@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.4
+FROM registry.access.redhat.com/ubi8/ubi
 
 ARG ARCH=x86_64
 
@@ -15,8 +15,8 @@ ENV RPM_SPEC=manageiq-ansible-venv.spec \
 # EPEL: copr-cli
 RUN sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf
 RUN dnf -y install \
-      http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-2.el8.noarch.rpm \
-      http://mirror.centos.org/centos/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-2.el8.noarch.rpm \
+      https://rpm.manageiq.org/builds/centos/centos-stream-repos-8-6.1.el8.noarch.rpm \
+      https://rpm.manageiq.org/builds/centos/centos-gpg-keys-8-6.1.el8.noarch.rpm \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
     dnf config-manager --setopt=tsflags=nodocs --save && \
     dnf -y install \
