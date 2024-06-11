@@ -66,6 +66,7 @@ module ManageIQ
           shell_cmd("bundle config set --local build.rugged --with-ssh")
           shell_cmd("bundle config set --local with appliance qpid_proton systemd")
           shell_cmd("bundle config set --local without development test")
+          shell_cmd("bundle config")
 
           lock_release = miq_dir.join("Gemfile.lock.release")
           if lock_release.exist?
@@ -73,7 +74,7 @@ module ManageIQ
             shell_cmd("bundle lock --update --conservative --patch") if build_type == "nightly"
           end
 
-          shell_cmd("bundle install --jobs #{cpus} --retry 3")
+          shell_cmd("bundle install --redownload --jobs #{cpus} --retry 3")
 
           if OPTIONS.npm_registry
             shell_cmd("#{SCRIPT_DIR.join("npm_registry/yarn_registry_setup.sh")} #{OPTIONS.npm_registry}")
