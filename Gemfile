@@ -9,7 +9,7 @@ gem 'manageiq-style'
 gem 'more_core_extensions'
 gem 'optimist'
 gem 'rake',           ">=12.3.3"
-gem 'term-ansicolor'
+gem 'term-ansicolor', "< 1.9.0"
 
 group :test do
   gem "rspec-rails", "~>4.0"
