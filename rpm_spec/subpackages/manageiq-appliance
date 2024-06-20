@@ -97,6 +97,13 @@ if systemctl is-active --quiet evm-failover-monitor; then
   systemctl restart evm-failover-monitor
 fi
 
+# Disable rsyslog duplicating systemd-journal output
+# This will comment out the multi-line module load from /etc/rsyslog.conf
+sed -i '/^module(load="imjournal"/, /^\s+StateFile="imjournal.state")/ s|^|#|' %{_sysconfdir}/rsyslog.conf
+if systemctl is-active --quiet rsyslog; then
+  systemctl restart rsyslog
+fi
+
 %files appliance
 %defattr(-,root,root,-)
 %{_sysconfdir}/default/manageiq-appliance.properties
