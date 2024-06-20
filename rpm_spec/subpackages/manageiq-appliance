@@ -102,6 +102,7 @@ fi
 %{_sysconfdir}/default/manageiq-appliance.properties
 %{_sysconfdir}/httpd/conf.d/manageiq-*
 %{_sysconfdir}/motd.manageiq
+%{_sysconfdir}/sudoers.d/lvm
 %{_unitdir}/cloud-ds-check.service
 %{_unitdir}/evm-failover-monitor.service
 %{_unitdir}/evminit.service
