@@ -53,7 +53,7 @@ module ManageIQ
       end
 
       def build_service_ui
-        symlink_plugin_paths("manageiq-ui-service", ui_service_dir)
+        symlink_service_ui_productization
 
         Dir.chdir(ui_service_dir) do
           shell_cmd("yarn install") # TODO: Add --immutable once s390x doesn't change the checksums.
@@ -149,6 +149,23 @@ module ManageIQ
             FileUtils.ln_s(path.join(subdir), target_path.join(subdir))
           end
         end
+      end
+
+      def symlink_service_ui_productization
+        plugin_path = plugin_paths.detect do |path|
+          path.join("manageiq-ui-service/client").exist?
+        end
+        return unless plugin_path
+
+        prod_path = plugin_path.join("manageiq-ui-service")
+
+        skin_dir = "client/skin"
+        skin_path = prod_path.join(skin_dir)
+        FileUtils.ln_s(skin_path, ui_service_dir.join(skin_dir)) if skin_path.exist?
+
+        lang_file = "client/gettext/json/supported_languages.json"
+        lang_path = prod_path.join(lang_file)
+        FileUtils.ln_s(lang_path, ui_service_dir.join(lang_file)) if lang_path.exist?
       end
 
       def compile_locale_files
