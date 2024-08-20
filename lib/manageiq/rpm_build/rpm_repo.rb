@@ -24,7 +24,7 @@ module ManageIQ
           puts "Downloading required RPMs..."
           OPTIONS.rpm_repository.content.each do |branch, values|
             values[:rpms]&.each do |rpm, version_regex|
-              client.list_objects(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :prefix => File.join("builds", rpm.to_s)).flat_map(&:contents).each do |object|
+              client.list_objects(:bucket => OPTIONS.rpm_repository.s3_api.bucket, :prefix => File.join("builds", rpm.to_s, "/")).flat_map(&:contents).each do |object|
                 file = object.key
                 name = File.basename(file)
                 *, target, arch, _rpm = name.split(".")
