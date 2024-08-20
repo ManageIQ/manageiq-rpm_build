@@ -43,7 +43,7 @@ rpm_repository:
         :ansible: !ruby/regexp /.+-5\.4.+/
         :ansible-core: !ruby/regexp /.+-2\.12.+/
         :kafka: !ruby/regexp /.+-3\.3.+/
-        :manageiq: !ruby/regexp /.+-17\.\d\.\d-(alpha|beta|rc)?\d(\.\d)?\.el.+/
+        :manageiq: !ruby/regexp /.+-17\.\d\.\d-(alpha|beta|rc)?\d+(\.\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-17\.0.+/
         :python-bambou: !ruby/regexp /.+-3\.1\.1.+/
         :python-pylxca: !ruby/regexp /.+-2\.1\.1.+/
