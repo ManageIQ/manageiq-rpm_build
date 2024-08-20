@@ -5,7 +5,7 @@ module ManageIQ
     class GenerateAnsibleVenv
       include Helper
 
-      VENV_PYTHON_VERSION = "3.9".freeze
+      VENV_PYTHON_VERSION = "3.12".freeze
 
       attr_reader :current_env, :manifest_dir, :venv_dir
 

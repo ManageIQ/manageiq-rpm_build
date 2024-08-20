@@ -6,7 +6,7 @@
 %global app_root /var/www/miq/vmdb
 %global org_root /opt/%{org_name}
 %global ansible_venv_root /var/lib/manageiq
-%global ansible_venv_site_packages /usr/local/lib/python3.9/site-packages
+%global ansible_venv_site_packages /usr/local/lib/python3.12/site-packages
 %global appliance_root %{org_root}/%{name}-appliance
 %global gemset_root %{org_root}/%{name}-gemset
 %global manifest_root %{org_root}/manifest
@@ -145,8 +145,8 @@ done
 %{__mkdir} -p %{buildroot}%{ansible_venv_root}
 %{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{ansible_venv_root}
 
-ln -s /usr/bin/python3.9 %{buildroot}%{ansible_venv_root}/venv/bin/python3.9
-ln -s ./python3.9 %{buildroot}%{ansible_venv_root}/venv/bin/python3
+ln -s /usr/bin/python3.12 %{buildroot}%{ansible_venv_root}/venv/bin/python3.12
+ln -s ./python3.12 %{buildroot}%{ansible_venv_root}/venv/bin/python3
 ln -s ./python3 %{buildroot}%{ansible_venv_root}/venv/bin/python
 
 # Copy site-packages and ansible-runner bin file
