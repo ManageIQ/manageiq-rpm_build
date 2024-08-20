@@ -52,8 +52,8 @@ RUN ARCH=$(uname -m) && \
       libxslt-devel \
       make \
       openssl-devel \
-      python3-devel \
-      python3-pip \
+      python3.12-devel \
+      python3.12-pip \
       python3-virtualenv \
       rpm-build && \
     dnf -y update libarchive && \
