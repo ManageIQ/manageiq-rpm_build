@@ -73,7 +73,7 @@ RSpec.describe "options.yml" do
 
         nightly_versions.each do |version|
           file = ["manageiq", suffix, version].compact.join("-") + ".el9.x86_64.rpm"
-          include_examples("expect_excluded_rpm", file, "manageiq")
+          include_examples("expect_included_rpm", file, "manageiq")
         end
       end
     end
