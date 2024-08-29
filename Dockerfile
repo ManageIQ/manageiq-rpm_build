@@ -18,10 +18,12 @@ RUN ARCH=$(uname -m) && \
     dnf -y install \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
       https://rpm.manageiq.org/release/19-spassky/el9/noarch/manageiq-release-19.0-1.el9.noarch.rpm && \
+    dnf -y --disablerepo=ubi-9-baseos-rpms swap openssl-fips-provider openssl-libs && \
+    dnf -y update && \
     dnf -y module enable ruby:3.1 && \
     dnf -y module enable nodejs:18 && \
     dnf -y group install "development tools" && \
-    dnf config-manager --save --setopt=tsflags=nodocs --setopt=exclude=openssl*-3.2* && \
+    dnf config-manager --setopt=tsflags=nodocs --save && \
     dnf -y install \
       cmake \
       copr-cli \
