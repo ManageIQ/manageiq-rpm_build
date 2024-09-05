@@ -30,8 +30,8 @@ azure-mgmt-trafficmanager==0.50.0
 azure-mgmt-web==0.41.0
 azure-storage==0.35.1
 backports.ssl-match-hostname==3.5.0.1
-boto==2.47.0
-boto3==1.6.2
+boto3>=1.18.0 # amazon/aws, community/aws
+botocore>=1.21.0 # amazon/aws, community/aws
 deprecation==2.0
 google-auth==1.6.2
 ipaddress==1.0.23
