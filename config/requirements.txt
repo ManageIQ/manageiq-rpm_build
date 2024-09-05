@@ -1,3 +1,4 @@
+aiohttp # vmware/vmware_rest
 apache-libcloud==2.5.0
 asn1crypto==0.24.0
 azure-cli-core==2.0.35
@@ -43,8 +44,9 @@ ovirt-engine-sdk-python==4.2.4
 pexpect==4.6.0
 psutil==5.6.6 # Match the version installed directly into the venv
 pykerberos==1.2.1
-pyvmomi==6.5
+pyvmomi>=6.7 # community/vmware
 pywinrm==0.3.0
 requests==2.25.1
 requests-credssp==0.1.0
 requests-kerberos==0.14.0
+git>= https://github.com/vmware/vsphere-automation-sdk-python.git # community/vmware
