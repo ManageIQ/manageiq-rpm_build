@@ -3,7 +3,7 @@ apache-libcloud==2.5.0
 asn1crypto==0.24.0
 azure-cli-core==2.0.35
 azure-graphrbac==0.40.0
-azure-keyvault==1.0.0a1
+azure-keyvault==1.0.0
 azure-mgmt-authorization==0.51.1
 azure-mgmt-batch==5.0.1
 azure-mgmt-cdn==3.0.0
@@ -37,7 +37,7 @@ deprecation>=2.0
 google-auth==1.6.2
 ipaddress==1.0.23
 monotonic==1.4
-ncclient==0.6.3
+ncclient>=0.6.3
 netaddr==0.7.19
 openstacksdk==0.23.0
 ovirt-engine-sdk-python==4.2.4
@@ -49,4 +49,3 @@ pywinrm # general requirement
 requests==2.25.1
 requests-credssp==0.1.0
 requests-kerberos==0.14.0
-git>= https://github.com/vmware/vsphere-automation-sdk-python.git # community/vmware
