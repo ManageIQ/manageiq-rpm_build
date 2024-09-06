@@ -127,6 +127,25 @@ docker cp ${CONTAINER}:/root/BUILD/rpms/x86_64/ ./rpms/
 docker rm ${CONTAINER}
 ```
 
+## Building a Hotfix
+
+Sometimes it is necessary to apply a patch without rebuilding the whole release in order to
+deliver a fix quickly.  This can be accomplished by building a hotfix rpm which will apply
+a series of patches.
+
+Create a patch file using `git format-patch` and copy to `rpm_spec/patches/`.  You will have to modify the path to be relative to the RPM BUILDDIR.
+
+`docker build --pull --tag $USER/rpm_build:radjabov-hotfix .`
+
+Create a `BUILD/hotfix` directory and copy the .src.rpm for the release that you want to
+build a hotfix against, for example `manageiq-release-18.0-1.el9.src.rpm`
+
+```sh
+docker run --rm -v `pwd`/OPTIONS:/root/OPTIONS -v `pwd`/BUILD:/root/BUILD $USER/rpm_build:radjabov-hotfix build_hotfix
+```
+
+The rpms for the hotfix will be in `BUILD/rpms`.
+
 ## Versioning
 
 Branch `morphy` == v13
