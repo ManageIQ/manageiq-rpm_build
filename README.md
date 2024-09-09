@@ -135,6 +135,28 @@ a series of patches.
 
 Create a patch file using `git format-patch` and copy to `rpm_spec/patches/`.  You will have to modify the path to be relative to the RPM BUILDDIR.
 
+For example if we wanted to create a hotfix to apply a commit in radjabov `1286aa34992340cad7a0778df01a845f1772e561` we would run:
+```sh
+git format-patch -1 1286aa34992340cad7a0778df01a845f1772e561
+```
+
+Which will create a patch file: `0001-Merge-pull-request-23123-from-agrare-fix_miq_request.patch`
+
+Make sure to remove any changes to spec files, as these are not packaged with the RPMs and will cause a conflict when
+the patch is applied.
+
+Next we have to change the file location to match the RPM BUILDDIR, for a patch in the core rpm this will be e.g. `manageiq-core-18.0-1`
+
+```
+diff --git a/manageiq-core-18.0-1/app/models/miq_provision_request_template.rb b/manageiq-core-18.0-1/app/models/miq_provision_request_template.rb
+index 621f20b7e7..f62f454ac5 100644
+--- a/manageiq-core-18.0-1/app/models/miq_provision_request_template.rb
++++ b/manageiq-core-18.0-1/app/models/miq_provision_request_template.rb
+```
+
+This ensures that the hotfix patch will apply correctly when it is run.  Then move that patch
+file to `rpm_spec/patches/` in the rpm_build repo.
+
 `docker build --pull --tag $USER/rpm_build:radjabov-hotfix .`
 
 Create a `BUILD/hotfix` directory and copy the .src.rpm for the release that you want to
