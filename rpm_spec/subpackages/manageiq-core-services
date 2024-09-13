@@ -22,4 +22,5 @@ done
 %{_prefix}/lib/systemd/system/manageiq*
 %exclude %{_prefix}/lib/systemd/system/manageiq-db-ready.service
 %exclude %{_prefix}/lib/systemd/system/manageiq-messaging-ready.service
+%exclude %{_prefix}/lib/systemd/system/manageiq-podman-cleanup.service
 %exclude %{_prefix}/lib/systemd/system/manageiq-providers*
