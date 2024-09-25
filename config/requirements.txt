@@ -6,7 +6,7 @@ azure-cli-core==2.34.0 # azure/azcollection
 azure-common==1.1.11 # azure/azcollection
 azure-containerregistry==1.1.0 # azure/azcollection
 azure-graphrbac==0.61.1 # azure/azcollection
-azure-identity==1.7.0 # azure/azcollection
+azure-identity>=1.16.0 # azure/azcollection
 azure-keyvault==1.1.0 # azure/azcollection
 azure-mgmt-apimanagement==3.0.0 # azure/azcollection
 azure-mgmt-authorization==2.0.0 # azure/azcollection
@@ -53,22 +53,22 @@ boto3>=1.18.0 # amazon/aws, community/aws
 botocore>=1.21.0 # amazon/aws, community/aws
 cryptography>=36.0.0 # cisco/intersight
 deprecation # legacy
-google-auth==1.6.2 # google/cloud
+google-auth # google/cloud
 google-cloud-storage # google/cloud
 grpcio # ansible/netcommon
 jsonpatch # kubernetes/core
-jsonschema # ansible/utils
+jsonschema>=4.18.0 # ansible/utils
 jxmlease # ansible/netcommon
 kubernetes>=12.0.0 # community/okd, kubernetes/core
 msrest==0.7.1 # azure/azcollection
 msrestazure==0.6.4 # azure/azcollection
-ncclient>=0.6.3 # ansible/netcommon
-netaddr==0.7.19 # ansible/netcommon, ansible/utils
+ncclient # ansible/netcommon
+netaddr # ansible/netcommon, ansible/utils
 openstacksdk>=0.36,<0.99.0 # openstack/cloud
 ovirt-engine-sdk-python>=4.5.0 # ovirt/ovirt
 ovirt-imageio # ovirt/ovirt
 packaging # azure/azcollection
-paramiko==2.8.1 # ansible/netcommon
+paramiko>=2.9.3 # ansible/netcommon
 pexpect # legacy
 protobuf # ansible/netcommon
 psutil # legacy
