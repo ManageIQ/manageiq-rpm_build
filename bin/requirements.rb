@@ -36,7 +36,6 @@ class ParseRequirements
     openstack/cloud/requirements.txt
     ovirt/ovirt/requirements.txt
     theforeman/foreman/requirements.txt
-    vmware/vmware_rest/requirements.txt
   ]
   attr_reader :filenames, :non_modules, :final
 
