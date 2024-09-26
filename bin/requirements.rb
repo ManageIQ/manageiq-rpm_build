@@ -48,9 +48,9 @@ class ParseRequirements
 
   # These packages are installed via rpm
   def os_packages
-    # Leaving his as pure bash so we can run from the command line to fix issues.
+    # Leaving this as pure bash so we can run from the command line to fix issues.
     @os_packages ||=
-      `for pkg in $(rpm -qa | grep python3- | sort) ; do rpm -ql $pkg | awk  -F/ '/site-packages.*-info$/ { print $6 }' | sed 's/-[0-9].*//' | tr '_A-Z' '-a-z' | sort -u; done`.chomp.split
+      `rpm -ql $(rpm -qa | grep python3- | sort) | awk  -F/ '/site-packages.*-info$/ { print $6 }' | sed 's/-[0-9].*//' | tr '_A-Z' '-a-z' | sort -u`.chomp.split
   end
 
   def os_package_regex
@@ -111,7 +111,7 @@ class ParseRequirements
         next if lib.start_with?("git")
 
         # Defer to version requirements provided by rpm system packages.
-        ver = "" if lib.match?(/^(#{os_package_regex.to_s})($|\[)/)
+        ver = "" if lib.match?(/^(#{os_package_regex})($|\[)/)
 
         final[lib] ||= {}
         (final[lib][ver] ||= []) << mod
