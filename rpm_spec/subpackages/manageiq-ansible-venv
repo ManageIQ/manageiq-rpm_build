@@ -5,6 +5,10 @@ Summary: %{product_summary} Ansible Runner Virtual Environment
 
 Requires: ansible >= 1:7, ansible < 1:8
 Requires: python3-virtualenv
+# used by ansible-runner (pip installed)
+Requires: python3-importlib-metadata
+# used by azure, ncclient
+Requires: python3-paramiko
 AutoReqProv: no
 
 %description ansible-venv

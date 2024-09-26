@@ -11,33 +11,23 @@
 #     source /var/lib/manageiq/venv/bin/activate
 #     chmod 755 requirements.rb
 #
-# 2. Determine all python packages provided by rpms (and compare with OS_PACKAGES)
-#
-#     TODO: may want to grep rpm contents with 'info$' to determine elgibility.
-#
-#     for pkg in $(rpm -qa | grep python3-) ; do echo "### $pkg" ; rpm -ql $pkg | awk  -F/ '/site-packages/ { print $6 }' | sort -u ; done
-#
-# 3. Get all module requirements (don't include documentation or testing ones)
+# 2. Get all module requirements
 #
 #     ./requirements.rb ./requirements.txt /usr/lib/python3.9/site-packages/ansible_collections/ > new_requirements.txt
 #
-# 4. Resolve conflicts and determine if new one is correct
+# 3. Resolve conflicts and determine if new one is correct
+#    double check that the legacy ones are still needed
 #
 #     diff {,new_}requirements.txt
 #     # cp new_requirements.txt requirements.txt
 #
-# 5. Update dev riles
+# 4. Update dev files
 #
-#     download /tmp/requirements{.rb,.txt} to local machine
+#     download /tmp/requirements.txt to local machine
 #     create a PR with updates
 #
 class ParseRequirements
   # this is the list of packages provided by rpms
-  # TODO: paramiko
-  OS_PACKAGES=%w[
-    six dateutil iniparse idna setuptools inotify libcomps chardet decorator pysocks urllib3 requests
-    cloud-what systemd dbus gobject gpg pyspnego
-  ]
   PACKAGES=%w[
     amazon/aws/requirements.txt
     ansible/netcommon/requirements.txt
@@ -55,6 +45,17 @@ class ParseRequirements
     theforeman/foreman/requirements.txt
   ]
   attr_reader :filenames, :non_modules, :final, :verbose
+
+  # These packages are installed via rpm
+  def os_packages
+    # Leaving his as pure bash so we can run from the command line to fix issues.
+    @os_packages ||=
+      `for pkg in $(rpm -qa | grep python3- | sort) ; do rpm -ql $pkg | awk  -F/ '/site-packages.*-info$/ { print $6 }' | sed 's/-[0-9].*//' | tr '_A-Z' '-a-z' | sort -u; done`.chomp.split
+  end
+
+  def os_package_regex
+    os_package_regex ||= Regexp.union(os_packages)
+  end
 
   def initialize
     @filenames = []
@@ -101,18 +102,16 @@ class ParseRequirements
 
   def parse
     filenames.each do |fn|
-      # the list of requirements-files can have items commented out - ignore those
-
       mod = module_name_from_filename(fn)
       IO.foreach(fn, chomp: true).each do |line|
         lib, ver = parse_line(line)
         next unless lib
 
-        # skip git libraries. git>= line from vsphere gave us problems
+        # Skip git libraries. The 'git>=.*' line from vsphere gave us problems.
         next if lib.start_with?("git")
 
-        # system packages are versioned by rpms
-        ver = "" if lib.match?(/^(#{OS_PACKAGES.join("|")})($|\[)/)
+        # Defer to version requirements provided by rpm system packages.
+        ver = "" if lib.match?(/^(#{os_package_regex.to_s})($|\[)/)
 
         final[lib] ||= {}
         (final[lib][ver] ||= []) << mod
@@ -139,12 +138,10 @@ class ParseRequirements
 
       ver = vers.keys.first
       modules = vers[ver]
-      # if we pass in a previous requirements.txt, lets not mention it
-      # exception: display if it is only mentioned in a previous requirements.txt file
+      # Only display "legacy" for requirements:
+      #   - Listed in the legacy requirements.txt
+      #   - Not listed in any collection requirements.txt
       modules.delete("legacy") if modules.size > 1
-
-      # clear out versions for packages provided by the operatingsystem like requests, requests[security], and pyspnego
-      ver = "" if OS_PACKAGES.include?(lib.gsub(/\[.*\]/))
 
       "#{lib}#{ver} # #{modules.join(", ")}"
     end.sort.join("\n")
@@ -228,6 +225,7 @@ end
 # {"lib" => {ver => [module]}}
 
 pr = ParseRequirements.new
+$stderr.puts("system packages:", pr.os_packages.join(" "), "") if ENV["VERBOSE"]
 ARGV.each { |arg| pr.add_target(arg) }
 pr.verbose! if ENV["VERBOSE"]
 pr.parse.output

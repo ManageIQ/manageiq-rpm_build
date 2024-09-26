@@ -50,7 +50,7 @@ azure-nspkg==2.0.0 # azure/azcollection
 azure-storage-blob==12.11.0 # azure/azcollection
 boto3>=1.18.0 # amazon/aws, community/aws
 botocore>=1.21.0 # amazon/aws, community/aws
-cryptography>=36.0.0 # cisco/intersight
+cryptography # cisco/intersight
 deprecation # legacy
 google-auth # google/cloud
 google-cloud-storage # google/cloud
@@ -67,11 +67,10 @@ openstacksdk>=0.36,<0.99.0 # openstack/cloud
 ovirt-engine-sdk-python>=4.5.0 # ovirt/ovirt
 ovirt-imageio # ovirt/ovirt
 packaging # azure/azcollection
-paramiko>=2.9.3 # ansible/netcommon
-pexpect # legacy
+paramiko # ansible/netcommon
 protobuf # ansible/netcommon
 psutil # legacy
-python-dateutil>=2.7.0 # awx/awx
+python-dateutil # awx/awx
 pytz # awx/awx
 pyvmomi>=6.7.1 # community/vmware
 pywinrm # legacy
