@@ -1,4 +1,7 @@
 %changelog
+* Fri Oct 4 2024 ManageIQ <contact@manageiq.org> - 17.2.1-1
+- Quinteros 2.1 build
+
 * Tue Oct 1 2024 ManageIQ <contact@manageiq.org> - 17.2.0-1
 - Quinteros 2 build
 
