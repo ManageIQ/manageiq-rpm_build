@@ -42,6 +42,7 @@ rpm_repository:
       :rpms:
         :ansible: !ruby/regexp /.+-5\.4.+/
         :ansible-core: !ruby/regexp /.+-2\.12.+/
+        :centos: !ruby/regexp /.+-8\.6.+/
         :kafka: !ruby/regexp /.+-3\.3.+/
         :manageiq: !ruby/regexp /.+-17\.\d\.\d-(alpha|beta|rc)?\d+(\.\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-17\.0.+/
@@ -51,6 +52,7 @@ rpm_repository:
         :python-vspk: !ruby/regexp /.+-5\.3\.2.+/
         :qpid-proton: !ruby/regexp /.+-0\.30\.0.+/
         :repmgr13: !ruby/regexp /.+-5\.2\.1.+/
+        :ubi: !ruby/regexp /.+-8.+/
         :wmi: !ruby/regexp /.+-1\.3\.14.+/
     :17-quinteros-nightly:
       :targets:
