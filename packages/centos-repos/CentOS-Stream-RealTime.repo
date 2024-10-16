@@ -10,8 +10,8 @@
 
 [rt]
 name=CentOS Stream $releasever - RealTime
-mirrorlist=http://mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=RT&infra=$infra
-#baseurl=http://mirror.centos.org/$contentdir/$stream/RT/$basearch/os/
+#mirrorlist=http://#mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=RT&infra=$infra
+baseurl=http://vault.centos.org/$contentdir/$stream/RT/$basearch/os/
 gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial

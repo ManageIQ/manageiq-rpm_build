@@ -10,8 +10,8 @@
 
 [ha]
 name=CentOS Stream $releasever - HighAvailability
-mirrorlist=http://mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=HighAvailability&infra=$infra
-#baseurl=http://mirror.centos.org/$contentdir/$stream/HighAvailability/$basearch/os/
+#mirrorlist=http://#mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=HighAvailability&infra=$infra
+baseurl=http://vault.centos.org/$contentdir/$stream/HighAvailability/$basearch/os/
 gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial

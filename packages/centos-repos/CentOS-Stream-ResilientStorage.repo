@@ -10,8 +10,8 @@
 
 [resilientstorage]
 name=CentOS Stream $releasever - ResilientStorage
-mirrorlist=http://mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=ResilientStorage&infra=$infra
-#baseurl=http://mirror.centos.org/$contentdir/$stream/ResilientStorage/$basearch/os/
+#mirrorlist=http://#mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=ResilientStorage&infra=$infra
+baseurl=http://vault.centos.org/$contentdir/$stream/ResilientStorage/$basearch/os/
 gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial

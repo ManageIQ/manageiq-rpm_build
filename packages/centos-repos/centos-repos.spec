@@ -1,6 +1,6 @@
 Name:           centos-repos
 Version:        8
-Release:        6%{?dist}
+Release:        6.1%{?dist}
 Summary:        CentOS package repositories
 License:        GPLv2
 URL:            https://centos.org
@@ -148,6 +148,9 @@ echo "%{version}-stream" > %{buildroot}%{_sysconfdir}/dnf/vars/stream
 
 
 %changelog
+* Wed Oct 16 2024 Brandon Dunne <brandondunne@hotmail.com> - 8-6.1
+- Switch to CentOS Vault since Stream8 is EOL
+
 * Fri Mar 25 2022 Fabian Arrotin <arrfab@centos.org> - 8-6
 - Extras-common is now its own .repo file for easy consumption
 

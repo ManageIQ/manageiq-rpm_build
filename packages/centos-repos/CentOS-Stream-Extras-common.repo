@@ -10,8 +10,8 @@
 
 [extras-common]
 name=CentOS Stream $releasever - Extras common packages
-mirrorlist=http://mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=extras-extras-common
-#baseurl=http://mirror.centos.org/$contentdir/$stream/extras/$basearch/extras-common/
+#mirrorlist=http://#mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=extras-extras-common
+baseurl=http://vault.centos.org/$contentdir/$stream/extras/$basearch/extras-common/
 gpgcheck=1
 enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Extras

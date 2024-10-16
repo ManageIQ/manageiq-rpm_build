@@ -10,8 +10,8 @@
 
 [extras]
 name=CentOS Stream $releasever - Extras
-mirrorlist=http://mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=extras&infra=$infra
-#baseurl=http://mirror.centos.org/$contentdir/$stream/extras/$basearch/os/
+#mirrorlist=http://#mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=extras&infra=$infra
+baseurl=http://vault.centos.org/$contentdir/$stream/extras/$basearch/os/
 gpgcheck=1
 enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial

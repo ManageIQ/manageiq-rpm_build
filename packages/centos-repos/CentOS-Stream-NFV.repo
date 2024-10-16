@@ -10,8 +10,8 @@
 
 [nfv]
 name=CentOS Stream $releasever - NFV
-mirrorlist=http://mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=NFV&infra=$infra
-#baseurl=http://mirror.centos.org/$contentdir/$stream/NFV/$basearch/os/
+#mirrorlist=http://#mirrorlist.centos.org/?release=$stream&arch=$basearch&repo=NFV&infra=$infra
+baseurl=http://vault.centos.org/$contentdir/$stream/NFV/$basearch/os/
 gpgcheck=1
 enabled=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial
