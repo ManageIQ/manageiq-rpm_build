@@ -7,13 +7,13 @@
 #
 # 1. Setup environment
 #
-#     upload bin/requirements.rb and config/requirements.txt to /tmp
+#     upload bin/parse_requirements.rb and config/requirements.txt to /tmp
 #     source /var/lib/manageiq/venv/bin/activate
-#     chmod 755 requirements.rb
+#     chmod 755 parse_requirements.rb
 #
 # 2. Get all module requirements
 #
-#     ./requirements.rb ./requirements.txt /usr/lib/python3.9/site-packages/ansible_collections/ > new_requirements.txt
+#     ./parse_requirements.rb ./requirements.txt /usr/lib/python3.9/site-packages/ansible_collections/ > new_requirements.txt
 #
 # 3. Resolve conflicts and determine if new one is correct
 #    double check that the legacy ones are still needed
@@ -27,8 +27,8 @@
 #     create a PR with updates
 #
 class ParseRequirements
-  # this is the list of packages provided by rpms
-  PACKAGES=%w[
+  # this is the list of supported collections
+  PACKAGES = %w[
     amazon/aws/requirements.txt
     ansible/netcommon/requirements.txt
     ansible/utils/requirements.txt
@@ -43,7 +43,7 @@ class ParseRequirements
     openstack/cloud/requirements.txt
     ovirt/ovirt/requirements.txt
     theforeman/foreman/requirements.txt
-  ]
+  ].freeze
   attr_reader :filenames, :non_modules, :final, :verbose
 
   # These packages are installed via rpm
@@ -54,7 +54,13 @@ class ParseRequirements
   end
 
   def os_package_regex
-    os_package_regex ||= Regexp.union(os_packages)
+    @os_package_regex ||= Regexp.union(os_packages)
+  end
+
+  # for test
+  def os_packages=(values)
+    @os_packages = values
+    @os_package_regex = nil
   end
 
   def initialize
@@ -75,7 +81,7 @@ class ParseRequirements
     elsif File.exist?(filename)
       add_file(filename)
     else
-      $stderr.puts("File not found: #{filename}")
+      warn("File not found: #{filename}")
     end
   end
 
@@ -93,28 +99,26 @@ class ParseRequirements
       if File.exist?(filename)
         @filenames << filename
       else
-        $stderr.puts("NOTICE: missing #{filename}")
+        warn("NOTICE: missing #{filename}")
       end
     end
 
     self
   end
 
+  def add_line(line, mod)
+    lib, ver = parse_line(line)
+    return unless lib
+
+    final[lib] ||= {}
+    (final[lib][ver] ||= []) << mod
+  end
+
   def parse
-    filenames.each do |fn|
-      mod = module_name_from_filename(fn)
-      IO.foreach(fn, chomp: true).each do |line|
-        lib, ver = parse_line(line)
-        next unless lib
-
-        # Skip git libraries. The 'git>=.*' line from vsphere gave us problems.
-        next if lib.start_with?("git")
-
-        # Defer to version requirements provided by rpm system packages.
-        ver = "" if lib.match?(/^(#{os_package_regex})($|\[)/)
-
-        final[lib] ||= {}
-        (final[lib][ver] ||= []) << mod
+    filenames.each do |filename|
+      mod = module_name_from_filename(filename)
+      File.foreach(filename, :chomp => true).each do |line|
+        add_line(line, mod)
       end
     end
 
@@ -123,25 +127,7 @@ class ParseRequirements
 
   def output
     result = final.flat_map do |lib, vers|
-      # consolidate multiple versioning rules
-      if vers.size > 1
-        max_key, *all_keys = vers.keys
-        all_keys.each do |alt|
-          higher, lower, conflict = version_compare(alt, max_key)
-          # There is a conflict when we have conflicting requirements. eg: >=2.0 and ==1.0
-          # We are displaying all comparisons/winners to verify the comparison algorithm works (skipping when merging a blank - no change of errors there)
-          $stderr.puts "#{lib}: #{higher} > #{lower} #{"CONFLICT" if conflict}" if lower != "" || verbose
-          vers[higher].concat(vers.delete(lower))
-          max_key = higher
-        end
-      end
-
-      ver = vers.keys.first
-      modules = vers[ver]
-      # Only display "legacy" for requirements:
-      #   - Listed in the legacy requirements.txt
-      #   - Not listed in any collection requirements.txt
-      modules.delete("legacy") if modules.size > 1
+      ver, modules = consolidate_vers(vers, :lib => lib)
 
       "#{lib}#{ver} # #{modules.join(", ")}"
     end.sort.join("\n")
@@ -151,12 +137,12 @@ class ParseRequirements
 
   private
 
-  def module_name_from_filename(fn)
-    if non_modules.include?(fn)
+  def module_name_from_filename(filename)
+    if non_modules.include?(filename)
       "legacy"
     else
-      fn.gsub(%r{.*ansible_collections/}, "")
-        .gsub(%r{/requirements.*}, "")
+      filename.gsub(%r{.*ansible_collections/}, "")
+              .gsub(%r{/requirements.*}, "")
     end
   end
 
@@ -179,13 +165,19 @@ class ParseRequirements
 
     lib, ver = split_lib_ver(line)
 
-    # Note: Already normalized for lowercase
+    # NOTE: Already normalized for lowercase
     # Normalize library name with dash. All these characters are treated the same.
     lib.gsub!(/[-_.]+/, "-")
     ver ||= ""
 
-   # TODO: split off ;python_version in split_lib_version - evaluate it properly
-   return if ver.match?(/python_version *[=<]/)
+    # TODO: split off ;python_version in split_lib_version - evaluate it properly
+    return if ver.match?(/python_version *[=<]/)
+
+    # Skip git libraries. The 'git>=.*' line from vsphere gave us problems.
+    return if lib.start_with?("git")
+
+    # Defer to version requirements provided by rpm system packages.
+    ver = "" if lib.match?(/^(#{os_package_regex})($|\[)/)
 
     [lib, ver]
   end
@@ -197,35 +189,58 @@ class ParseRequirements
     # split on first space (or =)
     # version can have multiple spaces
     lib, ver = line.match(/([^ >=]*) ?(.*)/).captures
+    # azure uses ==, we are instead using >=
+    ver.gsub!("==", ">=")
 
     [lib, ver]
   end
 
-  # @return [Numeric, Numeric, Boolean]
+  # @return [Numeric, Numeric]
   #   highest, lowest for version comparison
   #   boolean is true if there is a conflict with the versions
-  def version_compare(a, b)
-    winner = a if a.start_with?("==")
-    winner = b if b.start_with?("==")
+  def version_compare(left, right)
     # due to the way zip works, we need the longer to be on the left of the split
-    a, b = b, a if a.split(".").length < b.split(".").length
+    left, right = right, left if left.split(".").length < right.split(".").length
 
-    # when comparing, drop off the >= or == stuff, just look at the numbers
-    # kinda assuming that we are dealing mostly with >=
     # reminder <=> returns -1, 0, +1 like standard `cmp` functionality from c.
-    cmp = a.gsub(/^[=<>]+/, "").split(".").zip(b.gsub(/^[=<>]+/, "").split(".")).inject(0) { |acc, (v1, v2)| acc == 0 ? v1.to_i<=>v2.to_i : acc }
+    cmp = left.gsub(/^[=<>]+/, "").split(".").zip(right.gsub(/^[=<>]+/, "").split(".")).inject(0) { |acc, (v1, v2)| acc == 0 ? v1.to_i <=> v2.to_i : acc }
 
     # ensure a >= b
-    a, b = b, a if cmp < 0
+    left, right = right, left if cmp < 0
 
-    [a, b, winner && winner != a]
+    [left, right]
+  end
+
+  # consolidate multiple versioning rules
+  def consolidate_vers(vers, lib: nil)
+    if vers.size > 1
+      max_key, *all_keys = vers.keys
+      all_keys.each do |alt|
+        higher, lower = version_compare(alt, max_key)
+        # There is a conflict when we have conflicting requirements. eg: >=2.0 and ==1.0
+        # We are displaying all comparisons/winners to verify the comparison algorithm works (skipping when merging a blank - no change of errors there)
+        warn("#{lib}: #{higher} > #{lower}") if lower != "" || verbose
+        vers[higher].concat(vers.delete(lower))
+        max_key = higher
+      end
+    end
+
+    ver = vers.keys.first
+    modules = vers[ver]
+    # Only display "legacy" for requirements:
+    #   - Listed in the legacy requirements.txt
+    #   - Not listed in any collection requirements.txt
+    modules.delete("legacy") if modules.size > 1
+
+    [ver, modules]
   end
 end
 
 # {"lib" => {ver => [module]}}
-
-pr = ParseRequirements.new
-$stderr.puts("system packages:", pr.os_packages.join(" "), "") if ENV["VERBOSE"]
-ARGV.each { |arg| pr.add_target(arg) }
-pr.verbose! if ENV["VERBOSE"]
-pr.parse.output
+if $PROGRAM_NAME == __FILE__
+  pr = ParseRequirements.new
+  warn("system packages:", pr.os_packages.join(" "), "") if ENV["VERBOSE"]
+  ARGV.each { |arg| pr.add_target(arg) }
+  pr.verbose! if ENV["VERBOSE"]
+  pr.parse.output
+end
