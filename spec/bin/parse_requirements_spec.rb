@@ -25,14 +25,14 @@ RSpec.describe ParseRequirements do
       expect(parse_line("paramiko>= 5")).to eq(["paramiko", ""])
     end
 
-    # it "convert == to >=" do
-    #     expect(parse_line("a == 5")).to eq(["a", ">=5"])
-    # end
+    it "convert == to >=" do
+      expect(parse_line("a == 5")).to eq(["a", ">=5"])
+    end
   end
 
   describe "#consolidate_vers" do
     it "picks the higher comparison" do
-      expect(subject).to receive(:warn).with("b: >2 > >1 ")
+      expect(subject).to receive(:warn).with("b: >2 > >1")
       expect(consolidate_vers({">1" => ["c1"], ">2" => ["legacy"]}, :lib => "b")).to eq([">2", ["c1"]])
     end
   end

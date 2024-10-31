@@ -178,7 +178,7 @@ class ParseRequirements
 
     # Defer to version requirements provided by rpm system packages.
     ver = "" if lib.match?(/^(#{os_package_regex})($|\[)/)
-    
+
     [lib, ver]
   end
 
@@ -189,28 +189,26 @@ class ParseRequirements
     # split on first space (or =)
     # version can have multiple spaces
     lib, ver = line.match(/([^ >=]*) ?(.*)/).captures
+    # azure uses ==, we are instead using >=
+    ver.gsub!("==", ">=")
 
     [lib, ver]
   end
 
-  # @return [Numeric, Numeric, Boolean]
+  # @return [Numeric, Numeric]
   #   highest, lowest for version comparison
   #   boolean is true if there is a conflict with the versions
   def version_compare(left, right)
-    winner = left if left.start_with?("==")
-    winner = right if right.start_with?("==")
     # due to the way zip works, we need the longer to be on the left of the split
     left, right = right, left if left.split(".").length < right.split(".").length
 
-    # when comparing, drop off the >= or == stuff, just look at the numbers
-    # kinda assuming that we are dealing mostly with >=
     # reminder <=> returns -1, 0, +1 like standard `cmp` functionality from c.
     cmp = left.gsub(/^[=<>]+/, "").split(".").zip(right.gsub(/^[=<>]+/, "").split(".")).inject(0) { |acc, (v1, v2)| acc == 0 ? v1.to_i <=> v2.to_i : acc }
 
     # ensure a >= b
     left, right = right, left if cmp < 0
 
-    [left, right, winner && winner != left]
+    [left, right]
   end
 
   # consolidate multiple versioning rules
@@ -218,10 +216,10 @@ class ParseRequirements
     if vers.size > 1
       max_key, *all_keys = vers.keys
       all_keys.each do |alt|
-        higher, lower, conflict = version_compare(alt, max_key)
+        higher, lower = version_compare(alt, max_key)
         # There is a conflict when we have conflicting requirements. eg: >=2.0 and ==1.0
         # We are displaying all comparisons/winners to verify the comparison algorithm works (skipping when merging a blank - no change of errors there)
-        warn("#{lib}: #{higher} > #{lower} #{"CONFLICT" if conflict}") if lower != "" || verbose
+        warn("#{lib}: #{higher} > #{lower}") if lower != "" || verbose
         vers[higher].concat(vers.delete(lower))
         max_key = higher
       end
