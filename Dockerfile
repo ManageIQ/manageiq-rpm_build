@@ -10,9 +10,13 @@ RUN chmod +t /tmp
 RUN ARCH=$(uname -m) && \
     if [ ${ARCH} != "s390x" ] ; then dnf -y remove *subscription-manager*; fi && \
     dnf -y update && \
-    if [ ${ARCH} != "s390x" ] ; then dnf -y install \
-      https://rpm.manageiq.org/builds/centos/centos-stream-repos-8-6.1.el8.noarch.rpm \
-      https://rpm.manageiq.org/builds/centos/centos-gpg-keys-8-6.1.el8.noarch.rpm ; fi && \
+    dnf -y --setopt=protected_packages= remove redhat-release && \
+    if [ ${ARCH} != "s390x" ] ; then dnf -y install --releasever 8 \
+      http://vault.centos.org/8-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-8-6.el8.noarch.rpm \
+      http://vault.centos.org/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-release-8.6-1.el8.noarch.rpm \
+      http://vault.centos.org/8-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-8-6.el8.noarch.rpm && \
+      sed -i 's/mirrorlist=/#mirrorlist=/g' /etc/yum.repos.d/CentOS-*.repo && \
+      sed -i 's/#baseurl=http:\/\/mirror/baseurl=http:\/\/vault/g' /etc/yum.repos.d/CentOS-*.repo; fi && \
     dnf -y install \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
       https://rpm.manageiq.org/release/17-quinteros/el8/noarch/manageiq-release-17.0-1.el8.noarch.rpm && \
