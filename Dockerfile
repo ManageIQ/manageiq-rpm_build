@@ -23,7 +23,7 @@ RUN ARCH=$(uname -m) && \
     dnf -y module enable ruby:3.0 && \
     dnf -y module enable nodejs:18 && \
     dnf -y module disable virt:rhel && \
-    if [ ${ARCH} != "s390x" ] ; then dnf config-manager --setopt=ubi-8-*.exclude=rpm* --save; fi && \
+    if [ ${ARCH} != "s390x" ] ; then dnf config-manager --setopt=ubi-8-*.exclude=rpm*,ruby* --save; fi && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --setopt=tsflags=nodocs --save && \
     dnf -y install \
