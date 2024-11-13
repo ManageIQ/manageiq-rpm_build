@@ -14,7 +14,7 @@ repos:
 version:
 release:
 rpm:
-  version: 17.2.1
+  version: 17.2.2
   release: 1
   repo_name:
   org_name: manageiq
