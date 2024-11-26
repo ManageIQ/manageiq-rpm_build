@@ -8,7 +8,7 @@ gem 'droplet_kit',    "~>3.7",    :require => false
 gem 'manageiq-style'
 gem 'more_core_extensions'
 gem 'optimist'
-gem 'psych',          "<4"
+gem 'psych',          "<5"
 gem 'rake',           ">=12.3.3"
 gem 'term-ansicolor'
 
