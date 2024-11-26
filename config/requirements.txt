@@ -63,7 +63,7 @@ msrest>=0.7.1 # azure/azcollection
 msrestazure>=0.6.4 # azure/azcollection
 ncclient # ansible/netcommon
 netaddr # ansible/netcommon, ansible/utils
-openstacksdk>=0.36,<0.99.0 # openstack/cloud
+openstacksdk>=0.103,<0.104 # openstack/cloud
 ovirt-engine-sdk-python>=4.5.0 # ovirt/ovirt
 ovirt-imageio # ovirt/ovirt
 packaging # azure/azcollection
