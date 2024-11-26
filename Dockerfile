@@ -54,6 +54,7 @@ RUN ARCH=$(uname -m) && \
       make \
       openssl-devel \
       python3-devel \
+      python3-paramiko \
       python3-pip \
       python3-virtualenv \
       rpm-build && \
