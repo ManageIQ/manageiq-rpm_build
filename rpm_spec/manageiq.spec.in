@@ -158,5 +158,22 @@ ln -s ./python3 %{buildroot}%{ansible_venv_root}/venv/bin/python
 # Copy manifest
 %{__cp} %{ansible_venv_builddir}/ansible_venv_manifest.csv %{buildroot}%{manifest_root}
 
+#############################
+# Install docker containers #
+#############################
+
+%{__mkdir} -p %{buildroot}%{_sharedstatedir}/manageiq/data/containers
+for gem_dir in %{gemset_builddir}/bundler/gems/*; do
+  if [[ ! -L $gem_dir ]]; then
+    for container_image in $gem_dir/content/containers/*; do
+      echo $container_image
+      if [[ -d $container_image ]]; then
+	echo "Loading $container_image"
+        podman load --root=%{buildroot}%{_sharedstatedir}/manageiq/data/containers/storage --input $container_image
+      fi
+    done
+  fi
+done
+
 %clean
 rm -rf $RPM_BUILD_ROOT
