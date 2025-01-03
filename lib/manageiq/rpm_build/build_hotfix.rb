@@ -14,6 +14,7 @@ module ManageIQ
         where_am_i
 
         Dir.chdir(HOTFIX_DIR) do
+          clean_hotfix_directory
           unpack_srpm
           update_spec
           copy_patches
@@ -62,6 +63,11 @@ module ManageIQ
         spec_text.sub!(/%changelog\n/) { |match| "#{match}#{changelog_entry}" }
 
         File.write(rpm_spec, spec_text)
+      end
+
+      def clean_hotfix_directory
+        files = Dir.glob("*[!.src.rpm]")
+        FileUtils.rm_f(files, :verbose => true)
       end
 
       def unpack_srpm
