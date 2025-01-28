@@ -1,0 +1,5 @@
+* @bdunne
+
+# Python dependencies
+config/requirements.txt                    @kbrock
+rpm_spec/subpackages/manageiq-ansible-venv @kbrock
