@@ -47,7 +47,7 @@ You can either download the latest build image or building a new one locally:
   - `docker pull manageiq/rpm_build:latest-jansa`
   - `docker build --pull --tag $USER/rpm_build:latest .`
 
-Typically the first example works best but if you are modifying which files end up in the rpm, the third example is the one you want.
+Typically the first example works best, but if you are modifying which files end up in the rpm, the third example is the one you want.
 
 ## Building a release
 
