@@ -32,6 +32,7 @@ RUN ARCH=$(uname -m) && \
       libcurl-devel \
       libpq-devel \
       librdkafka \
+      libyaml-devel \
       libssh2-devel \
       libxml2-devel \
       libxslt-devel \
