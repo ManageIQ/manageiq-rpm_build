@@ -2,8 +2,7 @@ FROM registry.access.redhat.com/ubi9/ubi
 
 ENV TERM=xterm \
     APPLIANCE=true \
-    RAILS_USE_MEMORY_STORE=true \
-    SECRET_KEY_BASE_DUMMY=1
+    RAILS_USE_MEMORY_STORE=true
 
 # Force the sticky bit on /tmp - https://bugzilla.redhat.com/show_bug.cgi?id=2138434
 RUN chmod +t /tmp
