@@ -59,6 +59,7 @@ module ManageIQ
           shell_cmd("yarn install") # TODO: Add --immutable once s390x doesn't change the checksums.
           shell_cmd("yarn run available-languages")
           shell_cmd("yarn run build")
+          shell_cmd("rm -rf node_modules/node-sass/src/binding.cpp") # HACK: This file frequently comes up with a "warning: could not lstat node_modules/node-sass/src/binding.cpp : No such file or directory" during git clean
           shell_cmd("git clean -xdf") # cleanup temp files
         end
       end
