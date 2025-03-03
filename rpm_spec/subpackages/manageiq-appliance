@@ -56,7 +56,6 @@ Requires: yum-utils
 
 # External configuration
 Requires: cockpit
-Requires: cockpit-ssh
 Requires: cockpit-ws
 
 %description appliance
