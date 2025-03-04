@@ -9,6 +9,7 @@ Requires: python3-virtualenv
 Requires: python3-importlib-metadata
 # used by azure, ncclient
 Requires: python3-paramiko
+Requires: python3-wheel
 AutoReqProv: no
 
 %description ansible-venv
