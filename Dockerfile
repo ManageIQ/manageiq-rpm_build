@@ -58,6 +58,7 @@ RUN ARCH=$(uname -m) && \
       python3-paramiko \
       python3-pip \
       python3-virtualenv \
+      python3-wheel \
       rpm-build && \
     dnf -y update libarchive && \
     dnf clean all && \
