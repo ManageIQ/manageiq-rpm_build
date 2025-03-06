@@ -146,7 +146,7 @@ module ManageIQ
       def cpus
         c = `nproc --all` rescue nil
         c = c.to_i
-        c == 0 ? 3 : c
+        c.to_i.clamp(3, 8)
       end
 
       def cleanse_gemset
