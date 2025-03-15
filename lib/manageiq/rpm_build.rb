@@ -11,6 +11,7 @@ require 'manageiq/rpm_build/s3_common'
 
 require 'manageiq/rpm_build/helper'
 require 'manageiq/rpm_build/build_copr'
+require 'manageiq/rpm_build/build_containers'
 require 'manageiq/rpm_build/build_hotfix'
 require 'manageiq/rpm_build/build_uploader'
 require 'manageiq/rpm_build/generate_ansible_venv'
