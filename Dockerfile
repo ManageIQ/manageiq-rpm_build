@@ -18,6 +18,7 @@ RUN ARCH=$(uname -m) && \
     dnf -y install \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
       https://rpm.manageiq.org/release/18-radjabov/el9/noarch/manageiq-release-18.0-1.el9.noarch.rpm && \
+    dnf config-manager --save --setopt=appstream.exclude=openssl* --setopt=baseos.exclude=openssl* && \
     dnf -y update && \
     dnf -y module enable ruby:3.3 && \
     dnf -y module enable nodejs:18 && \
