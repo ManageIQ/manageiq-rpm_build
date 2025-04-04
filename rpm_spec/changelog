@@ -1,4 +1,7 @@
 %changelog
+* Fri Apr 4 2025 ManageIQ <contact@manageiq.org> - 18.1.0-1
+- Radjabov 1 build
+
 * Sat Aug 12 2023 Jason Frey <fryguy9@gmail.com> - 18.0.0-1
 - Initial build of manageiq-release for Radjabov.
 
