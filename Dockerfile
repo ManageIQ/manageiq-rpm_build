@@ -21,7 +21,7 @@ RUN ARCH=$(uname -m) && \
     dnf config-manager --save --setopt=appstream.exclude=openssl* --setopt=baseos.exclude=openssl* && \
     dnf -y update && \
     dnf -y module enable ruby:3.3 && \
-    dnf -y module enable nodejs:18 && \
+    dnf -y module enable nodejs:20 && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=tsflags=nodocs --save && \
     dnf -y install \
