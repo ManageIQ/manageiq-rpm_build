@@ -46,6 +46,8 @@ ManageIQ::RPMBuild::GenerateTarFiles.new.create_manifest_tarball
 
 puts "\n\nTARBALL BUILT SUCCESSFULLY"
 
+ManageIQ::RPMBuild::BuildContainers.new.build
+
 # Build RPMs
 release_name = build_type == "release" ? git_ref : ""
 ManageIQ::RPMBuild::BuildCopr.new(release_name).generate_rpm

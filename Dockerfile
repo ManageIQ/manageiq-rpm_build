@@ -55,6 +55,7 @@ RUN ARCH=$(uname -m) && \
       libxslt-devel \
       make \
       openssl-devel \
+      podman \
       python3-devel \
       python3-paramiko \
       python3-pip \

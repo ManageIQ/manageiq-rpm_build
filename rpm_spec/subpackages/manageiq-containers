@@ -1,0 +1,11 @@
+%package containers
+Summary: %{product_summary} Containers
+
+%description containers
+%{product_summary} Containers
+
+%files
+%{_sharedstatedir}/manageiq/data/containers
+
+%post containers
+# TODO podman image import --root=/var/lib/manageiq/data/containers/storage /tmp/opentofu-runner_latest.tar
