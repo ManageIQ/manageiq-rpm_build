@@ -17,11 +17,11 @@ RUN ARCH=$(uname -m) && \
       http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-9.0-24.el9.noarch.rpm && \
     dnf -y install \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
-      https://rpm.manageiq.org/release/19-spassky/el9/noarch/manageiq-release-19.0-1.el9.noarch.rpm && \
+      https://rpm.manageiq.org/release/20-tal/el9/noarch/manageiq-release-20.0-1.el9.noarch.rpm && \
     dnf -y --disablerepo=ubi-9-baseos-rpms swap openssl-fips-provider openssl-libs && \
     dnf -y update && \
     dnf -y module enable ruby:3.3 && \
-    dnf -y module enable nodejs:18 && \
+    dnf -y module enable nodejs:20 && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=tsflags=nodocs --save && \
     dnf -y install \
