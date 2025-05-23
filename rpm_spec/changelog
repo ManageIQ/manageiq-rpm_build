@@ -1,7 +1,4 @@
 %changelog
-* Wed Feb 26 2025 Jason Frey <fryguy9@gmail.com> - 20.0.0-1
-- Initial build of manageiq-release for Tal.
-
 * Fri Feb 23 2024 Jason Frey <fryguy9@gmail.com> - 19.0.0-1
 - Initial build of manageiq-release for Spassky.
 
