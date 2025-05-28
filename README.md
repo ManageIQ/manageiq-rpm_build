@@ -2,9 +2,6 @@
 
 [![CI](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml/badge.svg)](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml)
 
-[![Build history for master branch](https://buildstats.info/github/chart/ManageIQ/manageiq-rpm_build?branch=master&buildCount=50&includeBuildsFromPullRequest=false&showstats=false)](https://github.com/ManageIQ/manageiq-rpm_build/actions?query=branch%3Amaster)
-
-
 ## Summary
 
 This repository contains code to build RPMs for ManageIQ appliances and container images.
