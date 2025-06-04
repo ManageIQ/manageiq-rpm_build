@@ -17,7 +17,7 @@ AutoReqProv: no
 
 %files ansible-venv
 %defattr(-,root,root,-)
-%{ansible_venv_root}/venv
+%{ansible_venv_root}
 %{ansible_venv_site_packages}/*
 /usr/local/bin/ansible-runner
 %{manifest_root}/ansible_venv_manifest.csv

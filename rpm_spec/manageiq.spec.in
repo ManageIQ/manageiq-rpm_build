@@ -5,12 +5,14 @@
 
 %global app_root /var/www/miq/vmdb
 %global org_root /opt/%{org_name}
-%global ansible_venv_root /var/lib/manageiq
+%global product_sharedstate_root %{_sharedstatedir}/manageiq
+%global ansible_venv_root %{product_sharedstate_root}/venv
 %global ansible_venv_site_packages /usr/local/lib/python3.9/site-packages
 %global appliance_root %{org_root}/%{name}-appliance
 %global gemset_root %{org_root}/%{name}-gemset
 %global manifest_root %{org_root}/manifest
-%global containers_root /var/lib/manageiq/containers
+%global containers_root %{product_sharedstate_root}/containers
+%global containers_storage_root %{containers_root}/storage
 
 %global ansible_venv_builddir %{name}-ansible-venv-%{version}
 %global appliance_builddir %{name}-appliance-%{version}
@@ -144,11 +146,11 @@ done
 # Install ansible-venv #
 ########################
 %{__mkdir} -p %{buildroot}%{ansible_venv_root}
-%{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{ansible_venv_root}
+%{__cp} -a %{ansible_venv_builddir}/venv/* %{buildroot}%{ansible_venv_root}
 
-ln -s /usr/bin/python3.9 %{buildroot}%{ansible_venv_root}/venv/bin/python3.9
-ln -s ./python3.9 %{buildroot}%{ansible_venv_root}/venv/bin/python3
-ln -s ./python3 %{buildroot}%{ansible_venv_root}/venv/bin/python
+ln -s /usr/bin/python3.9 %{buildroot}%{ansible_venv_root}/bin/python3.9
+ln -s ./python3.9 %{buildroot}%{ansible_venv_root}/bin/python3
+ln -s ./python3 %{buildroot}%{ansible_venv_root}/bin/python
 
 # Copy site-packages and ansible-runner bin file
 %{__mkdir} -p %{buildroot}%{ansible_venv_site_packages}
@@ -161,7 +163,7 @@ ln -s ./python3 %{buildroot}%{ansible_venv_root}/venv/bin/python
 
 # Create podman containers root
 %{__mkdir} -p %{buildroot}%{containers_root}
-%{__mkdir} -p %{buildroot}%{containers_root}/storage
+%{__mkdir} -p %{buildroot}%{containers_storage_root}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
