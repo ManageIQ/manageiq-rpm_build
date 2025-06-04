@@ -76,8 +76,8 @@ done
 %{manifest_root}/BUILD
 %{manifest_root}/BUILD_RPM_BUILD
 /usr/share/ansible/roles/
-%{ansible_venv_root}
+%{product_sharedstate_root}
 %{containers_root}
-%{containers_root}/storage
+%{containers_storage_root}
 %attr(-,manageiq,manageiq) %{containers_root}
-%attr(-,manageiq,manageiq) %{containers_root}/storage
+%attr(-,manageiq,manageiq) %{containers_storage_root}
