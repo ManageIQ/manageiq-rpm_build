@@ -5,7 +5,8 @@
 
 %global app_root /var/www/miq/vmdb
 %global org_root /opt/%{org_name}
-%global ansible_venv_root /var/lib/manageiq
+%global manageiq_var_lib_root /var/lib/manageiq
+%global ansible_venv_root %{manageiq_var_lib_root}/venv
 %global appliance_root %{org_root}/%{name}-appliance
 %global gemset_root %{org_root}/%{name}-gemset
 %global manifest_root %{org_root}/manifest
@@ -142,14 +143,17 @@ done
 # Install ansible-venv #
 ########################
 %{__mkdir} -p %{buildroot}%{ansible_venv_root}
-%{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{ansible_venv_root}
+%{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{manageiq_var_lib_root}
 
-ln -s /usr/bin/python3.12 %{buildroot}%{ansible_venv_root}/venv/bin/python3.12
-ln -s ./python3.12 %{buildroot}%{ansible_venv_root}/venv/bin/python3
-ln -s ./python3 %{buildroot}%{ansible_venv_root}/venv/bin/python
+ln -s /usr/bin/python3.12 %{buildroot}%{ansible_venv_root}/bin/python3.12
+ln -s ./python3.12 %{buildroot}%{ansible_venv_root}/bin/python3
+ln -s ./python3 %{buildroot}%{ansible_venv_root}/bin/python
 
 # Copy manifest
 %{__cp} %{ansible_venv_builddir}/ansible_venv_manifest.csv %{buildroot}%{manifest_root}
+
+# Create podman containers root
+%{__mkdir} -p %{buildroot}%{manageiq_var_lib_root}/containers/storage
 
 %clean
 rm -rf $RPM_BUILD_ROOT
