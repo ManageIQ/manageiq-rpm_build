@@ -9,6 +9,7 @@
 %global appliance_root %{org_root}/%{name}-appliance
 %global gemset_root %{org_root}/%{name}-gemset
 %global manifest_root %{org_root}/manifest
+%global containers_root /var/lib/manageiq/containers
 
 %global ansible_venv_builddir %{name}-ansible-venv-%{version}
 %global appliance_builddir %{name}-appliance-%{version}
@@ -150,6 +151,10 @@ ln -s ./python3 %{buildroot}%{ansible_venv_root}/venv/bin/python
 
 # Copy manifest
 %{__cp} %{ansible_venv_builddir}/ansible_venv_manifest.csv %{buildroot}%{manifest_root}
+
+# Create podman containers root
+%{__mkdir} -p %{buildroot}%{containers_root}
+%{__mkdir} -p %{buildroot}%{containers_root}/storage
 
 %clean
 rm -rf $RPM_BUILD_ROOT
