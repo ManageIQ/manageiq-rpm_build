@@ -5,7 +5,7 @@ module ManageIQ
     class GenerateAnsibleVenv
       include Helper
 
-      VENV_PYTHON_VERSION = "3.9".freeze
+      VENV_PYTHON_VERSION = "3.12".freeze
 
       attr_reader :current_env, :manifest_dir, :venv_dir
 
@@ -28,8 +28,6 @@ module ManageIQ
         FileUtils.rm_rf(@venv_build_dir)
         FileUtils.mkdir_p(@venv_build_dir)
         Dir.chdir(@venv_build_dir) do
-          install_python_system_packages
-
           create_venv
           install_venv_packages
           generate_manifest
@@ -41,23 +39,16 @@ module ManageIQ
 
       private
 
-      # Install the same system packages as we will have at build time, so that
-      # virtualenv's --system-site-packages flag works as expected.
-      def install_python_system_packages
-        where_am_i
-
-        shell_cmd("#{pip_versioned} install --no-compile ansible-runner")
-      end
-
       def create_venv
         where_am_i
 
-        shell_cmd("virtualenv --system-site-packages #{@venv_build_path}")
+        shell_cmd("#{python_versioned} -m venv --system-site-packages --upgrade-deps #{@venv_build_path}")
       end
 
       def install_venv_packages
         where_am_i
 
+        shell_cmd_in_venv("#{pip_versioned} install --no-compile ansible ansible-core ansible-runner", @venv_build_path)
         shell_cmd_in_venv("#{pip_versioned} install --no-compile -r #{CONFIG_DIR.join("requirements.txt")}", @venv_build_path)
       end
 
@@ -67,7 +58,7 @@ module ManageIQ
         shell_cmd_in_venv("#{pip_versioned} install pip-licenses", @venv_build_path)
         shell_cmd_in_venv("pip-licenses --from=mixed --format=csv --output-file=#{@venv_build_dir.join("ansible_venv_manifest.csv")}", @venv_build_path)
         # TODO: Detect which packages were installed by pip-licenses so we can subsequently remove them
-        shell_cmd_in_venv("#{pip_versioned} uninstall -y pip-licenses prettytable wcwidth", @venv_build_path)
+        shell_cmd_in_venv("#{pip_versioned} uninstall -y pip-licenses prettytable tomli wcwidth", @venv_build_path)
       end
 
       def scrub
@@ -92,13 +83,14 @@ module ManageIQ
         FileUtils.mkdir_p(site_packages_dir)
         dirs_to_copy = Dir.glob("/usr/local/lib/python#{VENV_PYTHON_VERSION}/site-packages/*")
         FileUtils.cp_r(dirs_to_copy, site_packages_dir)
-
-        # Copy ansible-runner bin file
-        FileUtils.cp("/usr/local/bin/ansible-runner", venv_dir)
       end
 
       def pip_versioned
         "pip#{VENV_PYTHON_VERSION}"
+      end
+
+      def python_versioned
+        "python#{VENV_PYTHON_VERSION}"
       end
     end
   end

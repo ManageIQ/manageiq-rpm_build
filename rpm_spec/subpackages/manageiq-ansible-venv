@@ -3,13 +3,13 @@ Summary: %{product_summary} Ansible Runner Virtual Environment
 
 %global __requires_exclude ^\/var\/lib\/manageiq\/venv\/bin\/python
 
-Requires: ansible >= 1:7, ansible < 1:8
-Requires: python3-virtualenv
-# used by ansible-runner (pip installed)
-Requires: python3-importlib-metadata
-# used by azure, ncclient
-Requires: python3-paramiko
-Requires: python3-wheel
+Requires: python3.12
+Requires: python3.12-cryptography
+Requires: python3.12-pip
+Requires: python3.12-wheel
+# For ansible-core
+Requires: python3.12-packaging
+Requires: python3.12-pyyaml
 AutoReqProv: no
 
 %description ansible-venv
@@ -18,6 +18,4 @@ AutoReqProv: no
 %files ansible-venv
 %defattr(-,root,root,-)
 %{ansible_venv_root}
-%{ansible_venv_site_packages}/*
-/usr/local/bin/ansible-runner
 %{manifest_root}/ansible_venv_manifest.csv
