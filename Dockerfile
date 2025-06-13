@@ -41,10 +41,9 @@ RUN ARCH=$(uname -m) && \
       platform-python-devel \
       postgresql-server \
       qpid-proton-c-devel \
+      rpm-build \
       ruby-devel \
       wget \
-      # For seeding ansible runner with ansible-galaxy, and for ansible-venv
-      ansible \
       # For ansible-venv
       cargo \
       gcc \
@@ -55,12 +54,12 @@ RUN ARCH=$(uname -m) && \
       libxslt-devel \
       make \
       openssl-devel \
-      python3-devel \
-      python3-paramiko \
-      python3-pip \
-      python3-virtualenv \
-      python3-wheel \
-      rpm-build && \
+      python3.12-devel \
+      python3.12-cryptography \
+      python3.12-packaging \
+      python3.12-pip \
+      python3.12-pyyaml \
+      python3.12-wheel && \
     dnf -y update libarchive && \
     dnf clean all && \
     rm -rf /var/cache/dnf
