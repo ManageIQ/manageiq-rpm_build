@@ -8,7 +8,7 @@ ENV TERM=xterm \
 RUN chmod +t /tmp
 
 RUN ARCH=$(uname -m) && \
-    if [ ${ARCH} != "s390x" ] ; then dnf -y remove *subscription-manager*; fi && \
+    sed -i "s/enabled=1/enabled=0/g" /etc/dnf/plugins/subscription-manager.conf && \
     dnf -y update && \
     dnf -y --setopt=protected_packages= remove redhat-release && \
     dnf -y install --releasever 9 \
