@@ -1,6 +1,6 @@
 # Created by pyp2rpm-1.1.1
 %global pypi_name unittest2
-%global bootstrap_traceback2 0
+%global bootstrap_traceback2 1
 
 Name:           python-%{pypi_name}
 Version:        1.1.0
