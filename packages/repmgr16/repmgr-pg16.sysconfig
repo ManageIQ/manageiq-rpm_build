@@ -15,7 +15,7 @@ REPMGR_CONF=/etc/repmgr/16/repmgr.conf
 REPMGRD_USER=postgres
 
 # repmgrd binary
-REPMGRD_BIN=/usr/pgsql-16/bin/repmgrd
+REPMGRD_BIN=/usr/bin/repmgrd
 
 # pid file
 REPMGRD_PIDFILE=/var/run/repmgr/repmgrd-16.pid
