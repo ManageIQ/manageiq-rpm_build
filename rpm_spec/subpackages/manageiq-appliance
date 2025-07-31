@@ -9,7 +9,7 @@ Requires: %{name}-appliance-tools = %{version}-%{release}
 
 Requires: postgresql-contrib >= 13
 Requires: postgresql-server >= 13
-Requires: repmgr16 >= 5.2.1
+Requires: repmgr16 >= 5.5.0
 Requires: glibc-langpack-en
 
 Requires: lvm2
