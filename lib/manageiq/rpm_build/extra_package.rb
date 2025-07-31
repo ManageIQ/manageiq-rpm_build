@@ -75,19 +75,19 @@ module ManageIQ
 
       class MockConfig
         RAW = {
-          :defaults     => {
+          :defaults  => {
             :arch       => RUBY_PLATFORM.split("-")[0],
             :os         => "centos-stream",
             :os_version => "9",
           },
-          "ansible" => {
+          "ansible"  => {
             :os => "centos-stream+epel",
           },
-          "kafka"       => {
+          "kafka"    => {
             :mock_extras => "--enable-network",
             :os          => "centos-stream+epel",
           },
-          "repmgr13"    => {
+          "repmgr16" => {
             :os => "centos-stream+epel",
           },
         }.freeze
