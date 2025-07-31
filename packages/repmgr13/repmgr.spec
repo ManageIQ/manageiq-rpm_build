@@ -16,8 +16,8 @@
 %define _build_id_links none
 
 Name:        %{sname}%{pgpackageversion}
-Version:    5.2.1
-Release:    3%{nil}%{?dist}
+Version:    5.5.0
+Release:    1%{nil}%{?dist}
 Summary:    Replication Manager for PostgreSQL Clusters
 License:    GPLv3+
 URL:        https://repmgr.org
@@ -178,6 +178,15 @@ fi
 %{pginstdir}/share/pgsql/extension/repmgr--5.1--5.2.sql
 %{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.2.sql
 %{pginstdir}/share/pgsql/extension/repmgr--5.2.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.2--5.3.sql
+%{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.3.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.3.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.3--5.4.sql
+%{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.4.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.4.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.4--5.5.sql
+%{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.5.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.5.sql
 %if %{systemd_enabled}
 %ghost %{_varrundir}
 %{_tmpfilesdir}/%{name}.conf
@@ -194,6 +203,9 @@ fi
 %endif
 
 %changelog
+* Wed Jul 31 2025 - Joe Rafaniello <jrafanie@gmail.com> 5.5.0-1
+- Update to repmgr 5.5.0 for PostgreSQL 16
+
 * Wed Feb 14 2024 - Brandon Dunne <brandondunne@hotmail.com> 5.2.1-3
 - Rebuild for EL9
 
