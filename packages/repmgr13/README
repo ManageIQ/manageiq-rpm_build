@@ -1,6 +1,0 @@
-Build with:
-
-Fetch source files from https://rpm-manageiq-org.nyc3.digitaloceanspaces.com/index.html?prefix=sources_cache/repmgr16/ if needed.
-
-```bash
-mock --spec=./repmgr.spec -r centos-stream-9-x86_64 --sources=./
