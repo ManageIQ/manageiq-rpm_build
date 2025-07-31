@@ -22,6 +22,9 @@ RUN ARCH=$(uname -m) && \
     dnf -y update && \
     dnf -y module enable ruby:3.3 && \
     dnf -y module enable nodejs:20 && \
+    # Enable PostgreSQL 16 module
+    dnf -y module reset postgresql && \
+    dnf -y module enable postgresql:16 && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=tsflags=nodocs --save && \
     dnf -y install \
@@ -39,7 +42,9 @@ RUN ARCH=$(uname -m) && \
       nodejs \
       openssl-devel \
       platform-python-devel \
+      # PostgreSQL 16 packages instead of postgresql-server
       postgresql-server \
+      postgresql-contrib \
       qpid-proton-c-devel \
       rpm-build \
       ruby-devel \

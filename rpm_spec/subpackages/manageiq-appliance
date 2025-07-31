@@ -6,8 +6,8 @@ Requires: %{name}-ui = %{version}-%{release}
 Requires: %{name}-core-services = %{version}-%{release}
 Requires: %{name}-gemset-services = %{version}-%{release}
 
-Requires: postgresql-contrib >= 13
-Requires: postgresql-server >= 13
+Requires: postgresql-contrib >= 16
+Requires: postgresql-server >= 16
 Requires: repmgr16 >= 5.5.0
 
 Requires: lvm2
