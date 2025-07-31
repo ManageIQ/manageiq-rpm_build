@@ -8,7 +8,7 @@ Requires: %{name}-gemset-services = %{version}-%{release}
 
 Requires: postgresql-contrib >= 13
 Requires: postgresql-server >= 13
-Requires: repmgr13 >= 5.2.1
+Requires: repmgr16 >= 5.2.1
 
 Requires: lvm2
 Requires: memcached

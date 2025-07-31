@@ -1,4 +1,4 @@
-%global pgmajorversion 13
+%global pgmajorversion 16
 %global pgpackageversion %(echo %{pgmajorversion} | tr -d .)
 %global pginstdir /usr
 %global sname repmgr
@@ -46,7 +46,7 @@ Requires(postun):   initscripts
 Group:        Applications/Databases
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{extra_version}-%{release}-root-%(%{__id_u} -n)
 %endif
-BuildRequires:    postgresql-server-devel >= 13, postgresql-server-devel < 14, postgresql-static
+BuildRequires:    postgresql-server-devel >= 16, postgresql-server-devel < 17, postgresql-static
 BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel, flex
 Requires:    postgresql-server
 
@@ -65,8 +65,8 @@ BuildRequires:  llvm-toolset
 BuildRequires:  clang-devel
 %endif
 
-# Obsolete old repmgr10 built against postgres10
-Obsoletes: repmgr10
+# Obsolete old repmgr13 built against postgres13
+Obsoletes: repmgr13
 
 %description
 repmgr is an open-source tool suite for managing replication and failover in a
