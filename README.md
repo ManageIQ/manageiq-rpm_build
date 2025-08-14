@@ -2,9 +2,6 @@
 
 [![CI](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml/badge.svg?branch=spassky)](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml)
 
-[![Build history for spassky branch](https://buildstats.info/github/chart/ManageIQ/manageiq-rpm_build?branch=spassky&buildCount=50&includeBuildsFromPullRequest=false&showstats=false)](https://github.com/ManageIQ/manageiq-rpm_build/actions?query=branch%3Amaster)
-
-
 ## Summary
 
 This repository contains code to build RPMs for ManageIQ appliances and container images.
@@ -51,7 +48,7 @@ Typically the first example works best, but if you are modifying which files end
 
 ## Building a release
 
-The github tag/branch is passed on the command line e.g.: `--git-ref jansa`. A few other options and explanations are availabe in [build.rb](blob/master/bin/build.rb#L8) for the basic installs.
+The github tag/branch is passed on the command line e.g.: `--git-ref jansa`. A few other options and explanations are available in [build.rb](blob/master/bin/build.rb#L8) for the basic installs.
 
 
 ```sh
@@ -185,4 +182,4 @@ Branch `morphy` == v13
 
 ## License
 
-This code is available as open source under the terms of the [Apache License 2.0](LICENSE).
+This code is available as open source under the terms of the [Apache License 2.0](LICENSE.txt).

@@ -7,23 +7,22 @@
 #
 # 1. Setup environment
 #
-#     upload bin/parse_requirements.rb and config/requirements.txt to /tmp
-#     source /var/lib/manageiq/venv/bin/activate
-#     chmod 755 parse_requirements.rb
+#     docker run --rm -it --entrypoint /bin/bash manageiq/rpm_build:latest
+#     cd build_scripts
 #
 # 2. Get all module requirements
 #
-#     ./parse_requirements.rb ./requirements.txt /usr/lib/python3.9/site-packages/ansible_collections/ > new_requirements.txt
+#     bin/parse_requirements.rb config/requirements.txt /usr/local/lib/python3.12/site-packages/ansible_collections/ > config/new_requirements.txt
 #
 # 3. Resolve conflicts and determine if new one is correct
 #    double check that the legacy ones are still needed
 #
-#     diff {,new_}requirements.txt
-#     # cp new_requirements.txt requirements.txt
+#     diff config/{,new_}requirements.txt
+#     # cp config/{new_,}requirements.txt
 #
 # 4. Update dev files
 #
-#     download /tmp/requirements.txt to local machine
+#     download config/requirements.txt to local machine
 #     create a PR with updates
 #
 class ParseRequirements
@@ -33,7 +32,7 @@ class ParseRequirements
     ansible/netcommon/requirements.txt
     ansible/utils/requirements.txt
     awx/awx/requirements.txt
-    azure/azcollection/requirements-azure.txt
+    azure/azcollection/requirements.txt
     cisco/intersight/requirements.txt
     community/aws/requirements.txt
     community/okd/requirements.txt
@@ -50,7 +49,7 @@ class ParseRequirements
   def os_packages
     # Leaving this as pure bash so we can run from the command line to fix issues.
     @os_packages ||=
-      `rpm -ql $(rpm -qa | grep python3- | sort) | awk  -F/ '/site-packages.*-info$/ { print $6 }' | sed 's/-[0-9].*//' | tr '_A-Z' '-a-z' | sort -u`.chomp.split
+      `rpm -ql $(rpm -qa | grep python3.12- | sort) | awk  -F/ '/site-packages.*-info$/ { print $6 }' | sed 's/-[0-9].*//' | tr '_A-Z' '-a-z' | sort -u`.chomp.split
   end
 
   def os_package_regex
