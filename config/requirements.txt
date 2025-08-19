@@ -67,7 +67,7 @@ ovirt-engine-sdk-python>=4.5.0 # ovirt/ovirt
 ovirt-imageio # ovirt/ovirt
 packaging # azure/azcollection
 paramiko # ansible/netcommon
-protobuf # ansible/netcommon
+protobuf>=6.32 # ansible/netcommon
 python-dateutil>=2.7.0 # awx/awx
 pytz # awx/awx
 pyvmomi>=8.0.3.0.1 # community/vmware
