@@ -58,6 +58,18 @@ done
 
 %{__chown} -R manageiq.manageiq %{app_root}/data
 
+# Set SELinux contexts to allow podman containers to run from /var/lib/manageiq/containers/storage
+semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/overlay(/.*)?'
+semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/overlay2(/.*)?'
+semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/overlay2-images(/.*)?'
+semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/overlay2-layers(/.*)?'
+semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/overlay-layers(/.*)?'
+semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/overlay-images(/.*)?'
+semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/artifacts(/.*)?'
+semanage fcontext --add --type container_file_t    '%{manageiq_var_lib_root}/containers/storage/volumes/[^/]*/.*'
+semanage fcontext --add --type container_var_lib_t '%{manageiq_var_lib_root}/containers(/.*)?'
+restorecon -RvF %{manageiq_var_lib_root}/containers/
+
 %files core
 %defattr(-,root,root,-)
 %{app_root}
