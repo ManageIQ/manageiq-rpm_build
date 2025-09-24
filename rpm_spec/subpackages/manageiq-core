@@ -4,6 +4,7 @@ Summary:  %{product_summary} Core
 Requires: ruby >= 3.3
 # Include weak dependencies of Ruby that we actually need
 Requires: ruby-default-gems
+Requires: rubygems
 
 Requires: %{name}-gemset = %{version}-%{release}
 Requires: %{name}-ansible-venv = %{version}-%{release}
