@@ -1,9 +1,12 @@
+%global ruby_min_version 3.3
+
 %package core
 Summary:  %{product_summary} Core
 
-Requires: ruby >= 3.3
+Requires: ruby >= %{ruby_min_version}
 # Include weak dependencies of Ruby that we actually need
-Requires: ruby-default-gems
+Requires: ruby-default-gems >= %{ruby_min_version}
+Requires: rubygems
 
 Requires: %{name}-gemset = %{version}-%{release}
 Requires: %{name}-ansible-venv = %{version}-%{release}
