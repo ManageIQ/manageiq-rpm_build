@@ -1,6 +1,6 @@
 # ManageIQ RPM Build
 
-[![CI](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml/badge.svg?branch=spassky)](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml)
+[![CI](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/ManageIQ/manageiq-rpm_build/actions/workflows/ci.yaml)
 
 ## Summary
 
