@@ -177,6 +177,10 @@ module ManageIQ
           # Remove Gemfile.lock files shipped by gems.  They are not a problem, but flagged by some scanners and they shouldn't be shipped with gems anyway
           FileUtils.rm_rf(Dir.glob("gems/*/Gemfile.lock"))
 
+          # Remove unused .yarn and .github dirs from git-based gems
+          FileUtils.rm_rf(Dir.glob("bundler/gems/**/.github"))
+          FileUtils.rm_rf(Dir.glob("bundler/gems/**/.yarn"))
+
           ["gems", "bundler/gems"].each do |path|
             FileUtils.rm_rf(Dir.glob("#{path}/**/*.o"))
             FileUtils.rm_rf(Dir.glob("#{path}/*/docs"))
