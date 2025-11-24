@@ -13,6 +13,6 @@ set -e
 
 echo "$REGISTRY_PASSWORD" | docker login $REGISTRY -u $REGISTRY_USERNAME --password-stdin
 
-docker run -v /tmp/options:/root/OPTIONS:z $IMAGE_NAME build --build-type nightly --git-ref $GITHUB_REF_NAME --update-rpm-repo
+docker run --rm -v /tmp/options:/root/OPTIONS:z $IMAGE_NAME build --build-type nightly --git-ref $GITHUB_REF_NAME --upload
 
 set +e
