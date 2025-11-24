@@ -66,7 +66,12 @@ module ManageIQ
 
         # Remove unneeded files
         Dir.chdir(@venv_build_path) do
+          # Remove docs
           FileUtils.rm_rf(Dir.glob("share/doc/*"))
+          FileUtils.rm_rf(Dir.glob("lib*/python*/site-packages/ansible_collections/cisco/**/misc"))
+
+          # Remove unnecessary large files
+          FileUtils.rm_rf(Dir.glob("lib*/python*/site-packages/msgraph/generated/kiota-dom-export.txt")) # https://github.com/microsoftgraph/msgraph-sdk-python/issues/1287
         end
       end
 
