@@ -23,6 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: "3.3"
+        bundler-cache: true
+      timeout-minutes: 30
     - name: Set up registry credentials
       run: |
         echo "REGISTRY_USERNAME=${{ secrets.DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
@@ -38,6 +44,14 @@ jobs:
         echo "    secret_key: ${{ secrets.RPM_BUILD_S3_SECRET_KEY }}" >> /tmp/options/options.yml
     - name: Build and push RPMs
       run: bin/run_container_image
+    - name: Purge nightly RPMs
+      env:
+        OPTIONS_DIR: "/tmp"
+      run: bin/purge_nightly_rpms.rb
+    - name: Update RPM repo
+      env:
+        OPTIONS_DIR: "/tmp"
+      run: bin/update_rpm_repo.rb
   notify_builders:
     needs: build_rpms
     if: github.repository_owner == 'ManageIQ'
