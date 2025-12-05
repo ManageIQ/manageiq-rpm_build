@@ -198,24 +198,45 @@ module ManageIQ
         end
       end
 
+      # This method searches for git-based gems in GEM_HOME/bundler/gems and creates
+      # symlinks for each, replacing the git-sha with the gem version.
       def link_git_gems
         where_am_i
 
         Dir.chdir(miq_dir) do
-          # This command searches for the git based gems in GEM_HOME/bundler/gems and creates
-          # symlinks for each replacing the git-sha with the gem version.
-          # TODO: Refactor using Bundler and Gem class directly
-          cmd = "ruby -e \'require \"bundler/setup\"; "
-          cmd << "Gem.loaded_specs.values.select { |s| s.full_gem_path.include?(\"bundler/gems\") }.each "
-          cmd << "{|t| path = Pathname.new(t.full_gem_path).relative_path_from(Pathname.new(ENV[\"GEM_HOME\"])); "
-          cmd << "puts "
-          cmd << "\"../\#\{path\}/\#\{t.name\}.gemspec \#\{ENV[\"GEM_HOME\"]}/specifications/\#\{t.full_name\}.gemspec\"; "
-          cmd << "puts \"../\#\{path\} \#\{ENV[\"GEM_HOME\"]}/gems/\#\{t.full_name\}\"}\'"
+          gem_home = Pathname.new(ENV["GEM_HOME"])
 
-          AwesomeSpawn.run!(cmd).output.split(/\n/).collect { |n| n.split(" ") }.each do |n|
-            FileUtils.ln_s(n[0], n[1], :force => true)
+          # Find all git-based gems (those in bundler/gems directory)
+          git_gems = Gem.loaded_specs.values.select { |spec| spec.full_gem_path.include?("bundler/gems") }
+
+          git_gems.each do |gem_spec|
+            # Get the relative path from GEM_HOME to the gem's location
+            gem_path = Pathname.new(gem_spec.full_gem_path)
+            relative_path = gem_path.relative_path_from(gem_home)
+
+            # Create symlinks for both the gemspec and the gem directory
+            gemspec_source = "../#{relative_path}/#{gem_spec.name}.gemspec"
+            gemspec_target = "#{gem_home}/specifications/#{gem_spec.full_name}.gemspec"
+
+            gem_dir_source = "../#{relative_path}"
+            gem_dir_target = "#{gem_home}/gems/#{gem_spec.full_name}"
+
+            # Create the symlinks
+            FileUtils.ln_s(gemspec_source, gemspec_target, :force => true)
+            FileUtils.ln_s(gem_dir_source, gem_dir_target, :force => true)
           end
-          shell_cmd("find \"$GEM_HOME/specifications\" -type l -xtype l -delete")
+
+          # Remove any broken symlinks in the specifications directory
+          Dir.glob("#{gem_home}/specifications/*").each do |file|
+            if File.symlink?(file)
+              begin
+                FileUtils.rm(file) unless File.exist?(File.realpath(file))
+              rescue Errno::ENOENT
+                # If realpath fails because the link is broken, remove it
+                FileUtils.rm(file)
+              end
+            end
+          end
         end
       end
 
