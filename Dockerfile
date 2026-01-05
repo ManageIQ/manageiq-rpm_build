@@ -12,9 +12,9 @@ RUN ARCH=$(uname -m) && \
     dnf -y update && \
     dnf -y --setopt=protected_packages= remove redhat-release && \
     dnf -y install --releasever 9 \
-      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-release-9.0-24.el9.noarch.rpm \
-      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-9.0-24.el9.noarch.rpm \
-      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-9.0-24.el9.noarch.rpm && \
+      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-release-9.0-34.el9.noarch.rpm \
+      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-9.0-34.el9.noarch.rpm \
+      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-9.0-34.el9.noarch.rpm && \
     dnf -y install \
       https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
       https://rpm.manageiq.org/release/19-spassky/el9/noarch/manageiq-release-19.0-1.el9.noarch.rpm && \
