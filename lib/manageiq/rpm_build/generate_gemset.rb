@@ -71,7 +71,7 @@ module ManageIQ
           lock_release = miq_dir.join("Gemfile.lock.release")
           if lock_release.exist?
             FileUtils.ln_s(lock_release, "Gemfile.lock", :force => true)
-            shell_cmd("bundle lock --update --conservative --patch") if build_type == "nightly"
+            shell_cmd("bundle _2.7.2_ lock --update --conservative --patch") if build_type == "nightly"
           end
 
           shell_cmd("bundle install --redownload --jobs #{cpus} --retry 3")
