@@ -1,4 +1,7 @@
 %changelog
+* Tue Jan 13 2026 ManageIQ <contact@manageiq.org> - 19.1.0-1
+- Spassky 1 build
+
 * Fri Feb 23 2024 Jason Frey <fryguy9@gmail.com> - 19.0.0-1
 - Initial build of manageiq-release for Spassky.
 
