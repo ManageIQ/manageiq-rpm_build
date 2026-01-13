@@ -27,7 +27,7 @@ task :release do
 
   # Update rpm version and release
   options = root.join("config", "options.yml")
-  content = YAML.load_file(options)
+  content = YAML.load_file(options, :permitted_classes => [Regexp, Symbol])
   current_release = content.fetch_path("rpm", "release")
   new_release = milestone ? (current_release + 0.1).round(1) : 1
 
