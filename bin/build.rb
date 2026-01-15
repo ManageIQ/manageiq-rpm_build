@@ -32,14 +32,15 @@ gemset.populate_gem_home(build_type)
 # Generate 'core' contents
 ManageIQ::RPMBuild::GenerateCore.new.populate
 
+# Generate manifest with license info for gems and npm packages
+gemset.generate_dependency_manifest
+
 # Scrub the gemset only after it is used to generate 'core' contents
 gemset.scrub
 
 # Create tarballs
 ManageIQ::RPMBuild::GenerateTarFiles.new.create_tarballs
 
-# Generate manifest with license info for gems and npm packages
-gemset.generate_dependency_manifest
 gemset.restore_environment_variables
 
 # Create manifest tarball
