@@ -6,21 +6,11 @@ Requires: %{name}-core = %{version}-%{release}
 %description core-services
 %{product_summary} Core Services
 
-%post core-services
-# Remove any old dynamic systemd unit files prior to the switch to static systemd unit files - See ManageIQ/manageiq#20983
-files="remote_console cockpit_ws priority reporting generic event_handler ems_metrics_processor smart_proxy web_service schedule ui"
-for file in ${files}
-do
-  if [[ -e /etc/systemd/system/${file}.target ]]; then rm -f /etc/systemd/system/${file}.target; fi
-  if [[ -e /etc/systemd/system/${file}@.service ]]; then rm -f /etc/systemd/system/${file}@.service; fi
-  if [[ -e /etc/systemd/system/${file}@*.service ]]; then rm -f /etc/systemd/system/${file}@*.service; fi
-  if [[ -e /etc/systemd/system/${file}@*.service.d/override.conf ]]; then rm -f /etc/systemd/system/${file}@*.service.d/override.conf; fi
-  if [[ -e /etc/systemd/system/${file}@*.service.d ]]; then rm -rf /etc/systemd/system/${file}@*.service.d; fi
-done
-
 %files core-services
 %{_prefix}/lib/systemd/system/manageiq*
+# Provided by the manageiq-appliance subpackage
 %exclude %{_prefix}/lib/systemd/system/manageiq-db-ready.service
 %exclude %{_prefix}/lib/systemd/system/manageiq-messaging-ready.service
 %exclude %{_prefix}/lib/systemd/system/manageiq-podman-cleanup.service
+# Provided by the manageiq-gemset-services subpackage
 %exclude %{_prefix}/lib/systemd/system/manageiq-providers*
