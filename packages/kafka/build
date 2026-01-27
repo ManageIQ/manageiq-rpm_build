@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+curl --fail -o kafka-3.7.0-src.tgz https://rpm.manageiq.org/sources_cache/kafka/kafka-3.7.0-src.tgz
+
+/usr/bin/mock --spec=./kafka.spec -r centos-stream-9-$(uname -m) --sources=./ --enable-network
+
+mkdir -p result
+cp /var/lib/mock/*/result/*.rpm result/

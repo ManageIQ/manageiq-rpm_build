@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+pushd packages
+  docker build . -t localhost/mock:latest
+
+  pushd kafka
+    docker run --rm --privileged --cap-add SYS_ADMIN -v .:/work:z localhost/mock:latest ./build
+    ls -al result/
+  popd
+
+popd
+
+set +e
