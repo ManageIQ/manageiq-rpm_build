@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+curl --fail -o repmgr-5.2.1.tar.gz https://rpm.manageiq.org/sources_cache/repmgr13/repmgr-5.2.1.tar.gz
+
+/usr/bin/mock --spec=./repmgr.spec -r centos-stream-9-$(uname -m) --sources=./
+
+mkdir -p result
+cp /var/lib/mock/*/result/*.rpm result/
