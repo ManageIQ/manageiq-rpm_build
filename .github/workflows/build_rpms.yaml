@@ -50,7 +50,7 @@ jobs:
     - name: Purge nightly RPMs
       env:
         OPTIONS_DIR: "/tmp"
-      run: bin/purge_nightly_rpms.rb
+      run: bin/nightly_build_purger.rb
     - name: Update RPM repo
       env:
         OPTIONS_DIR: "/tmp"
