@@ -49,11 +49,11 @@ jobs:
       run: bin/run_container_image
     - name: Purge nightly RPMs
       env:
-        OPTIONS_DIR: "/tmp"
+        OPTIONS_DIR: "/tmp/options"
       run: bin/nightly_build_purger.rb
     - name: Update RPM repo
       env:
-        OPTIONS_DIR: "/tmp"
+        OPTIONS_DIR: "/tmp/options"
       run: bin/update_rpm_repo.rb
   notify_builders:
     needs: build_rpms
