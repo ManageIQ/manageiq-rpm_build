@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+/usr/bin/mock --spec=./manageiq-release.spec -r centos-stream-9-x86_64 --sources=./
+
+mkdir -p result
+cp /var/lib/mock/*/result/*.rpm result/

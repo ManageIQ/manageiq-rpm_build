@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+curl --fail -o vspk-5.3.2.tar.gz https://rpm.manageiq.org/sources_cache/python-vspk/vspk-5.3.2.tar.gz
+
+/usr/bin/mock --spec=./python-vspk.spec -r centos-stream-9-$(uname -m) --sources=./
+
+mkdir -p result
+cp /var/lib/mock/*/result/*.rpm result/

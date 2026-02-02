@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+curl --fail -o bambou-3.1.1.tar.gz https://rpm.manageiq.org/sources_cache/python-bambou/bambou-3.1.1.tar.gz
+
+/usr/bin/mock --spec=./python-bambou.spec -r centos-stream-9-$(uname -m) --sources=./
+
+mkdir -p result
+cp /var/lib/mock/*/result/*.rpm result/
