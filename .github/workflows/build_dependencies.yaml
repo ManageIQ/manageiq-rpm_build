@@ -1,0 +1,24 @@
+name: Build Dependencies
+on:
+  workflow_dispatch:
+concurrency:
+  cancel-in-progress: true
+  group: "${{ github.workflow }}-${{ github.ref }}"
+permissions:
+  contents: read
+jobs:
+  strategy:
+    matrix:
+      runner:
+      - ubuntu-latest
+      - ubuntu-24.04-ppc64le
+      - ubuntu-24.04-s390x
+  build_dependencies:
+    if: github.repository_owner == 'ManageIQ'
+    runs-on: "${{ matrix.runner }}"
+    steps:
+    - uses: actions/checkout@v6
+    - name: Build and push RPMs
+      run: bin/build_dependencies
+      env:
+        RPM_BUILD_S3_API_KEY: "${{ secrets.RPM_BUILD_S3_API_KEY }}"

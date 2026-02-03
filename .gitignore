@@ -8,5 +8,6 @@ packages/*/*.pdf
 packages/*/*.rpm
 packages/*/*.tgz
 packages/*/*.zip
+packages/*/result/*.rpm
 rpm_cache/
 rpm_spec/*.spec

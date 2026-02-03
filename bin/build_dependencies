@@ -1,0 +1,50 @@
+#!/bin/bash
+
+set -e
+
+pushd packages
+  docker build . -t localhost/mock:latest
+
+  arch_packages="kafka repmgr13"
+  for package in $arch_packages
+  do
+    echo "Building $package"
+    pushd $package
+      docker run --rm --privileged --cap-add SYS_ADMIN -v .:/work:z localhost/mock:latest ./build
+      ls -al result/
+    popd
+  done
+
+  arch=$(uname -m)
+  if [[ $arch -eq "x86_64" ]]; then
+    noarch_packages="manageiq-release python-bambou python-pylxca python-unittest2 python-vspk"
+    for package in $noarch_packages
+    do
+      echo "Building $package"
+      pushd $package
+        docker run --rm --privileged --cap-add SYS_ADMIN -v .:/work:z localhost/mock:latest ./build
+        ls -al result/
+      popd
+    done
+  fi
+
+  echo "Obtaining bearer token..."
+  response=$(curl --fail -s -X "POST" "https://iam.cloud.ibm.com/oidc/token" -H 'Accept: application/json' -H 'Content-Type: application/x-www-form-urlencoded' --data-urlencode "apikey=$RPM_BUILD_S3_API_KEY" --data-urlencode "response_type=cloud_iam" --data-urlencode "grant_type=urn:ibm:params:oauth:grant-type:apikey")
+  access_token=$(echo $response | jq -r ".access_token")
+  bearer_token=$(echo "bearer $access_token")
+
+  echo "Uploading results..."
+  bucket="rpm-manageiq-org"
+  endpoint="s3.us-east.cloud-object-storage.appdomain.cloud"
+  rpms=$(find */result/*.rpm)
+  for rpm in $rpms
+  do
+    dest=$(echo $rpm | sed "s/packages\/\|result\///g")
+    echo "Uploading $rpm"
+    curl -X "PUT" "https://$endpoint/$bucket/builds/${dest}" -H "Authorization: $bearer_token" -H "Content-Type: application/octet-stream" -H "x-amz-acl: public-read" --data-binary "@${rpm}"
+  done
+
+  echo "Done!"
+popd
+
+set +e
