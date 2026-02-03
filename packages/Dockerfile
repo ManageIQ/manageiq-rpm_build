@@ -1,5 +1,5 @@
 # FROM quay.io/centos/centos:stream9
-FROM registry.fedoraproject.org/fedora:43
+FROM registry.fedoraproject.org/fedora:44
 
 WORKDIR /work
 
