@@ -4,7 +4,7 @@ set -e
 
 curl --fail -o pylxca-2.1.1.tar.gz https://rpm.manageiq.org/sources_cache/python-pylxca/pylxca-2.1.1.tar.gz
 
-/usr/bin/mock --spec=./python-pylxca.spec -r centos-stream-9-$(uname -m) --sources=./
+/usr/bin/mock --spec=./python-pylxca.spec -r centos-stream-9-$(uname -m) --sources=./ --no-bootstrap-image
 
 mkdir -p result
 cp /var/lib/mock/*/result/*.rpm result/

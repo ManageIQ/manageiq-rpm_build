@@ -10,19 +10,19 @@ pushd packages
   do
     echo "Building $package"
     pushd $package
-      docker run --rm --privileged --cap-add SYS_ADMIN -v .:/work:z localhost/mock:latest ./build
+      docker run --rm --privileged --cap-add SYS_ADMIN -v $(pwd):/work:z localhost/mock:latest ./build
       ls -al result/
     popd
   done
 
   arch=$(uname -m)
-  if [[ $arch -eq "x86_64" ]]; then
+  if [[ $arch = "x86_64" ]]; then
     noarch_packages="manageiq-release python-bambou python-pylxca python-unittest2 python-vspk"
     for package in $noarch_packages
     do
       echo "Building $package"
       pushd $package
-        docker run --rm --privileged --cap-add SYS_ADMIN -v .:/work:z localhost/mock:latest ./build
+        docker run --rm --privileged --cap-add SYS_ADMIN -v $(pwd):/work:z localhost/mock:latest ./build
         ls -al result/
       popd
     done
