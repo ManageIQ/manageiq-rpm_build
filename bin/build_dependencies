@@ -10,7 +10,7 @@ pushd packages
   do
     echo "Building $package"
     pushd $package
-      docker run --rm --privileged --cap-add SYS_ADMIN -v .:/work:z localhost/mock:latest ./build
+      docker run --rm --privileged --cap-add SYS_ADMIN -v $(pwd):/work:z localhost/mock:latest ./build
       ls -al result/
     popd
   done
@@ -22,7 +22,7 @@ pushd packages
     do
       echo "Building $package"
       pushd $package
-        docker run --rm --privileged --cap-add SYS_ADMIN -v .:/work:z localhost/mock:latest ./build
+        docker run --rm --privileged --cap-add SYS_ADMIN -v $(pwd):/work:z localhost/mock:latest ./build
         ls -al result/
       popd
     done
