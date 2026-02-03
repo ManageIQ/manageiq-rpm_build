@@ -7,14 +7,14 @@ concurrency:
 permissions:
   contents: read
 jobs:
-  strategy:
-    matrix:
-      runner:
-      - ubuntu-latest
-      - ubuntu-24.04-ppc64le
-      - ubuntu-24.04-s390x
   build_dependencies:
     if: github.repository_owner == 'ManageIQ'
+    strategy:
+      matrix:
+        runner:
+        - ubuntu-latest
+        - ubuntu-24.04-ppc64le
+        - ubuntu-24.04-s390x
     runs-on: "${{ matrix.runner }}"
     steps:
     - uses: actions/checkout@v6
