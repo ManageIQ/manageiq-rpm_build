@@ -2,7 +2,7 @@
 
 set -e
 
-/usr/bin/mock --spec=./manageiq-release.spec -r centos-stream-9-x86_64 --sources=./
+/usr/bin/mock --spec=./manageiq-release.spec -r centos-stream-9-x86_64 --sources=./ --no-bootstrap-image
 
 mkdir -p result
 cp /var/lib/mock/*/result/*.rpm result/
