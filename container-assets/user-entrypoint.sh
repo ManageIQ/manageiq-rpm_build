@@ -11,6 +11,9 @@ elif [[ $1 == "build" ]]; then
 elif [[ $1 == "build_hotfix" ]]; then
   shift
   cmd="bin/build_hotfix.rb $@"
+elif [[ $1 == "update_rpm_repo" ]]; then
+  shift
+  cmd="bin/update_rpm_repo.rb $@"
 else
   echo "Run with no argument to setup build environment, or"
   echo "Run with 'build <build.rb options>' to start bin/build.rb (e.g. build --git-ref jansa)"
