@@ -10,6 +10,7 @@ jobs:
   build_dependencies:
     if: github.repository_owner == 'ManageIQ'
     strategy:
+      fail-fast: false
       matrix:
         runner:
         - ubuntu-latest
