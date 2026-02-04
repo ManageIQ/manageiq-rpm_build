@@ -23,7 +23,6 @@ rpm:
   changelog:
 npm_registry: https://npm.manageiq.org
 rpm_repository:
-  digitalocean_access_token:
   s3_api:
     access_key:
     secret_key:
