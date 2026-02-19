@@ -23,3 +23,8 @@ jobs:
       run: bin/build_dependencies
       env:
         RPM_BUILD_S3_API_KEY: "${{ secrets.RPM_BUILD_S3_API_KEY }}"
+  update_rpm_repo:
+    needs: build_dependencies
+    if: github.repository_owner == 'ManageIQ'
+    uses: ./.github/workflows/update_rpm_repo.yaml
+    secrets: inherit

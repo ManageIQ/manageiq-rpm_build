@@ -50,12 +50,13 @@ jobs:
       env:
         OPTIONS_DIR: "/tmp/options"
       run: bin/nightly_build_purger.rb
-    - name: Update RPM repo
-      env:
-        OPTIONS_DIR: "/tmp/options"
-      run: bin/update_rpm_repo.rb
-  notify_builders:
+  update_rpm_repo:
     needs: build_rpms
+    if: github.repository_owner == 'ManageIQ'
+    uses: ./.github/workflows/update_rpm_repo.yaml
+    secrets: inherit
+  notify_builders:
+    needs: update_rpm_repo
     if: github.repository_owner == 'ManageIQ'
     runs-on: ubuntu-latest
     steps:
