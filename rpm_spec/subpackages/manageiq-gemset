@@ -1,6 +1,6 @@
 %package gemset
 Summary: %{product_summary} Gemset
-BuildRequires: /usr/bin/pathfix.py
+BuildRequires: /usr/lib/rpm/redhat/pathfix.py
 BuildRequires: nodejs
 
 Requires: cifs-utils
@@ -30,9 +30,6 @@ Requires: qpid-proton-c >= 0.37.0
 
 # For Appliance Console
 Requires: libsodium-devel
-
-# For scanning
-Requires: glusterfs-fuse
 
 %description gemset
 %{product_summary} Gemset
