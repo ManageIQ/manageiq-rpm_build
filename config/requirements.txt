@@ -50,7 +50,7 @@ azure-nspkg>=3.0.2 # azure/azcollection
 azure-storage-blob>=12.23.0b1 # azure/azcollection
 boto3>=1.28.0 # amazon/aws, community/aws
 botocore>=1.31.0 # amazon/aws, community/aws
-cryptography>=36.0.0 # cisco/intersight
+cryptography>=46.0.5 # cisco/intersight
 google-auth # google/cloud
 google-cloud-storage # google/cloud
 grpcio # ansible/netcommon
