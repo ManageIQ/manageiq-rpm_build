@@ -1,0 +1,41 @@
+[manageiq-21-uhlmann]
+name=ManageIQ 21 (Uhlmann) Release - $basearch
+baseurl=https://rpm.manageiq.org/release/21-uhlmann/el$releasever/$basearch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-21-uhlmann-noarch]
+name=ManageIQ 21 (Uhlmann) Release - noarch
+baseurl=https://rpm.manageiq.org/release/21-uhlmann/el$releasever/noarch
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-21-uhlmann-source]
+name=ManageIQ 21 (Uhlmann) Release - source
+baseurl=https://rpm.manageiq.org/release/21-uhlmann/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-21-uhlmann-nightly]
+name=ManageIQ 21 (Uhlmann) Nightly - $basearch
+baseurl=https://rpm.manageiq.org/release/21-uhlmann-nightly/el$releasever/$basearch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-21-uhlmann-nightly-noarch]
+name=ManageIQ 21 (Uhlmann) Nightly - noarch
+baseurl=https://rpm.manageiq.org/release/21-uhlmann-nightly/el$releasever/noarch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
+
+[manageiq-21-uhlmann-nightly-source]
+name=ManageIQ 21 (Uhlmann) Nightly - source
+baseurl=https://rpm.manageiq.org/release/21-uhlmann-nightly/el$releasever/src
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MANAGEIQ
