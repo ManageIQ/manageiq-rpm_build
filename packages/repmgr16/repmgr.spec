@@ -47,7 +47,7 @@ Group:        Applications/Databases
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{extra_version}-%{release}-root-%(%{__id_u} -n)
 %endif
 BuildRequires:    postgresql-server-devel >= 16, postgresql-server-devel < 17, postgresql-static
-BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel, flex
+BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel, flex, make, gcc, libcurl-devel, json-c-devel, libzstd-devel, lz4-devel
 Requires:    postgresql-server
 
 %if 0%{?pgpackageversion} >= 11 && 0%{?pgpackageversion} < 90 && 0%{?rhel} && 0%{?rhel} == 7
