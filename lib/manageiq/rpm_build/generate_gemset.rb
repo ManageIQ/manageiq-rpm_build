@@ -48,8 +48,6 @@ module ManageIQ
       def recreate_gem_home
         FileUtils.rm_rf(GEM_HOME) if GEM_HOME.exist?
         FileUtils.mkdir(GEM_HOME)
-        cmd = "gem install bundler:#{`bundle -v`.chomp.split(" ").last}"
-        shell_cmd(cmd)
       end
 
       def populate_gem_home(build_type)
@@ -57,6 +55,13 @@ module ManageIQ
 
         Dir.chdir(miq_dir) do
           shell_cmd("gem env")
+
+          lock_release = miq_dir.join("Gemfile.lock.release")
+          FileUtils.cp(lock_release, "Gemfile.lock") if lock_release.exist?
+
+          bundler_version = lock_release.readlines.last.strip if lock_release.exist?
+          bundler_version ||= `bundle -v`.chomp.split(" ").last
+          shell_cmd("gem install bundler:#{bundler_version}")
 
           if RUBY_PLATFORM.match?(/powerpc64le|s390x/)
             shell_cmd("bundle config set build.sassc --disable-march-tune-native")
@@ -66,13 +71,9 @@ module ManageIQ
           shell_cmd("bundle config set --local build.rugged --with-ssh")
           shell_cmd("bundle config set --local with appliance qpid_proton systemd")
           shell_cmd("bundle config set --local without development test")
-          shell_cmd("bundle config")
+          shell_cmd("bundle env")
 
-          lock_release = miq_dir.join("Gemfile.lock.release")
-          if lock_release.exist?
-            FileUtils.ln_s(lock_release, "Gemfile.lock", :force => true)
-            shell_cmd("bundle lock --update --conservative --patch") if build_type == "nightly"
-          end
+          shell_cmd("bundle lock --update --conservative --patch") if build_type == "nightly" && lock_release.exist?
 
           shell_cmd("bundle install --redownload --jobs #{cpus} --retry 3")
 
