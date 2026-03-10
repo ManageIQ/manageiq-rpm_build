@@ -75,6 +75,4 @@ RUN curl -o /usr/lib/rpm/brp-strip https://raw.githubusercontent.com/rpm-softwar
   cd /usr/lib/rpm/ && \
   patch -p2 < /build_scripts/container-assets/Add-js-rb-filtering-on-top-of-4.19.1.patch
 
-RUN gem install bundler
-
 ENTRYPOINT ["/build_scripts/container-assets/user-entrypoint.sh"]
