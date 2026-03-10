@@ -66,7 +66,7 @@ BuildRequires:  clang-devel
 %endif
 
 # Obsolete old repmgr13 built against postgres13
-Obsoletes: repmgr13
+Obsoletes: repmgr13 < 5.5.0
 
 %description
 repmgr is an open-source tool suite for managing replication and failover in a
@@ -83,7 +83,7 @@ command line option handling.
 
 %prep
 %setup -q -n %{sname}-%{version}%{extra_version}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 
@@ -182,10 +182,8 @@ fi
 %{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.3.sql
 %{pginstdir}/share/pgsql/extension/repmgr--5.3.sql
 %{pginstdir}/share/pgsql/extension/repmgr--5.3--5.4.sql
-%{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.4.sql
 %{pginstdir}/share/pgsql/extension/repmgr--5.4.sql
 %{pginstdir}/share/pgsql/extension/repmgr--5.4--5.5.sql
-%{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.5.sql
 %{pginstdir}/share/pgsql/extension/repmgr--5.5.sql
 %if %{systemd_enabled}
 %ghost %{_varrundir}
@@ -195,15 +193,9 @@ fi
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 %config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
-%if 0%{?pgpackageversion} >= 11
-%if 0%{?rhel} && 0%{?rhel} >= 7
-%exclude %{pginstdir}/include/server/extension/repmgr/
-%exclude %{pginstdir}/lib/bitcode
-%endif
-%endif
 
 %changelog
-* Wed Jul 31 2025 - Joe Rafaniello <jrafanie@gmail.com> 5.5.0-1
+* Tue Mar 10 2026 - Joe Rafaniello <jrafanie@gmail.com> 5.5.0-1
 - Update to repmgr 5.5.0 for PostgreSQL 16
 
 * Wed Feb 14 2024 - Brandon Dunne <brandondunne@hotmail.com> 5.2.1-3
