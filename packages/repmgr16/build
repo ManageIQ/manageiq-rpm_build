@@ -2,9 +2,9 @@
 
 set -e
 
-curl --fail -o repmgr-5.2.1.tar.gz https://rpm.manageiq.org/sources_cache/repmgr13/repmgr-5.2.1.tar.gz
+curl --fail -L -o repmgr-5.5.0.tar.gz https://rpm.manageiq.org/sources_cache/repmgr16/repmgr-5.5.0.tar.gz
 
-/usr/bin/mock --spec=./repmgr.spec -r centos-stream-9-$(uname -m) --sources=./ --no-bootstrap-image
+/usr/bin/mock --spec=./repmgr.spec -r centos-stream-10-$(uname -m) --sources=./ --no-bootstrap-image
 
 mkdir -p result
 cp /var/lib/mock/*/result/*.rpm result/
