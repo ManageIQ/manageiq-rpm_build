@@ -72,6 +72,9 @@ semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/con
 semanage fcontext --add --type container_file_t    '%{manageiq_var_lib_root}/containers/storage/volumes/[^/]*/.*'
 semanage fcontext --add --type container_var_lib_t '%{manageiq_var_lib_root}/containers(/.*)?'
 
+restorecon %{manageiq_var_lib_root}/containers/
+restorecon %{manageiq_var_lib_root}/containers/storage/
+
 %files core
 %defattr(-,root,root,-)
 %{app_root}
