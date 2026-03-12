@@ -9,7 +9,7 @@
 # Provides: repmgrd
 # Required-Start: $local_fs $remote_fs $network $syslog $named
 # Required-Stop: $local_fs $remote_fs $network $syslog $named
-# Should-Start: postgresql-13
+# Should-Start: postgresql-16
 # Short-Description: Start repmgrd daemon
 # Description: repmgrd is replication manager, and failover management tool
 ### END INIT INFO
@@ -24,15 +24,15 @@ then
        	NAME=${NAME:3}
 fi
 
-prog=repmgr-13
+prog=repmgr-16
 REPMGRD_LOCKFILE=/var/lock/subsys/$prog
 REPMGRD_ENABLED=no
 REPMGRD_OPTS=
-REPMGRD_CONF=/etc/repmgr/13/repmgr.conf
-REPMGRD_LOG=/var/log/repmgr/repmgrd-13.log
+REPMGRD_CONF=/etc/repmgr/16/repmgr.conf
+REPMGRD_LOG=/var/log/repmgr/repmgrd-16.log
 REPMGRD_USER=postgres
-REPMGRD_BIN=/usr/pgsql-13/bin/repmgrd
-REPMGRD_PIDFILE=/var/run/repmgr/repmgrd-13.pid
+REPMGRD_BIN=/usr/bin/repmgrd
+REPMGRD_PIDFILE=/var/run/repmgr/repmgrd-16.pid
 
 # Get network config.
 . /etc/sysconfig/network
@@ -155,7 +155,7 @@ case "$1" in
         restart
         ;;
   status)
-	status -p $REPMGRD_PIDFILE repmgr-13
+	status -p $REPMGRD_PIDFILE repmgr-16
 	script_result=$?
 
         ;;
