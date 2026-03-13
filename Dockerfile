@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/ubi
+FROM registry.access.redhat.com/ubi10/ubi
 
 ENV TERM=xterm \
     APPLIANCE=true \
@@ -11,19 +11,19 @@ RUN ARCH=$(uname -m) && \
     sed -i "s/enabled=1/enabled=0/g" /etc/dnf/plugins/subscription-manager.conf && \
     dnf -y update && \
     dnf -y --setopt=protected_packages= remove redhat-release && \
-    dnf -y install --releasever 9 \
-      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-release-9.0-34.el9.noarch.rpm \
-      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-9.0-34.el9.noarch.rpm \
-      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-9.0-34.el9.noarch.rpm && \
+    dnf -y install --releasever 10 \
+      http://mirror.stream.centos.org/10-stream/BaseOS/${ARCH}/os/Packages/centos-stream-release-10.0-20.el10.noarch.rpm \
+      http://mirror.stream.centos.org/10-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-10.0-20.el10.noarch.rpm \
+      http://mirror.stream.centos.org/10-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-10.0-20.el10.noarch.rpm && \
     dnf -y install \
-      https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
-      https://rpm.manageiq.org/release/21-uhlmann/el9/noarch/manageiq-release-21.0-1.el9.noarch.rpm && \
+      https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm \
+      https://rpm.manageiq.org/release/21-uhlmann/el10/noarch/manageiq-release-21.0-1.el10.noarch.rpm && \
     dnf -y --disablerepo=ubi-9-baseos-rpms swap openssl-fips-provider openssl-libs && \
+    /usr/bin/crb enable && \
     dnf -y update && \
-    dnf -y module enable ruby:3.3 && \
-    dnf -y module enable nodejs:20 && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=tsflags=nodocs --save && \
+    dnf config-manager --setopt=epel.exclude=*qpid-proton* --save && \
     dnf -y install \
       cmake \
       copr-cli \
@@ -44,6 +44,7 @@ RUN ARCH=$(uname -m) && \
       rpm-build \
       ruby-devel \
       wget \
+      which \
       # For ansible-venv
       cargo \
       gcc \
