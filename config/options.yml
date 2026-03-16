@@ -39,7 +39,7 @@ rpm_repository:
       :targets:
       - el10
       :rpms:
-        :kafka: !ruby/regexp /.+-3\.7.+/
+        :kafka: !ruby/regexp /.+-3\.9.+/
         :manageiq: !ruby/regexp /.+-21\.\d\.\d-(alpha|beta|rc)?\d+(\.\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-21\.0.+/
         :python-pylxca: !ruby/regexp /.+-4\.2\.0.+/
