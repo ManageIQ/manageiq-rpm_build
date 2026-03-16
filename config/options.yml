@@ -42,8 +42,7 @@ rpm_repository:
         :kafka: !ruby/regexp /.+-3\.7.+/
         :manageiq: !ruby/regexp /.+-21\.\d\.\d-(alpha|beta|rc)?\d+(\.\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-21\.0.+/
-        :python-pylxca: !ruby/regexp /.+-2\.1\.1.+/
-        :python-unittest2: !ruby/regexp /.+-1\.1\.0.+/
+        :python-pylxca: !ruby/regexp /.+-4\.2\.0.+/
         :repmgr13: !ruby/regexp /.+-5\.2\.1.+/
     :21-uhlmann-nightly:
       :targets:
