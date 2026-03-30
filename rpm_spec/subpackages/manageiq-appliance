@@ -59,6 +59,9 @@ Requires: yum-utils
 Requires: cockpit
 Requires: cockpit-ws
 
+# ManageIQ Appliance Console
+Requires: parted
+
 %description appliance
 %{product_summary} Appliance
 
