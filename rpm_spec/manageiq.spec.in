@@ -38,6 +38,9 @@ Source1:  %{name}-appliance-%{version}.tar.gz
 Source2:  %{name}-core-%{version}.tar.gz
 Source3:  %{name}-gemset-%{version}.tar.gz
 Source4:  %{name}-manifest-%{version}.tar.gz
+Source5:  manageiq.sysusers
+
+%{?sysusers_requires_compat}
 
 # Declare any patches here
 
@@ -103,6 +106,9 @@ mkdir -p %{buildroot}/usr/share/ansible/roles/
 for i in %{buildroot}%{app_root}/content/ansible_consolidated/roles/* ; do
   %{__mv} $i %{buildroot}/usr/share/ansible/roles/
 done
+
+# Install the sysuser config file
+install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysusersdir}/manageiq.conf
 
 #####################
 # Install appliance #
