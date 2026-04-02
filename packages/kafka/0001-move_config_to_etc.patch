@@ -1,0 +1,123 @@
+diff --git a/bin/connect-distributed.sh b/bin/connect-distributed.sh
+index b8088ad..61469be 100755
+--- a/bin/connect-distributed.sh
++++ b/bin/connect-distributed.sh
+@@ -23,7 +23,7 @@ fi
+ base_dir=$(dirname $0)
+ 
+ if [ "x$KAFKA_LOG4J_OPTS" = "x" ]; then
+-    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$base_dir/../config/connect-log4j.properties"
++    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/etc/kafka/config/connect-log4j.properties"
+ fi
+ 
+ if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
+diff --git a/bin/connect-mirror-maker.sh b/bin/connect-mirror-maker.sh
+index 8e2b2e1..ad1b0c2 100755
+--- a/bin/connect-mirror-maker.sh
++++ b/bin/connect-mirror-maker.sh
+@@ -23,7 +23,7 @@ fi
+ base_dir=$(dirname $0)
+ 
+ if [ "x$KAFKA_LOG4J_OPTS" = "x" ]; then
+-    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$base_dir/../config/connect-log4j.properties"
++    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/etc/kafka/config/connect-log4j.properties"
+ fi
+ 
+ if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
+diff --git a/bin/connect-standalone.sh b/bin/connect-standalone.sh
+index bef78d6..b71baa6 100755
+--- a/bin/connect-standalone.sh
++++ b/bin/connect-standalone.sh
+@@ -23,7 +23,7 @@ fi
+ base_dir=$(dirname $0)
+ 
+ if [ "x$KAFKA_LOG4J_OPTS" = "x" ]; then
+-    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$base_dir/../config/connect-log4j.properties"
++    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/etc/kafka/config/connect-log4j.properties"
+ fi
+ 
+ if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
+diff --git a/bin/kafka-run-class.sh b/bin/kafka-run-class.sh
+index b3291e4..63d8080 100755
+--- a/bin/kafka-run-class.sh
++++ b/bin/kafka-run-class.sh
+@@ -228,7 +228,7 @@ fi
+ # Log4j settings
+ if [ -z "$KAFKA_LOG4J_OPTS" ]; then
+   # Log to console. This is a tool.
+-  LOG4J_DIR="$base_dir/config/tools-log4j.properties"
++  LOG4J_DIR="/etc/kafka/config/tools-log4j.properties"
+   # If Cygwin is detected, LOG4J_DIR is converted to Windows format.
+   (( WINDOWS_OS_FORMAT )) && LOG4J_DIR=$(cygpath --path --mixed "${LOG4J_DIR}")
+   KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:${LOG4J_DIR}"
+diff --git a/bin/kafka-server-start.sh b/bin/kafka-server-start.sh
+index 5a53126..d894be2 100755
+--- a/bin/kafka-server-start.sh
++++ b/bin/kafka-server-start.sh
+@@ -22,7 +22,7 @@ fi
+ base_dir=$(dirname $0)
+ 
+ if [ "x$KAFKA_LOG4J_OPTS" = "x" ]; then
+-    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$base_dir/../config/log4j.properties"
++    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/etc/kafka/config/log4j.properties"
+ fi
+ 
+ if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
+diff --git a/bin/zookeeper-server-start.sh b/bin/zookeeper-server-start.sh
+index bd9c114..c04195f 100755
+--- a/bin/zookeeper-server-start.sh
++++ b/bin/zookeeper-server-start.sh
+@@ -22,13 +22,15 @@ fi
+ base_dir=$(dirname $0)
+ 
+ if [ "x$KAFKA_LOG4J_OPTS" = "x" ]; then
+-    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:$base_dir/../config/log4j.properties"
++    export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/etc/kafka/config/log4j.properties"
+ fi
+ 
+ if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
+     export KAFKA_HEAP_OPTS="-Xmx512M -Xms512M"
+ fi
+ 
++export LOG_DIR="/var/log/zookeeper"
++
+ EXTRA_ARGS=${EXTRA_ARGS-'-name zookeeper -loggc'}
+ 
+ COMMAND=$1
+diff --git a/config/server.properties b/config/server.properties
+index 21ba1c7..953ccc7 100644
+--- a/config/server.properties
++++ b/config/server.properties
+@@ -59,7 +59,7 @@ socket.request.max.bytes=104857600
+ ############################# Log Basics #############################
+ 
+ # A comma separated list of directories under which to store log files
+-log.dirs=/tmp/kafka-logs
++log.dirs=/var/lib/kafka
+ 
+ # The default number of log partitions per topic. More partitions allow greater
+ # parallelism for consumption, but this will also result in more files across
+diff --git a/config/zookeeper.properties b/config/zookeeper.properties
+index 90f4332..826964b 100644
+--- a/config/zookeeper.properties
++++ b/config/zookeeper.properties
+@@ -4,16 +4,16 @@
+ # The ASF licenses this file to You under the Apache License, Version 2.0
+ # (the "License"); you may not use this file except in compliance with
+ # the License.  You may obtain a copy of the License at
+-# 
++#
+ #    http://www.apache.org/licenses/LICENSE-2.0
+-# 
++#
+ # Unless required by applicable law or agreed to in writing, software
+ # distributed under the License is distributed on an "AS IS" BASIS,
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ # the directory where the snapshot is stored.
+-dataDir=/tmp/zookeeper
++dataDir=/var/lib/zookeeper
+ # the port at which the clients will connect
+ clientPort=2181
+ # disable the per-ip limit on the number of connections since this is a non-production config

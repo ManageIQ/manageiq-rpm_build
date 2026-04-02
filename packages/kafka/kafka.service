@@ -3,9 +3,9 @@ Description=kafka service
 After=zookeeper.service
 
 [Service]
-Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/opt/kafka/config/kafka_server_jaas.conf"
+Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/etc/kafka/config/kafka_server_jaas.conf"
 Environment="LOG_DIR=/var/log/kafka"
-ExecStart=/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties
+ExecStart=/opt/kafka/bin/kafka-server-start.sh /etc/kafka/config/server.properties
 Restart=on-failure
 User=kafka
 Group=kafka
