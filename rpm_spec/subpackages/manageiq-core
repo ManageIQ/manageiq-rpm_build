@@ -53,13 +53,13 @@ done
 [ -e %{app_root}/certs/server.cer ] && %{__chmod} g+r %{app_root}/certs/server.cer
 [ -e %{app_root}/certs/server.cer.key ] && %{__chmod} g+r %{app_root}/certs/server.cer.key
 
-%{__chown} -R manageiq.manageiq %{app_root}/log
+%{__chown} -R manageiq:manageiq %{app_root}/log
 %{__chmod} -R o-rw %{app_root}/log
 
-%{__chown} -R manageiq.manageiq %{app_root}/tmp/pids
+%{__chown} -R manageiq:manageiq %{app_root}/tmp/pids
 %{__chmod} -R o-rw %{app_root}/tmp/pids
 
-%{__chown} -R manageiq.manageiq %{app_root}/data
+%{__chown} -R manageiq:manageiq %{app_root}/data
 
 # Set SELinux contexts to allow podman containers to run from /var/lib/manageiq/containers/storage
 semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/overlay(/.*)?'
