@@ -7,6 +7,14 @@ module ManageIQ
 
       VENV_PYTHON_VERSION = "3.12".freeze
 
+      def self.pip_versioned
+        "pip#{VENV_PYTHON_VERSION}"
+      end
+
+      def self.python_versioned
+        "python#{VENV_PYTHON_VERSION}"
+      end
+
       attr_reader :current_env, :manifest_dir, :venv_dir
 
       def initialize
@@ -91,11 +99,11 @@ module ManageIQ
       end
 
       def pip_versioned
-        "pip#{VENV_PYTHON_VERSION}"
+        self.class.pip_versioned
       end
 
       def python_versioned
-        "python#{VENV_PYTHON_VERSION}"
+        self.class.python_versioned
       end
     end
   end
