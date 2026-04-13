@@ -7,23 +7,23 @@
 #
 # 1. Setup environment
 #
-#     docker run --rm -it --entrypoint /bin/bash manageiq/rpm_build:latest
+#     docker run --rm -it --platform=linux/amd64 --name update_venv_reqs --entrypoint /bin/bash manageiq/rpm_build:latest
+#     pip3.12 install ansible
 #     cd build_scripts
 #
 # 2. Get all module requirements
 #
 #     bin/parse_requirements.rb config/requirements.txt /usr/local/lib/python3.12/site-packages/ansible_collections/ > config/new_requirements.txt
 #
-# 3. Resolve conflicts and determine if new one is correct
-#    double check that the legacy ones are still needed
+# 3. Resolve conflicts and determine if new one is correct.
+#    Double check that the legacy ones are still needed and, if not, remove them.
 #
 #     diff config/{,new_}requirements.txt
-#     # cp config/{new_,}requirements.txt
 #
-# 4. Update dev files
+# 4. Update local development files
 #
-#     download config/requirements.txt to local machine
-#     create a PR with updates
+#     docker cp update_venv_reqs:/build_scripts/config/new_requirements.txt ./config/requirements.txt
+#     # create a PR with updates
 #
 class ParseRequirements
   # this is the list of supported collections
@@ -128,7 +128,7 @@ class ParseRequirements
     result = final.flat_map do |lib, vers|
       ver, modules = consolidate_vers(vers, :lib => lib)
 
-      "#{lib}#{ver} # #{modules.join(", ")}"
+      "#{lib}#{ver} # #{modules.sort.join(", ")}"
     end.sort.join("\n")
 
     puts result
