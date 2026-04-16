@@ -49,7 +49,11 @@ module ManageIQ
         where_am_i
 
         shell_cmd_in_venv("#{pip_versioned} install --no-compile ansible ansible-core ansible-runner", @venv_build_path)
-        shell_cmd_in_venv("#{pip_versioned} install --no-compile -r #{CONFIG_DIR.join("requirements.txt")}", @venv_build_path)
+
+        install_cmd = "#{pip_versioned} install --no-compile -r #{CONFIG_DIR.join("requirements.txt")}"
+        constraints_file = CONFIG_DIR.join("constraints.txt")
+        install_cmd << " -c #{constraints_file}" if constraints_file.exist?
+        shell_cmd_in_venv(install_cmd, @venv_build_path)
       end
 
       def generate_manifest
