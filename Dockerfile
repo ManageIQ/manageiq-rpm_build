@@ -37,6 +37,7 @@ RUN ARCH=$(uname -m) && \
       libxslt-devel \
       libyaml-devel \
       nodejs \
+      npm \
       openssl-devel \
       platform-python-devel \
       postgresql-server \
