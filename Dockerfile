@@ -21,7 +21,7 @@ RUN ARCH=$(uname -m) && \
     dnf -y --disablerepo=ubi-9-baseos-rpms swap openssl-fips-provider openssl-libs && \
     dnf -y update && \
     dnf -y module enable ruby:3.3 && \
-    dnf -y module enable nodejs:20 && \
+    dnf -y module enable nodejs:22 && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=tsflags=nodocs --save && \
     dnf -y install \
@@ -37,6 +37,7 @@ RUN ARCH=$(uname -m) && \
       libxslt-devel \
       libyaml-devel \
       nodejs \
+      npm \
       openssl-devel \
       platform-python-devel \
       postgresql-server \
