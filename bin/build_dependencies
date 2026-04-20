@@ -17,7 +17,7 @@ pushd packages
 
   arch=$(uname -m)
   if [[ $arch = "x86_64" ]]; then
-    noarch_packages="manageiq-release python-bambou python-pylxca python-unittest2 python-vspk"
+    noarch_packages="manageiq-release python-pylxca python-unittest2"
     for package in $noarch_packages
     do
       echo "Building $package"
