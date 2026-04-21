@@ -17,7 +17,7 @@
 
 Name:        %{sname}%{pgpackageversion}
 Version:    5.5.0
-Release:    1%{nil}%{?dist}
+Release:    2%{nil}%{?dist}
 Summary:    Replication Manager for PostgreSQL Clusters
 License:    GPLv3+
 URL:        https://repmgr.org
@@ -195,6 +195,9 @@ fi
 %endif
 
 %changelog
+* Tue Apr 21 2026 - Joe Rafaniello <jrafanie@gmail.com> 5.5.0-2
+- Fix legacy /var/run directory warning from repmgr16 unit file
+
 * Tue Mar 10 2026 - Joe Rafaniello <jrafanie@gmail.com> 5.5.0-1
 - Update to repmgr 5.5.0 for PostgreSQL 16
 
