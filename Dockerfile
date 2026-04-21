@@ -32,6 +32,8 @@ RUN --mount=type=bind,from=quay.io/manageiq/build_tools:el10,source=/tools,targe
       npm \
       openssl-devel \
       platform-python-devel \
+      # PostgreSQL 16 packages instead of postgresql-server
+      postgresql-contrib \
       postgresql-server \
       qpid-proton-c-devel \
       rpm-build \
