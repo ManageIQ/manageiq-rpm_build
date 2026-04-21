@@ -87,7 +87,7 @@ module ManageIQ
             :mock_extras => "--enable-network",
             :os          => "centos-stream+epel",
           },
-          "repmgr13"    => {
+          "repmgr16"    => {
             :os => "centos-stream+epel",
           },
         }.freeze
