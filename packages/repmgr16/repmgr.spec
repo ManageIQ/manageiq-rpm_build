@@ -10,7 +10,7 @@
 
 %global extra_version %{nil}
 
-%global _varrundir %{_localstatedir}/run/%{sname}
+%global _varrundir /run/%{sname}
 
 # Disable /usr/lib/.build-id/* artifacts
 %define _build_id_links none
