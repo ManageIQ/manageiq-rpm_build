@@ -37,17 +37,15 @@ rpm_repository:
   :content:
     :21-uhlmann:
       :targets:
-      - el9
+      - el10
       :rpms:
-        :kafka: !ruby/regexp /.+-3\.7.+/
+        :kafka: !ruby/regexp /.+-3\.9.+/
         :manageiq: !ruby/regexp /.+-21\.\d\.\d-(alpha|beta|rc)?\d+(\.\d)?\.el.+/
         :manageiq-release: !ruby/regexp /.+-21\.0.+/
-        :python-pylxca: !ruby/regexp /.+-2\.1\.1.+/
-        :python-unittest2: !ruby/regexp /.+-1\.1\.0.+/
-        :repmgr13: !ruby/regexp /.+-5\.2\.1.+/
-        :wmi: !ruby/regexp /.+-1\.3\.14.+/
+        :python-pylxca: !ruby/regexp /.+-4\.2\.0.+/
+        :repmgr16: !ruby/regexp /.+-5\.5\.0.+/
     :21-uhlmann-nightly:
       :targets:
-      - el9
+      - el10
       :rpms:
         :manageiq-nightly: !ruby/regexp /.+-21\.\d\.\d-(\d\.\d\.)?\d{14,}+\.el.+/

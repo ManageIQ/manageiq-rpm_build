@@ -1,8 +1,8 @@
 %global srcname pylxca
 
 Name:           python-%{srcname}
-Version:        2.1.1
-Release:        2%{?dist}
+Version:        4.2.0
+Release:        1%{?dist}
 Summary:        It is tool/api to connect LXCA from command line
 
 License:        Apache-2.0
@@ -28,7 +28,6 @@ Summary:        It is tool/api to connect LXCA from command line
 
 Requires:       python3-requests >= 2.7.0
 Requires:       python3-requests-toolbelt >= 0.8.0
-Requires:       python3-unittest2
 
 %description -n python3-%{srcname}
 %{pylxca_desc}

@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/ubi
+FROM registry.access.redhat.com/ubi10/ubi
 
 ENV TERM=xterm \
     APPLIANCE=true \
@@ -7,23 +7,15 @@ ENV TERM=xterm \
 # Force the sticky bit on /tmp - https://bugzilla.redhat.com/show_bug.cgi?id=2138434
 RUN chmod +t /tmp
 
-RUN ARCH=$(uname -m) && \
-    sed -i "s/enabled=1/enabled=0/g" /etc/dnf/plugins/subscription-manager.conf && \
+RUN --mount=type=bind,from=quay.io/manageiq/build_tools:el10,source=/tools,target=/usr/local/bin \
+    ubi_2_stream_10 && \
+    enable_epel && \
+    dnf -y install https://rpm.manageiq.org/release/21-uhlmann/el10/noarch/manageiq-release-21.0-1.el10.noarch.rpm && \
+    dnf -y --disablerepo=ubi-10-baseos-rpms swap openssl-fips-provider openssl-libs && \
     dnf -y update && \
-    dnf -y --setopt=protected_packages= remove redhat-release && \
-    dnf -y install --releasever 9 \
-      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-release-9.0-34.el9.noarch.rpm \
-      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-stream-repos-9.0-34.el9.noarch.rpm \
-      http://mirror.stream.centos.org/9-stream/BaseOS/${ARCH}/os/Packages/centos-gpg-keys-9.0-34.el9.noarch.rpm && \
-    dnf -y install \
-      https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
-      https://rpm.manageiq.org/release/21-uhlmann/el9/noarch/manageiq-release-21.0-1.el9.noarch.rpm && \
-    dnf -y --disablerepo=ubi-9-baseos-rpms swap openssl-fips-provider openssl-libs && \
-    dnf -y update && \
-    dnf -y module enable ruby:3.3 && \
-    dnf -y module enable nodejs:22 && \
     dnf -y group install "development tools" && \
     dnf config-manager --setopt=tsflags=nodocs --save && \
+    dnf config-manager --setopt=epel.exclude=*qpid-proton* --save && \
     dnf -y install \
       cmake \
       copr-cli \
@@ -40,11 +32,14 @@ RUN ARCH=$(uname -m) && \
       npm \
       openssl-devel \
       platform-python-devel \
+      # PostgreSQL 16 packages instead of postgresql-server
+      postgresql-contrib \
       postgresql-server \
       qpid-proton-c-devel \
       rpm-build \
       ruby-devel \
       wget \
+      which \
       # For ansible-venv
       cargo \
       gcc \

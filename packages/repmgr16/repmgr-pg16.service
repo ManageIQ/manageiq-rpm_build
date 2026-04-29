@@ -11,7 +11,7 @@
 Description=A replication manager, and failover management tool for PostgreSQL
 After=syslog.target
 After=network.target
-After=postgresql-13.service
+After=postgresql-16.service
 
 [Service]
 Type=forking
@@ -20,13 +20,13 @@ User=postgres
 Group=postgres
 
 # PID file
-PIDFile=/var/run/repmgr/repmgrd-13.pid
+PIDFile=/run/repmgr/repmgrd-16.pid
 
 # Location of repmgr conf file:
-Environment=REPMGRDCONF=/etc/repmgr/13/repmgr.conf
-Environment=PIDFILE=/var/run/repmgr/repmgrd-13.pid
+Environment=REPMGRDCONF=/etc/repmgr/16/repmgr.conf
+Environment=PIDFILE=/run/repmgr/repmgrd-16.pid
 
-# Where to send early-startup messages from the server 
+# Where to send early-startup messages from the server
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
 ExecStart=/usr/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d --verbose
