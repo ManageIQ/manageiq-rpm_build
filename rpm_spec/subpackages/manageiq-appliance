@@ -7,9 +7,9 @@ Requires: %{name}-core-services = %{version}-%{release}
 Requires: %{name}-gemset-services = %{version}-%{release}
 Requires: %{name}-appliance-tools = %{version}-%{release}
 
-Requires: postgresql-contrib >= 13
-Requires: postgresql-server >= 13
-Requires: repmgr13 >= 5.2.1
+Requires: postgresql-contrib >= 16
+Requires: postgresql-server >= 16
+Requires: repmgr16 >= 5.5.0
 Requires: glibc-langpack-en
 
 Requires: lvm2

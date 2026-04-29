@@ -44,7 +44,7 @@ rpm_repository:
         :manageiq-release: !ruby/regexp /.+-21\.0.+/
         :python-pylxca: !ruby/regexp /.+-2\.1\.1.+/
         :python-unittest2: !ruby/regexp /.+-1\.1\.0.+/
-        :repmgr13: !ruby/regexp /.+-5\.2\.1.+/
+        :repmgr16: !ruby/regexp /.+-5\.5\.0.+/
         :wmi: !ruby/regexp /.+-1\.3\.14.+/
     :21-uhlmann-nightly:
       :targets:
