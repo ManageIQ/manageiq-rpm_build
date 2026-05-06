@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+curl --fail -o qpid-proton-0.37.0.tar.gz https://rpm.manageiq.org/sources_cache/qpid-proton/qpid-proton-0.37.0.tar.gz
+
+/usr/bin/mock --spec=./qpid-proton.spec -r centos-stream-10-$(uname -m) --sources=./ --no-bootstrap-image
+
+mkdir -p result
+cp /var/lib/mock/*/result/*.rpm result/

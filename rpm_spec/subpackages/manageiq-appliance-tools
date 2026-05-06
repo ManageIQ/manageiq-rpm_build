@@ -2,7 +2,6 @@
 Summary:  %{product_summary} Appliance Tools
 Requires: less
 Requires: nano
-Requires: smem
 Requires: tree
 Requires: unzip
 Requires: vim-enhanced
