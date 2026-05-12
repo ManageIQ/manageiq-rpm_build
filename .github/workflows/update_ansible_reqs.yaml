@@ -1,0 +1,46 @@
+name: Update Ansible Requirements
+on:
+  schedule:
+  - cron: 0 0 * * 0
+  workflow_dispatch:
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  build_rpm_build_container:
+    if: github.repository_owner == 'ManageIQ'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Set up registry credentials
+      run: |
+        echo "REGISTRY_USERNAME=${{ secrets.DOCKER_REGISTRY_USERNAME }}" >> $GITHUB_ENV
+        echo "REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" >> $GITHUB_ENV
+    - name: Build and push RPM build image
+      run: bin/build_container_image
+  update_ansible_reqs:
+    needs: build_rpm_build_container
+    if: github.repository_owner == 'ManageIQ'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - name: Update Ansible Requirements
+      run: bin/run_update_ansible_reqs
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v8
+      with:
+        add-paths: |
+          config/requirements.txt
+        commit-message: Update Ansible requirements
+        branch: update_ansible_reqs
+        assignees: Fryguy
+        author: ManageIQ Bot <bot@manageiq.org>
+        committer: ManageIQ Bot <bot@manageiq.org>
+        delete-branch: true
+        labels: dependencies
+        push-to-fork: miq-bot/manageiq-rpm_build
+        title: Update Ansible requirements
+        body: Update Ansible requirements
+        token: "${{ secrets.PR_TOKEN }}"

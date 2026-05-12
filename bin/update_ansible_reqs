@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# This script is designed to be run inside the manageiq-rpm_build container in
+# order to get the new set of requirements for the ansible venv. It should be
+# run from outside the container by the bin/run_update_ansible_reqs script.
+
+echo "Installing ansible..."
+pip3.12 install ansible
+
+echo
+echo "Parsing requirements.txt..."
+cd build_scripts
+bin/parse_requirements.rb config/requirements.txt /usr/local/lib/python3.12/site-packages/ansible_collections/ > /tmp/config/requirements.txt
