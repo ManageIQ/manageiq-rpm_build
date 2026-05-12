@@ -8,10 +8,11 @@ DEFAULT_TAG="latest"
 TAG=${TAG:-"$DEFAULT_TAG"}
 DEFAULT_IMAGE_NAME=$REGISTRY/$ORGANIZATION/rpm_build:$TAG
 IMAGE_NAME=${IMAGE_NAME:-"$DEFAULT_IMAGE_NAME"}
+ARCH=${ARCH:=$(uname -m | sed 's/x86_64/amd64/')}
 
 set -e
 
-docker build . -t $IMAGE_NAME
+docker build . --platform=linux/$ARCH -t $IMAGE_NAME
 
 [[ -z "$REGISTRY_USERNAME" ]] && exit 0
 
