@@ -72,6 +72,10 @@ module ManageIQ
 
           # Remove unnecessary large files
           FileUtils.rm_rf(Dir.glob("lib*/python*/site-packages/msgraph/generated/kiota-dom-export.txt")) # https://github.com/microsoftgraph/msgraph-sdk-python/issues/1287
+
+          # Remove lockfiles
+          FileUtils.rm_rf(Dir.glob("lib*/python*/site-packages/ansible_collections/**/Pipfile.lock"))
+          FileUtils.rm_rf(Dir.glob("lib*/python*/site-packages/ansible_collections/**/poetry.lock"))
         end
       end
 

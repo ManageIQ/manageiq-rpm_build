@@ -1,0 +1,25 @@
+From fb76b256a72b2c147e252c3e19fd0523bab1eab8 Mon Sep 17 00:00:00 2001
+From: Irina Boverman <iboverma@redhat.com>
+Date: Mon, 28 Jun 2021 10:55:15 -0400
+Subject: [PATCH 1/2] Changed-Sphinx-invocation-from-sphinx-to-sphinx-buil
+
+---
+ python/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/python/CMakeLists.txt b/python/CMakeLists.txt
+index 06caf61a..f8735fd1 100644
+--- a/python/CMakeLists.txt
++++ b/python/CMakeLists.txt
+@@ -124,7 +124,7 @@ else ()
+         COMMAND ${PN_ENV_SCRIPT} --
+         PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}:${CMAKE_CURRENT_SOURCE_DIR}
+         LD_LIBRARY_PATH="${CMAKE_CURRENT_BINARY_DIR}/c"
+-        ${Python_EXECUTABLE} -m sphinx "${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs")
++        sphinx-build "${CMAKE_CURRENT_SOURCE_DIR}/docs" "${CMAKE_CURRENT_BINARY_DIR}/docs")
+     add_dependencies(docs docs-py)
+     install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/docs/"
+             DESTINATION "${PROTON_SHARE}/docs/api-py"
+-- 
+2.29.0
+

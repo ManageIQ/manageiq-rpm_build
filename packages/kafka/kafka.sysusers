@@ -1,0 +1,2 @@
+g kafka 902
+u kafka 902 "Kafka" /var/lib/kafka /sbin/nologin

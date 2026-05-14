@@ -1,0 +1,2 @@
+g manageiq 903
+u manageiq 903 "ManageIQ" /home/manageiq /bin/bash

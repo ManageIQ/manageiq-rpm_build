@@ -1,6 +1,6 @@
 %package gemset
 Summary: %{product_summary} Gemset
-BuildRequires: /usr/bin/pathfix.py
+BuildRequires: /usr/lib/rpm/redhat/pathfix.py
 BuildRequires: nodejs
 
 Requires: cifs-utils
@@ -22,17 +22,13 @@ Requires: ipmitool
 # For Lenovo
 Requires: python3-pylxca
 
-# For Nuage
+# For Qpid Proton
 Requires: cyrus-sasl
 Requires: cyrus-sasl-plain
-Requires: python3-vspk
 Requires: qpid-proton-c >= 0.37.0
 
 # For Appliance Console
 Requires: libsodium-devel
-
-# For scanning
-Requires: glusterfs-fuse
 
 %description gemset
 %{product_summary} Gemset

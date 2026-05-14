@@ -1,0 +1,20 @@
+#!/bin/bash
+
+REGISTRY=${REGISTRY:-"docker.io"}
+ORGANIZATION=${ORGANIZATION:-"manageiq"}
+DEFAULT_TAG="latest"
+[[ "$GITHUB_EVENT_NAME" =~ ^(push|workflow_call|workflow_dispatch)$ && "$GITHUB_REF_NAME" != "master" ]] && \
+  DEFAULT_TAG="$DEFAULT_TAG-${GITHUB_REF_NAME/\//-}"
+TAG=${TAG:-"$DEFAULT_TAG"}
+DEFAULT_IMAGE_NAME=$REGISTRY/$ORGANIZATION/rpm_build:$TAG
+IMAGE_NAME=${IMAGE_NAME:-"$DEFAULT_IMAGE_NAME"}
+
+set -e
+
+echo "Building container image..."
+docker build . -t $IMAGE_NAME
+
+echo "Running container image..."
+docker run --rm -v /tmp/options:/root/OPTIONS:z $IMAGE_NAME update_rpm_repo
+
+set +e

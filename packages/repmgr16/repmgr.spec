@@ -1,4 +1,4 @@
-%global pgmajorversion 13
+%global pgmajorversion 16
 %global pgpackageversion %(echo %{pgmajorversion} | tr -d .)
 %global pginstdir /usr
 %global sname repmgr
@@ -10,14 +10,14 @@
 
 %global extra_version %{nil}
 
-%global _varrundir %{_localstatedir}/run/%{sname}
+%global _varrundir /run/%{sname}
 
 # Disable /usr/lib/.build-id/* artifacts
 %define _build_id_links none
 
 Name:        %{sname}%{pgpackageversion}
-Version:    5.2.1
-Release:    3%{nil}%{?dist}
+Version:    5.5.0
+Release:    2%{nil}%{?dist}
 Summary:    Replication Manager for PostgreSQL Clusters
 License:    GPLv3+
 URL:        https://repmgr.org
@@ -46,8 +46,8 @@ Requires(postun):   initscripts
 Group:        Applications/Databases
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{extra_version}-%{release}-root-%(%{__id_u} -n)
 %endif
-BuildRequires:    postgresql-server-devel >= 13, postgresql-server-devel < 14, postgresql-static
-BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel, flex
+BuildRequires:    postgresql-server-devel >= 16, postgresql-server-devel < 17, postgresql-static
+BuildRequires:    libxslt-devel, pam-devel, openssl-devel, readline-devel, flex, make, gcc, libcurl-devel, json-c-devel, libzstd-devel, lz4-devel
 Requires:    postgresql-server
 
 %if 0%{?pgpackageversion} >= 11 && 0%{?pgpackageversion} < 90 && 0%{?rhel} && 0%{?rhel} == 7
@@ -65,8 +65,8 @@ BuildRequires:  llvm-toolset
 BuildRequires:  clang-devel
 %endif
 
-# Obsolete old repmgr10 built against postgres10
-Obsoletes: repmgr10
+# Obsolete old repmgr13 built against postgres13
+Obsoletes: repmgr13 < 5.5.0
 
 %description
 repmgr is an open-source tool suite for managing replication and failover in a
@@ -83,7 +83,7 @@ command line option handling.
 
 %prep
 %setup -q -n %{sname}-%{version}%{extra_version}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 
@@ -178,6 +178,13 @@ fi
 %{pginstdir}/share/pgsql/extension/repmgr--5.1--5.2.sql
 %{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.2.sql
 %{pginstdir}/share/pgsql/extension/repmgr--5.2.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.2--5.3.sql
+%{pginstdir}/share/pgsql/extension/repmgr--unpackaged--5.3.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.3.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.3--5.4.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.4.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.4--5.5.sql
+%{pginstdir}/share/pgsql/extension/repmgr--5.5.sql
 %if %{systemd_enabled}
 %ghost %{_varrundir}
 %{_tmpfilesdir}/%{name}.conf
@@ -186,14 +193,14 @@ fi
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 %config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
-%if 0%{?pgpackageversion} >= 11
-%if 0%{?rhel} && 0%{?rhel} >= 7
-%exclude %{pginstdir}/include/server/extension/repmgr/
-%exclude %{pginstdir}/lib/bitcode
-%endif
-%endif
 
 %changelog
+* Tue Apr 21 2026 - Joe Rafaniello <jrafanie@gmail.com> 5.5.0-2
+- Fix legacy /var/run directory warning from repmgr16 unit file
+
+* Tue Mar 10 2026 - Joe Rafaniello <jrafanie@gmail.com> 5.5.0-1
+- Update to repmgr 5.5.0 for PostgreSQL 16
+
 * Wed Feb 14 2024 - Brandon Dunne <brandondunne@hotmail.com> 5.2.1-3
 - Rebuild for EL9
 

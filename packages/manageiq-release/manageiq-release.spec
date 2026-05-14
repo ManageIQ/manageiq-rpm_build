@@ -1,11 +1,11 @@
 Name:      manageiq-release
-Version:   20.0
+Version:   21.0
 Release:   1%{dist}
 Summary:   ManageIQ RPM repository configuration
 License:   Apache-2.0
 URL:       https://rpm.manageiq.org/release/
 Source0:   RPM-GPG-KEY-MANAGEIQ
-Source1:   manageiq-20-tal.repo
+Source1:   manageiq-21-uhlmann.repo
 BuildArch: noarch
 
 %description
@@ -36,6 +36,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
+* Mon Mar 9 2026 Jason Frey <fryguy9@gmail.com> - 21.0-1%{dist}
+- Initial build of manageiq-release for Uhlmann.
+
 * Wed Feb 26 2025 Jason Frey <fryguy9@gmail.com> - 20.0-1%{dist}
 - Initial build of manageiq-release for Tal.
 

@@ -20,15 +20,11 @@ Requires: socat
 # rpm %pre uses id (appliance or containers)
 Requires: (coreutils or coreutils-single)
 
-# rpm %pre uses useradd
-Requires: shadow-utils
-
 %description core
 %{product_summary} Core
 
 %pre core
-# ensure this user exists (build and upgrade)
-/usr/bin/id manageiq > /dev/null 2>&1 || /usr/sbin/useradd --system --create-home manageiq
+%sysusers_create_compat %{SOURCE5}
 # create a manageiq home directory if it doesn't exist
 mkdir -p /home/manageiq && chown manageiq:manageiq /home/manageiq
 
@@ -95,3 +91,4 @@ restorecon %{manageiq_var_lib_root}/containers/storage/
 /usr/share/ansible/roles/
 %{manageiq_var_lib_root}/containers
 %attr(-,manageiq,manageiq) %{manageiq_var_lib_root}/containers
+%{_sysusersdir}/manageiq.conf

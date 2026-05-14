@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -e
+
+curl --fail -L -o repmgr-5.5.0.tar.gz https://rpm.manageiq.org/sources_cache/repmgr16/repmgr-5.5.0.tar.gz
+
+# Manually track mock failure so we can print mock logging
+set +e
+/usr/bin/mock --spec=./repmgr.spec -r centos-stream-10-$(uname -m) --sources=./ --no-bootstrap-image
+mock_exit_status=$?
+set -e
+
+# If mock failed, display all log files for debugging
+if [ $mock_exit_status -ne 0 ]; then
+  echo "================================"
+  echo "Mock build failed with exit status: $mock_exit_status"
+  echo "================================"
+  echo ""
+
+  # Find and display all log files from the mock result directory
+  for log_file in /var/lib/mock/centos-stream-10-$(uname -m)/result/*.log; do
+    if [ -f "$log_file" ]; then
+      echo "========================================"
+      echo "Contents of: $log_file"
+      echo "========================================"
+      cat "$log_file"
+      echo ""
+    fi
+  done
+
+  exit $mock_exit_status
+fi
+
+mkdir -p result
+cp /var/lib/mock/*/result/*.rpm result/
