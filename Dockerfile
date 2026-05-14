@@ -10,7 +10,7 @@ RUN chmod +t /tmp
 RUN --mount=type=bind,from=quay.io/manageiq/build_tools:v1,source=/tools,target=/usr/local/bin \
     miq_switch_to_centos_stream_10 && \
     miq_enable_epel && \
-    dnf -y install https://rpm.manageiq.org/release/21-uhlmann/el10/noarch/manageiq-release-21.0-1.el10.noarch.rpm && \
+    dnf -y install https://rpm.manageiq.org/release/20-tal/el10/noarch/manageiq-release-20.0-1.el10.noarch.rpm && \
     dnf -y --disablerepo=ubi-10-baseos-rpms swap openssl-fips-provider openssl-libs && \
     dnf -y update && \
     dnf -y group install "development tools" && \

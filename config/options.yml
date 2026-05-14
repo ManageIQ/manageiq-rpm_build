@@ -14,7 +14,7 @@ repos:
 version:
 release:
 rpm:
-  version: 21.0.0
+  version: 20.0.0
   release: 0
   repo_name:
   org_name: manageiq
@@ -35,18 +35,18 @@ rpm_repository:
   - s390x
   - x86_64
   :content:
-    :21-uhlmann:
+    :20-tal:
       :targets:
       - el10
       :rpms:
         :kafka: !ruby/regexp /.+-3\.9.+/
-        :manageiq: !ruby/regexp /.+-21\.\d\.\d-(alpha|beta|rc)?\d+(\.\d)?\.el.+/
-        :manageiq-release: !ruby/regexp /.+-21\.0.+/
+        :manageiq: !ruby/regexp /.+-20\.\d\.\d-(alpha|beta|rc)?\d+(\.\d)?\.el.+/
+        :manageiq-release: !ruby/regexp /.+-20\.0.+/
         :python-pylxca: !ruby/regexp /.+-4\.2\.0.+/
         :qpid-proton: !ruby/regexp /.+-0\.37\.0.+/
         :repmgr16: !ruby/regexp /.+-5\.5\.0.+/
-    :21-uhlmann-nightly:
+    :20-tal-nightly:
       :targets:
       - el10
       :rpms:
-        :manageiq-nightly: !ruby/regexp /.+-21\.\d\.\d-(\d\.\d\.)?\d{14,}+\.el.+/
+        :manageiq-nightly: !ruby/regexp /.+-20\.\d\.\d-(\d\.\d\.)?\d{14,}+\.el.+/
