@@ -1,5 +1,5 @@
 aiohttp>=3.13.0 # azure/azcollection
-ansible-pylibssh>=0.2.0 # ansible/netcommon
+ansible-pylibssh>=1.4.0 # ansible/netcommon
 awxkit # awx/awx
 azure-ai-ml>=1.31.0 # azure/azcollection
 azure-appconfiguration>=1.8.0 # azure/azcollection
@@ -29,6 +29,7 @@ azure-mgmt-dns>=8.1.0 # azure/azcollection
 azure-mgmt-eventgrid>=10.4.0 # azure/azcollection
 azure-mgmt-eventhub>=11.1.0 # azure/azcollection
 azure-mgmt-hdinsight>=9.1.0b1 # azure/azcollection
+azure-mgmt-hybridcompute>=9.0.0 # azure/azcollection
 azure-mgmt-iothub>=3.0.0 # azure/azcollection
 azure-mgmt-keyvault>=12.1.1 # azure/azcollection
 azure-mgmt-loganalytics>=13.0.0b7 # azure/azcollection
@@ -60,7 +61,7 @@ azure-servicebus>=7.14.2 # azure/azcollection
 azure-storage-blob>=12.23.0b1 # azure/azcollection
 boto3>=1.34.0 # amazon/aws, community/aws
 botocore>=1.34.0 # amazon/aws, community/aws
-cryptography # cisco/intersight
+cryptography>=36.0.0 # cisco/intersight
 google-auth # google/cloud
 google-cloud-storage # google/cloud
 grpcio # ansible/netcommon
@@ -75,7 +76,7 @@ openstacksdk>=1.0.0 # openstack/cloud
 oras>=0.2.38 # azure/azcollection
 ovirt-engine-sdk-python>=4.5.0 # ovirt/ovirt
 ovirt-imageio # ovirt/ovirt
-packaging # azure/azcollection
+packaging>=25.0 # azure/azcollection
 pandas>=2.3.3 # azure/azcollection
 paramiko # ansible/netcommon
 protobuf>=6.32 # ansible/netcommon
