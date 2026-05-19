@@ -51,7 +51,6 @@ RUN --mount=type=bind,from=quay.io/manageiq/build_tools:v1,source=/tools,target=
       make \
       openssl-devel \
       python3.12-devel \
-      python3.12-cryptography \
       python3.12-packaging \
       python3.12-pip \
       python3.12-pyyaml \
