@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # This script assumes that docker.io/manageiq/rpm_build:latest exists locally
 # either by running bin/build_container_image or pulling the latest.
 
