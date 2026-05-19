@@ -9,7 +9,7 @@ concurrency:
 permissions:
   contents: read
 jobs:
-  build_rpm_build_container:
+  update_ansible_reqs:
     if: github.repository_owner == 'ManageIQ'
     runs-on: ubuntu-latest
     steps:
@@ -20,12 +20,6 @@ jobs:
         echo "REGISTRY_PASSWORD=${{ secrets.DOCKER_REGISTRY_PASSWORD }}" >> $GITHUB_ENV
     - name: Build and push RPM build image
       run: bin/build_container_image
-  update_ansible_reqs:
-    needs: build_rpm_build_container
-    if: github.repository_owner == 'ManageIQ'
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v6
     - name: Update Ansible Requirements
       run: bin/run_update_ansible_reqs
     - name: Create Pull Request
