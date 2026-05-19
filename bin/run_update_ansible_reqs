@@ -1,11 +1,14 @@
 #!/bin/bash
 
+set -e
+
 # This script assumes that docker.io/manageiq/rpm_build:latest exists locally
 # either by running bin/build_container_image or pulling the latest.
 
 ARCH=${ARCH:=$(uname -m | sed 's/x86_64/amd64/')}
+TTY_FLAGS=$([ -t 0 ] && echo "-it")
 
-docker run -it --rm \
+docker run $TTY_FLAGS --rm \
   --platform=linux/$ARCH \
   --pull never \
   --volume "$(pwd)/config:/tmp/config" \
