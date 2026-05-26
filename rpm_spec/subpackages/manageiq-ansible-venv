@@ -7,6 +7,7 @@ Requires: python3.12
 Requires: python3.12-pip
 Requires: python3.12-wheel
 # For ansible-core
+Requires: python3.12-jinja2
 Requires: python3.12-packaging
 Requires: python3.12-pyyaml
 AutoReqProv: no
