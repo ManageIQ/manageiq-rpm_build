@@ -30,32 +30,28 @@ mkdir -p /home/manageiq && chown manageiq:manageiq /home/manageiq
 
 %posttrans core
 # 'bin' needs to be copied, not symlinked
-[[ -e /var/www/miq/vmdb/bin ]] && rm -rf /var/www/miq/vmdb/bin
-cp -a %{gemset_root}/vmdb/bin /var/www/miq/vmdb/bin
+[[ -e %{app_root}/bin ]] && rm -rf %{app_root}/bin
+cp -a %{gemset_root}/vmdb/bin %{app_root}/bin
 
 files=".bundle Gemfile.lock"
 for file in ${files}
 do
-  [[ -e /var/www/miq/vmdb/${file} ]] && rm -rf /var/www/miq/vmdb/${file}
-  ln -s %{gemset_root}/vmdb/${file} /var/www/miq/vmdb/${file}
+  [[ -e %{app_root}/${file} ]] && rm -rf %{app_root}/${file}
+  ln -s %{gemset_root}/vmdb/${file} %{app_root}/${file}
 done
 
 %post core
 # These directories contain files not owned by this rpm.
 #  For upgrades, ensure the files have the correct group privs
 #  so root and manageiq users can read them.
-[ -e %{app_root}/certs/v2_key ] && %{__chown} manageiq.manageiq %{app_root}/certs/v2_key
-[ -e %{app_root}/certs/v2_key ] && %{__chmod} o-rw %{app_root}/certs/v2_key
-[ -e %{app_root}/certs/server.cer ] && %{__chmod} g+r %{app_root}/certs/server.cer
-[ -e %{app_root}/certs/server.cer.key ] && %{__chmod} g+r %{app_root}/certs/server.cer.key
+[ -e %{app_state_root}/certs/v2_key ] && %{__chown} manageiq.manageiq %{app_state_root}/certs/v2_key
+[ -e %{app_state_root}/certs/v2_key ] && %{__chmod} o-rw %{app_state_root}/certs/v2_key
+[ -e %{app_state_root}/certs/server.cer ] && %{__chmod} g+r %{app_state_root}/certs/server.cer
+[ -e %{app_state_root}/certs/server.cer.key ] && %{__chmod} g+r %{app_state_root}/certs/server.cer.key
 
-%{__chown} -R manageiq:manageiq %{app_root}/log
-%{__chmod} -R o-rw %{app_root}/log
-
-%{__chown} -R manageiq:manageiq %{app_root}/tmp/pids
-%{__chmod} -R o-rw %{app_root}/tmp/pids
-
-%{__chown} -R manageiq:manageiq %{app_root}/data
+%{__mkdir} -p %{app_state_root}/{product/conditions,tmp/cache,tmp/pids,tmp/sockets}
+%{__chown} -R manageiq:manageiq %{app_state_root}/{data,log,product,tmp}
+%{__chmod} -R o-rw %{app_root}/{log,tmp/pids}
 
 # Set SELinux contexts to allow podman containers to run from /var/lib/manageiq/containers/storage
 semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/overlay(/.*)?'
@@ -74,18 +70,23 @@ restorecon %{manageiq_var_lib_root}/containers/storage/
 %files core
 %defattr(-,root,root,-)
 %{app_root}
+%attr(-,manageiq,manageiq) %{app_state_root}/certs
+%attr(770,manageiq,root) %{app_state_root}/config
+%attr(-,manageiq,manageiq) %{app_state_root}/data
+%attr(-,manageiq,manageiq) %{app_state_root}/db
+%attr(-,manageiq,manageiq) %{app_state_root}/tmp
 %attr(-,manageiq,manageiq) %{app_root}/certs
 %attr(-,manageiq,manageiq) %{app_root}/config
+%attr(-,manageiq,manageiq) %{app_root}/data
 %attr(-,manageiq,manageiq) %{app_root}/log
 %attr(-,manageiq,manageiq) %{app_root}/tmp
-%attr(-,manageiq,manageiq) %{app_root}/data
 %config(noreplace) %{app_root}/config/cable.yml
-%exclude %{app_root}/public/pictures
 %exclude %{app_root}/public/assets
 %exclude %{app_root}/public/packs
+%exclude %{app_root}/public/pictures
 %exclude %{app_root}/public/ui
 %exclude %{app_root}/public/upload
-%exclude %{app_root}/log/apache
+%{app_root}/db/schema.rb
 %{manifest_root}/BUILD
 %{manifest_root}/BUILD_RPM_BUILD
 /usr/share/ansible/roles/

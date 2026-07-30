@@ -18,7 +18,7 @@ module ManageIQ
         # Unlike the other generators that build within BUILD_DIR, we need to
         # build the venv in the target path because virtualenv uses the fully
         # qualified path in things like shebangs for the bin files.
-        @venv_build_dir  = Pathname.new("/var/lib/manageiq")
+        @venv_build_dir  = Pathname.new("/usr/lib/manageiq")
         @venv_build_path = @venv_build_dir.join("venv")
       end
 

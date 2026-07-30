@@ -1,7 +1,7 @@
 %package ansible-venv
 Summary: %{product_summary} Ansible Runner Virtual Environment
 
-%global __requires_exclude ^\/var\/lib\/manageiq\/venv\/bin\/python
+%global __requires_exclude ^\/usr\/lib\/manageiq\/venv\/bin\/python
 
 Requires: python3.12
 Requires: python3.12-pip

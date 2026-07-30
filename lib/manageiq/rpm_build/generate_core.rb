@@ -120,7 +120,7 @@ module ManageIQ
             target_dir =
               case prefix
               when "manageiq"
-                "/var/www/miq/vmdb"
+                "/usr/lib/manageiq/manageiq"
               when /^#{OPTIONS.product_name}-gemset/
                 File.join("", "opt", OPTIONS.rpm.org_name, "#{OPTIONS.product_name}-gemset")
               else
