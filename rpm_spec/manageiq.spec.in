@@ -3,8 +3,9 @@
 %global product_summary PRODUCT_SUMMARY
 %global product_url PRODUCT_URL
 
-%global app_root /opt/manageiq/manageiq
+%global app_root /usr/lib/manageiq/manageiq
 %global org_root /opt/%{org_name}
+%global app_state_root /var/www/miq/vmdb
 %global manageiq_var_lib_root /var/lib/manageiq
 %global ansible_venv_root %{org_root}/venv
 %global appliance_root %{org_root}/%{name}-appliance
@@ -92,9 +93,9 @@ cd %{_builddir}
 %{__chmod} 700 %{buildroot}%{app_root}/tmp/{,pids,sockets}
 
 # Persisted /var paths — create skeleton dirs and move files that stay in /var
-%{__mkdir} -p %{buildroot}/var/www/miq/vmdb/{certs,data,data/git_repos,log/apache,db,public/pictures,public/upload}
-%{__chmod} 6750 %{buildroot}/var/www/miq/vmdb/{certs,data,data/git_repos,log}
-%{__mv} %{buildroot}%{app_root}/db/schema.rb %{buildroot}/var/www/miq/vmdb/db/schema.rb
+%{__mkdir} -p %{buildroot}/%{app_state_root}/{certs,data,data/git_repos,log/apache,db,public/pictures,public/upload}
+%{__chmod} 6750 %{buildroot}/%{app_state_root}/{certs,data,data/git_repos,log}
+%{__mv} %{buildroot}%{app_root}/db/schema.rb %{buildroot}/%{app_state_root}/db/schema.rb
 # Remove dirs from app_root that will be symlinked at runtime
 %{__rm} -rf %{buildroot}%{app_root}/{certs,data,log}
 %{__rm} -rf %{buildroot}%{app_root}/public/pictures
