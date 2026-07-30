@@ -3,10 +3,10 @@
 %global product_summary PRODUCT_SUMMARY
 %global product_url PRODUCT_URL
 
-%global app_root /var/www/miq/vmdb
+%global app_root /opt/manageiq/manageiq
 %global org_root /opt/%{org_name}
 %global manageiq_var_lib_root /var/lib/manageiq
-%global ansible_venv_root %{manageiq_var_lib_root}/venv
+%global ansible_venv_root %{org_root}/venv
 %global appliance_root %{org_root}/%{name}-appliance
 %global gemset_root %{org_root}/%{name}-gemset
 %global manifest_root %{org_root}/manifest
@@ -87,10 +87,18 @@ cd %{_builddir}
 ################
 %{__mkdir} -p %{buildroot}%{app_root}
 %{__cp} -a %{core_builddir}/* %{buildroot}%{app_root}
-%{__mkdir} -p %{buildroot}%{app_root}/log/apache
 %{__mkdir} -p %{buildroot}%{app_root}/tmp/{,sockets,pids}
-%{__chmod} 6750 %{buildroot}%{app_root}/{log,config,certs,data,data/git_repos}
+%{__chmod} 6750 %{buildroot}%{app_root}/{config}
 %{__chmod} 700 %{buildroot}%{app_root}/tmp/{,pids,sockets}
+
+# Persisted /var paths — create skeleton dirs and move files that stay in /var
+%{__mkdir} -p %{buildroot}/var/www/miq/vmdb/{certs,data,data/git_repos,log/apache,db,public/pictures,public/upload}
+%{__chmod} 6750 %{buildroot}/var/www/miq/vmdb/{certs,data,data/git_repos,log}
+%{__mv} %{buildroot}%{app_root}/db/schema.rb %{buildroot}/var/www/miq/vmdb/db/schema.rb
+# Remove dirs from app_root that will be symlinked at runtime
+%{__rm} -rf %{buildroot}%{app_root}/{certs,data,log}
+%{__rm} -rf %{buildroot}%{app_root}/public/pictures
+%{__rm} -rf %{buildroot}%{app_root}/public/upload
 
 # Move webpack manifests
 %{__mv} %{buildroot}%{app_root}/public/packs/webpack_modules_manifest.json %{buildroot}%{manifest_root}
@@ -149,7 +157,7 @@ done
 # Install ansible-venv #
 ########################
 %{__mkdir} -p %{buildroot}%{ansible_venv_root}
-%{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{manageiq_var_lib_root}
+%{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{org_root}
 
 ln -s /usr/bin/python3.12 %{buildroot}%{ansible_venv_root}/bin/python3.12
 ln -s ./python3.12 %{buildroot}%{ansible_venv_root}/bin/python3
