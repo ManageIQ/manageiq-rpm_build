@@ -40,13 +40,6 @@ do
   ln -s %{gemset_root}/vmdb/${file} %{app_root}/${file}
 done
 
-# Symlink persisted /var paths into the app root
-for item in GUID certs data log config/database.yml config/messaging.yml db/schema.rb
-do
-  [[ -e %{app_root}/${item} ]] && rm -rf %{app_root}/${item}
-  ln -s %{app_state_root}/${item} %{app_root}/${item}
-done
-
 %post core
 # These directories contain files not owned by this rpm.
 #  For upgrades, ensure the files have the correct group privs
