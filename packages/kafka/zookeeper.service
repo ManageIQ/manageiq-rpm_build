@@ -3,6 +3,10 @@ Description=zookeeper service
 After=network.target
 
 [Service]
+ExecStartPre=+/usr/bin/mkdir -m 755 -p /var/lib/zookeeper
+ExecStartPre=+/usr/bin/mkdir -m 755 -p /var/log/zookeeper
+ExecStartPre=+/usr/bin/chown kafka /var/lib/zookeeper
+ExecStartPre=+/usr/bin/chown kafka /var/log/zookeeper
 ExecStart=/opt/kafka/bin/zookeeper-server-start.sh /etc/kafka/config/zookeeper.properties
 Restart=on-failure
 User=kafka

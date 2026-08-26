@@ -1,30 +1,9 @@
 #!/usr/bin/env ruby
 
-# This script takes the existing requirements.txt file
-# and updates it with the version for our supported packages
+# Takes the existing requirements.txt file and updates it with the versions for
+# our supported ansible collections.
 #
-# USAGE:
-#
-# 1. Setup environment
-#
-#     docker run --rm -it --platform=linux/amd64 --name update_venv_reqs --entrypoint /bin/bash manageiq/rpm_build:latest
-#     pip3.12 install ansible
-#     cd build_scripts
-#
-# 2. Get all module requirements
-#
-#     bin/parse_requirements.rb config/requirements.txt /usr/local/lib/python3.12/site-packages/ansible_collections/ > config/new_requirements.txt
-#
-# 3. Resolve conflicts and determine if new one is correct.
-#    Double check that the legacy ones are still needed and, if not, remove them.
-#
-#     diff config/{,new_}requirements.txt
-#
-# 4. Update local development files
-#
-#     docker cp update_venv_reqs:/build_scripts/config/new_requirements.txt ./config/requirements.txt
-#     # create a PR with updates
-#
+# This script is designed to be called from bin/update_ansible_reqs
 class ParseRequirements
   # this is the list of supported collections
   PACKAGES = %w[

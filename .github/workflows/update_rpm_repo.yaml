@@ -11,7 +11,7 @@ jobs:
     if: github.repository_owner == 'ManageIQ'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Prepare options file
       run: |
         mkdir -p /tmp/options

@@ -165,6 +165,9 @@ module ManageIQ
           # Vendored jquery 1.x has security issues caught by scanners, but isn't used by the application
           FileUtils.rm_rf(Dir.glob("gems/jquery-rails-*/vendor/assets/javascripts/jquery.*"))
 
+          # Remove unused nokogiri .so files for other Rubies
+          FileUtils.rm_rf(Dir.glob("gems/nokogiri-*/lib/nokogiri/*").grep(%r{/\d+\.\d+$}).reject { |p| p.end_with?(RUBY_VERSION.rpartition(".").first) })
+
           # Remove files with inappropriate license
           FileUtils.rm_rf(Dir.glob("gems/pdf-writer-*/demo")) # Creative Commons Attribution NonCommercial
 
@@ -182,6 +185,7 @@ module ManageIQ
           FileUtils.rm_rf(Dir.glob("bundler/gems/**/.github"))
           FileUtils.rm_rf(Dir.glob("bundler/gems/**/.yarn"))
 
+          # Remove docs, specs, build assets
           ["gems", "bundler/gems"].each do |path|
             FileUtils.rm_rf(Dir.glob("#{path}/**/*.o"))
             FileUtils.rm_rf(Dir.glob("#{path}/*/docs"))

@@ -11,3 +11,6 @@ packages/*/*.zip
 packages/*/result/*.rpm
 rpm_cache/
 rpm_spec/*.spec
+
+bin/test_ansible_runner_execution
+spec/lib/ansible/

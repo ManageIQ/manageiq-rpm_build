@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+PYTHON_VERSION="3.12"
+VENV_PATH="/var/lib/manageiq/venv"
+
+# Build the venv at the production path (runner_execution_spec.bats hard-codes this)
+echo -e "\033[1;34mCreating venv at $VENV_PATH...\033[0m"
+sudo mkdir -p /var/lib/manageiq
+sudo chown "$USER" /var/lib/manageiq
+python${PYTHON_VERSION} -m venv --system-site-packages --upgrade-deps $VENV_PATH
+
+echo -e "\033[1;34mInstalling ansible + ansible-runner...\033[0m"
+$VENV_PATH/bin/pip${PYTHON_VERSION} install --no-compile ansible ansible-core ansible-runner
+
+echo -e "\033[1;34mInstalling requirements.txt...\033[0m"
+$VENV_PATH/bin/pip${PYTHON_VERSION} install --no-compile -r config/requirements.txt
+
+# Fetch test_ansible_runner_execution and the ansible specs from ManageIQ/manageiq.
+# We use a sparse checkout to avoid cloning the full repo.
+if [ ! -d "./spec/lib/ansible" ]; then
+  echo -e "\033[1;34mCloning ansible specs from ManageIQ/manageiq...\033[0m"
+  rm -rf /tmp/manageiq
+  git clone --no-checkout --depth=1 --filter=tree:0 https://github.com/ManageIQ/manageiq /tmp/manageiq
+  pushd /tmp/manageiq
+    git sparse-checkout set --no-cone /bin/test_ansible_runner_execution /spec/lib/ansible
+    git checkout
+  popd
+
+  mkdir -p ./spec/lib
+  cp -r /tmp/manageiq/spec/lib/ansible ./spec/lib
+  cp /tmp/manageiq/bin/test_ansible_runner_execution ./bin/test_ansible_runner_execution
+  chmod +x ./bin/test_ansible_runner_execution
+  rm -rf /tmp/manageiq
+fi
+
+# Run only the [ansible-runner] CLI tests — the [Ansible::Runner#run] tests require Rails.
+# BATS_FILTER is a regex, so "ansible-runner" matches all [ansible-runner] tests without
+# needing to escape brackets.
+BATS_FILTER="ansible-runner" exec ./bin/test_ansible_runner_execution

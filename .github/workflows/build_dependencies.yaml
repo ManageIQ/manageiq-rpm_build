@@ -18,7 +18,7 @@ jobs:
         - ubuntu-24.04-s390x
     runs-on: "${{ matrix.runner }}"
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Build and push RPMs
       run: bin/build_dependencies
       env:

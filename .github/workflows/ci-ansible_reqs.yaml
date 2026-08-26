@@ -1,0 +1,35 @@
+name: CI - Ansible Reqs
+on:
+  pull_request:
+    paths:
+    - config/requirements.txt
+  push:
+    branches-ignore:
+    - dependabot/*
+    - renovate/*
+    paths:
+    - config/requirements.txt
+  workflow_dispatch:
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  ci-ansible_reqs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          python3.12-venv \
+          libkrb5-dev \
+          libssh2-1-dev \
+          libffi-dev \
+          libssl-dev \
+          libxml2-dev \
+          libxslt1-dev
+    - name: Validate Ansible requirements
+      run: spec/test_ansible_reqs
