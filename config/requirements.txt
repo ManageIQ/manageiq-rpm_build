@@ -68,7 +68,7 @@ botocore>=1.35.0 # amazon/aws, community/aws
 cryptography>=36.0.0 # cisco/intersight
 google-auth # google/cloud
 google-cloud-storage # google/cloud
-grpcio # ansible/netcommon
+grpcio==1.62.3 # ansible/netcommon - pinned for ppc64le binary wheel # ansible/netcommon
 jsonpatch # kubernetes/core
 jsonschema>=4.18.0 # ansible/utils
 jxmlease # ansible/netcommon
