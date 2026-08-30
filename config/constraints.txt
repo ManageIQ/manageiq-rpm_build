@@ -1,0 +1,1 @@
+pyOpenSSL>=26.0.0 # community/vmware - This should be removed when https://github.com/vmware/vcf-sdk-python/issues/4 is resolved
