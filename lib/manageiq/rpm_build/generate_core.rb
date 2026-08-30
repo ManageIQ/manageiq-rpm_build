@@ -65,7 +65,7 @@ module ManageIQ
       end
 
       def seed_ansible_runner
-        shell_cmd("pip install ansible") # This should happen after the ansible-venv is fully built
+        shell_cmd("#{GenerateAnsibleVenv.pip_versioned} install ansible") # This should happen after the ansible-venv is fully built
         Dir.chdir(miq_dir) do
           shell_cmd("bundle exec rake evm:ansible_runner:seed")
         end
