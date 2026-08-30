@@ -96,9 +96,6 @@ The option file is brought into docker by mounting the directory with `-v $(pwd)
 Any of the keys in [options.yml](blob/master/config/options.yml) can be overridden.
 
    - If overriding the NPM registry, set the `npm_registry` key in the `options.yml`.
-   - If building RPMs in Copr,
-     - set the `rpm.repo_name` key in the `options.yml`.
-     - run the container image with `-v <copr token file>:/root/.config/copr`.
    - If updating the RPM repo it would be helpful to attach a volume to hold the RPM cache with `-v <dir>:/root/rpm_cache`.
      Any RPMs not in the cache will be downloaded to the cache first.
 
