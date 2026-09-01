@@ -169,5 +169,12 @@ ln -s ./python3 %{buildroot}%{ansible_venv_root}/bin/python
 # Create podman containers root
 %{__mkdir} -p %{buildroot}%{manageiq_var_lib_root}/containers/storage
 
+########################
+# Install ui #
+########################
+ln -s %{app_state_root}/public/pictures %{app_root}/public/pictures
+ln -s %{app_state_root}/public/upload %{app_root}/public/upload
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
