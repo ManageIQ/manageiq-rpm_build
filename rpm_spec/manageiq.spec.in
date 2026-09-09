@@ -118,6 +118,18 @@ done
 # Install the sysuser config file
 install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysusersdir}/manageiq.conf
 
+mkdir -p %{app_state_root}/certs
+mkdir -p %{app_state_root}/data
+mkdir -p %{app_state_root}/log
+mkdir -p %{app_state_root}/db
+touch %{app_state_root}/db/schema.rb
+
+ln -s %{app_state_root}/certs %{buildroot}%{app_root}/certs
+ln -s %{app_state_root}/data %{buildroot}%{app_root}/data
+ln -s %{app_state_root}/log %{buildroot}%{app_root}/log
+ln -s %{app_state_root}/db/schema.rb %{buildroot}%{app_root}/db/schema.rb
+
+
 #####################
 # Install appliance #
 #####################
@@ -172,8 +184,11 @@ ln -s ./python3 %{buildroot}%{ansible_venv_root}/bin/python
 ########################
 # Install ui #
 ########################
-ln -s %{app_state_root}/public/pictures %{app_root}/public/pictures
-ln -s %{app_state_root}/public/upload %{app_root}/public/upload
+mkdir -p %{app_state_root}/public/pictures
+mkdir -p %{app_state_root}/public/upload
+
+ln -s %{app_state_root}/public/pictures %{buildroot}%{app_root}/public/pictures
+ln -s %{app_state_root}/public/upload %{buildroot}%{app_root}/public/upload
 
 
 %clean
