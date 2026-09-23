@@ -88,6 +88,9 @@ restorecon %{manageiq_var_lib_root}/containers/storage/
 %attr(-,manageiq,manageiq) %{app_state_root}/certs
 %attr(-,manageiq,manageiq) %{app_state_root}/data
 %attr(-,manageiq,manageiq) %{app_state_root}/log
+%attr(-,manageiq,manageiq) %{buildroot}%{app_root}/certs
+%attr(-,manageiq,manageiq) %{buildroot}%{app_root}/data
+%attr(-,manageiq,manageiq) %{buildroot}%{app_root}/log
 %{app_root}/db/schema.rb
 %{manifest_root}/BUILD
 %{manifest_root}/BUILD_RPM_BUILD
