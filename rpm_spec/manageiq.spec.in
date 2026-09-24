@@ -44,7 +44,7 @@ Source5:  manageiq.sysusers
 %{?sysusers_requires_compat}
 
 # Declare any patches here
-Patch1: patches/0001-update-bundle-gemfile-path.patch
+Patch1: 0001-update-bundle-gemfile-path.patch
 
 %description
 %{product_summary}
