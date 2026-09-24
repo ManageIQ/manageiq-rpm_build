@@ -44,6 +44,7 @@ Source5:  manageiq.sysusers
 %{?sysusers_requires_compat}
 
 # Declare any patches here
+Patch1: patches/0001-update-bundle-gemfile-path.patch
 
 %description
 %{product_summary}
@@ -60,6 +61,7 @@ umask 0002
 cd %{_builddir}
 
 # Apply any patches here
+%patch -P 1 -p1
 
 %py3_shebang_fix %{gemset_builddir} 2>&1 | grep -v "^recursedown" | grep -v "no change"
 
@@ -119,15 +121,17 @@ done
 install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysusersdir}/manageiq.conf
 
 mkdir -p %{app_state_root}/certs
+mkdir -p %{app_state_root}/config
 mkdir -p %{app_state_root}/data
 mkdir -p %{app_state_root}/log
 mkdir -p %{app_state_root}/db
 touch %{app_state_root}/db/schema.rb
 
-ln -s %{app_state_root}/certs %{buildroot}%{app_root}/certs
-ln -s %{app_state_root}/data %{buildroot}%{app_root}/data
-ln -s %{app_state_root}/log %{buildroot}%{app_root}/log
-ln -s %{app_state_root}/db/schema.rb %{buildroot}%{app_root}/db/schema.rb
+ln -s -f %{app_state_root}/certs %{buildroot}%{app_root}/certs
+ln -s -f %{app_state_root}/data %{buildroot}%{app_root}/data
+ln -s -f %{app_state_root}/log %{buildroot}%{app_root}/log
+ln -s -f %{app_state_root}/db/schema.rb %{buildroot}%{app_root}/db/schema.rb
+ln -s -f %{app_state_root}/config/database.yml %{buildroot}%{app_root}/config/database.yml
 
 
 #####################
