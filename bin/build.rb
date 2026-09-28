@@ -19,9 +19,6 @@ git_ref    = opts[:git_ref]
 # Setup source repos and build environment
 ManageIQ::RPMBuild::SetupSourceRepos.new(git_ref).populate
 
-# Generate 'ansible-venv' contents
-ManageIQ::RPMBuild::GenerateAnsibleVenv.new.populate
-
 # Generate 'gemset' contents
 gemset = ManageIQ::RPMBuild::GenerateGemSet.new
 gemset.backup_environment_variables

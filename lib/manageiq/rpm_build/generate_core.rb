@@ -64,14 +64,6 @@ module ManageIQ
         end
       end
 
-      def seed_ansible_runner
-        shell_cmd("pip install ansible") # This should happen after the ansible-venv is fully built
-        Dir.chdir(miq_dir) do
-          shell_cmd("bundle exec rake evm:ansible_runner:seed")
-        end
-        # TODO: determine which packages to delete dynamically?
-      end
-
       def populate
         rake_path = `which rake`.chomp
         gem_home_rake = GEM_HOME.join("bin/rake").to_s
@@ -84,7 +76,6 @@ module ManageIQ
         precompile_assets
         precompile_sti_loader
         build_service_ui
-        seed_ansible_runner
         compile_locale_files
         generate_manifests
 

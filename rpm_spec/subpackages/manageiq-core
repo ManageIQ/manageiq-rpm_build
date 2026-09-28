@@ -9,7 +9,6 @@ Requires: ruby-default-gems >= %{ruby_min_version}
 Requires: rubygems
 
 Requires: %{name}-gemset = %{version}-%{release}
-Requires: %{name}-ansible-venv = %{version}-%{release}
 
 Requires: git
 Requires: net-snmp
@@ -88,7 +87,6 @@ restorecon %{manageiq_var_lib_root}/containers/storage/
 %exclude %{app_root}/log/apache
 %{manifest_root}/BUILD
 %{manifest_root}/BUILD_RPM_BUILD
-/usr/share/ansible/roles/
 %{manageiq_var_lib_root}/containers
 %attr(-,manageiq,manageiq) %{manageiq_var_lib_root}/containers
 %{_sysusersdir}/manageiq.conf

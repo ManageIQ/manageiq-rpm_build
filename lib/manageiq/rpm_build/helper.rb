@@ -14,12 +14,6 @@ module ManageIQ
         exit($?.exitstatus || 1) unless system(env, cmd.to_s)
       end
 
-      def shell_cmd_in_venv(cmd, venv, env = {})
-        puts_shell_cmd(cmd, env, "(venv)")
-        cmd = "source #{venv.join("bin/activate")}; #{cmd}; deactivate"
-        exit($?.exitstatus || 1) unless system(env, cmd.to_s)
-      end
-
       def puts_shell_cmd(cmd, env, prefix = "")
         prefix << " " unless prefix.empty?
 

@@ -39,23 +39,7 @@ RUN --mount=type=bind,from=quay.io/manageiq/build_tools:v1,source=/tools,target=
       rpm-build \
       ruby-devel \
       wget \
-      which \
-      # For ansible-venv
-      cargo \
-      gcc \
-      krb5-devel \
-      libcurl-devel \
-      libffi-devel \
-      libxml2-devel \
-      libxslt-devel \
-      make \
-      openssl-devel \
-      python3.12-devel \
-      python3.12-jinja2 \
-      python3.12-packaging \
-      python3.12-pip \
-      python3.12-pyyaml \
-      python3.12-wheel && \
+      which && \
     dnf -y update libarchive && \
     miq_clean_dnf_rpm
 
