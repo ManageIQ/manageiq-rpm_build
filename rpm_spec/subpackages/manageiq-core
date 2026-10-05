@@ -82,12 +82,11 @@ restorecon %{manageiq_var_lib_root}/containers/storage/
 %exclude %{app_root}/public/ui
 %exclude %{app_root}/public/pictures
 %exclude %{app_root}/public/upload
-%{app_root}/certs
-%{app_root}/data
-%{app_root}/log
+%exclude %{app_root}/certs
+%exclude %{app_root}/data
+%exclude %{app_root}/log
 %attr(-,manageiq,manageiq) %{app_state_root}/certs
 %attr(-,manageiq,manageiq) %{app_state_root}/data
-%attr(-,manageiq,manageiq) %{app_state_root}/log
 %attr(-,manageiq,manageiq) %{app_root}/certs
 %attr(-,manageiq,manageiq) %{app_root}/data
 %attr(-,manageiq,manageiq) %{app_root}/log

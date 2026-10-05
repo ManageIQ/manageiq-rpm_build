@@ -45,6 +45,7 @@ Source5:  manageiq.sysusers
 
 # Declare any patches here
 Patch1: 0001-update-bundle-gemfile-path.patch
+Patch2: 0001-Update-rails-root.patch
 
 %description
 %{product_summary}
