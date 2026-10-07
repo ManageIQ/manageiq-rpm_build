@@ -4,7 +4,7 @@ ansible-pylibssh>=1.4.0 # ansible/netcommon
 awxkit # legacy
 azure-ai-ml>=1.31.0 # azure/azcollection
 azure-appconfiguration>=1.8.0 # azure/azcollection
-azure-cli-core>=2.83.0 # azure/azcollection
+azure-cli-core>=2.91.0 # azure/azcollection
 azure-common>=1.1.28 # azure/azcollection
 azure-containerregistry>=1.2.0 # azure/azcollection
 azure-core>=1.38.0 # azure/azcollection
@@ -65,7 +65,7 @@ azure-storage-blob>=12.23.0b1 # azure/azcollection
 azure-storage-file-share>=12.24.0 # azure/azcollection
 boto3>=1.35.0 # amazon/aws, community/aws
 botocore>=1.35.0 # amazon/aws, community/aws
-cryptography>=49.0.0 # cisco/intersight
+cryptography>=50.0.0 # cisco/intersight
 google-auth # google/cloud
 google-cloud-storage # google/cloud
 grpcio # ansible/netcommon
