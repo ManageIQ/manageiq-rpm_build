@@ -63,6 +63,7 @@ cd %{_builddir}
 
 # Apply any patches here
 %patch -P 1 -p1
+%patch -P 2 -p1
 
 %py3_shebang_fix %{gemset_builddir} 2>&1 | grep -v "^recursedown" | grep -v "no change"
 
