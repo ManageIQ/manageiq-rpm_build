@@ -96,7 +96,7 @@ cd %{_builddir}
 %{__chmod} 700 %{buildroot}%{app_root}/tmp/{,pids,sockets}
 
 # Persisted /var paths — create skeleton dirs and move files that stay in /var
-%{__mkdir} -p %{buildroot}/%{app_state_root}/{certs,data,data/git_repos,log/apache,db,public/pictures,public/upload}
+%{__mkdir} -p %{buildroot}/%{app_state_root}/{certs,config,data,data/git_repos,log/apache,db,public/pictures,public/upload}
 %{__chmod} 6750 %{buildroot}/%{app_state_root}/{certs,data,data/git_repos,log}
 # Remove dirs from app_root that will be symlinked at runtime
 %{__rm} -rf %{buildroot}%{app_root}/{certs,data,log}

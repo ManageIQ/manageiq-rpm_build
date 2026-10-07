@@ -74,6 +74,7 @@ restorecon %{manageiq_var_lib_root}/containers/storage/
 %files core
 %defattr(-,root,root,-)
 %{app_root}
+%attr(770,manageiq,root) %{app_state_root}/config
 %attr(-,manageiq,manageiq) %{app_root}/config
 %attr(-,manageiq,manageiq) %{app_root}/tmp
 %config(noreplace) %{app_root}/config/cable.yml
