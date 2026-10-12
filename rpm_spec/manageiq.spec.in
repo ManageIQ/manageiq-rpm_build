@@ -128,12 +128,15 @@ mkdir -p %{app_state_root}/data
 mkdir -p %{app_state_root}/log
 mkdir -p %{app_state_root}/db
 touch %{app_state_root}/db/schema.rb
+touch %{app_state_root}/GUID
 
+ln -s -f %{app_state_root}/GUID %{buildroot}%{app_root}/GUID
 ln -s -f %{app_state_root}/certs %{buildroot}%{app_root}/certs
 ln -s -f %{app_state_root}/data %{buildroot}%{app_root}/data
 ln -s -f %{app_state_root}/log %{buildroot}%{app_root}/log
 ln -s -f %{app_state_root}/db/schema.rb %{buildroot}%{app_root}/db/schema.rb
 ln -s -f %{app_state_root}/config/database.yml %{buildroot}%{app_root}/config/database.yml
+ln -s -f %{app_state_root}/config/messaging.yml %{buildroot}%{app_root}/config/messaging.yml
 
 
 #####################
