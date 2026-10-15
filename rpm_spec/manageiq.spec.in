@@ -125,6 +125,7 @@ install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysusersdir}/manageiq.conf
 mkdir -p %{app_state_root}/certs
 mkdir -p %{app_state_root}/config
 mkdir -p %{app_state_root}/data
+mkdir -p %{app_state_root}/db
 mkdir -p %{app_state_root}/log
 mkdir -p %{app_state_root}/db
 touch %{app_state_root}/db/schema.rb

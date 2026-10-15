@@ -85,6 +85,7 @@ restorecon %{manageiq_var_lib_root}/containers/storage/
 %exclude %{app_root}/public/upload
 %attr(-,manageiq,manageiq) %{app_state_root}/certs
 %attr(-,manageiq,manageiq) %{app_state_root}/data
+%attr(-,manageiq,manageiq) %{app_state_root}/db
 %attr(-,manageiq,manageiq) %{app_root}/certs
 %attr(-,manageiq,manageiq) %{app_root}/data
 %attr(-,manageiq,manageiq) %{app_root}/log
