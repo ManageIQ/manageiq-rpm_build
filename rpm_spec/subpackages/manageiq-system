@@ -18,7 +18,7 @@ Requires: openldap-clients
 %defattr(-,root,root,-)
 /.toprc
 %{appliance_root}
-%{app_root}/log/apache
+%{app_state_root}/log/apache
 %dir %{manifest_root}
 %{_bindir}/cloud_ds_check.sh
 %{_bindir}/evm*

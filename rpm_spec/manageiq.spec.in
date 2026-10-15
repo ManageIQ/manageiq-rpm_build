@@ -3,10 +3,11 @@
 %global product_summary PRODUCT_SUMMARY
 %global product_url PRODUCT_URL
 
-%global app_root /var/www/miq/vmdb
+%global app_root /usr/lib/manageiq/manageiq
 %global org_root /opt/%{org_name}
+%global app_state_root /var/www/miq/vmdb
 %global manageiq_var_lib_root /var/lib/manageiq
-%global ansible_venv_root %{manageiq_var_lib_root}/venv
+%global ansible_venv_root %{org_root}/venv
 %global appliance_root %{org_root}/%{name}-appliance
 %global gemset_root %{org_root}/%{name}-gemset
 %global manifest_root %{org_root}/manifest
@@ -43,6 +44,8 @@ Source5:  manageiq.sysusers
 %{?sysusers_requires_compat}
 
 # Declare any patches here
+Patch1: 0001-update-bundle-gemfile-path.patch
+Patch2: 0001-Update-rails-root.patch
 
 %description
 %{product_summary}
@@ -59,6 +62,8 @@ umask 0002
 cd %{_builddir}
 
 # Apply any patches here
+%patch -P 1 -p1
+%patch -P 2 -p1
 
 %py3_shebang_fix %{gemset_builddir} 2>&1 | grep -v "^recursedown" | grep -v "no change"
 
@@ -87,10 +92,17 @@ cd %{_builddir}
 ################
 %{__mkdir} -p %{buildroot}%{app_root}
 %{__cp} -a %{core_builddir}/* %{buildroot}%{app_root}
-%{__mkdir} -p %{buildroot}%{app_root}/log/apache
 %{__mkdir} -p %{buildroot}%{app_root}/tmp/{,sockets,pids}
-%{__chmod} 6750 %{buildroot}%{app_root}/{log,config,certs,data,data/git_repos}
+%{__chmod} 6750 %{buildroot}%{app_root}/config
 %{__chmod} 700 %{buildroot}%{app_root}/tmp/{,pids,sockets}
+
+# Persisted /var paths — create skeleton dirs and move files that stay in /var
+%{__mkdir} -p %{buildroot}/%{app_state_root}/{certs,config,data,data/git_repos,log/apache,db,public/pictures,public/upload}
+%{__chmod} 6750 %{buildroot}/%{app_state_root}/{certs,data,data/git_repos,log}
+# Remove dirs from app_root that will be symlinked at runtime
+%{__rm} -rf %{buildroot}%{app_root}/{certs,data,log}
+%{__rm} -rf %{buildroot}%{app_root}/public/pictures
+%{__rm} -rf %{buildroot}%{app_root}/public/upload
 
 # Move webpack manifests
 %{__mv} %{buildroot}%{app_root}/public/packs/webpack_modules_manifest.json %{buildroot}%{manifest_root}
@@ -109,6 +121,24 @@ done
 
 # Install the sysuser config file
 install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysusersdir}/manageiq.conf
+
+mkdir -p %{app_state_root}/certs
+mkdir -p %{app_state_root}/config
+mkdir -p %{app_state_root}/data
+mkdir -p %{app_state_root}/db
+mkdir -p %{app_state_root}/log
+mkdir -p %{app_state_root}/db
+touch %{app_state_root}/db/schema.rb
+touch %{app_state_root}/GUID
+
+ln -s -f %{app_state_root}/GUID %{buildroot}%{app_root}/GUID
+ln -s -f %{app_state_root}/certs %{buildroot}%{app_root}/certs
+ln -s -f %{app_state_root}/data %{buildroot}%{app_root}/data
+ln -s -f %{app_state_root}/log %{buildroot}%{app_root}/log
+ln -s -f %{app_state_root}/db/schema.rb %{buildroot}%{app_root}/db/schema.rb
+ln -s -f %{app_state_root}/config/database.yml %{buildroot}%{app_root}/config/database.yml
+ln -s -f %{app_state_root}/config/messaging.yml %{buildroot}%{app_root}/config/messaging.yml
+
 
 #####################
 # Install appliance #
@@ -149,7 +179,7 @@ done
 # Install ansible-venv #
 ########################
 %{__mkdir} -p %{buildroot}%{ansible_venv_root}
-%{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{manageiq_var_lib_root}
+%{__cp} -a %{ansible_venv_builddir}/venv %{buildroot}%{org_root}
 
 ln -s /usr/bin/python3.12 %{buildroot}%{ansible_venv_root}/bin/python3.12
 ln -s ./python3.12 %{buildroot}%{ansible_venv_root}/bin/python3
@@ -160,6 +190,16 @@ ln -s ./python3 %{buildroot}%{ansible_venv_root}/bin/python
 
 # Create podman containers root
 %{__mkdir} -p %{buildroot}%{manageiq_var_lib_root}/containers/storage
+
+########################
+# Install ui #
+########################
+mkdir -p %{app_state_root}/public/pictures
+mkdir -p %{app_state_root}/public/upload
+
+ln -s %{app_state_root}/public/pictures %{buildroot}%{app_root}/public/pictures
+ln -s %{app_state_root}/public/upload %{buildroot}%{app_root}/public/upload
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT

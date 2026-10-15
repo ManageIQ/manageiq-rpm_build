@@ -19,7 +19,7 @@ module ManageIQ
 
         # Override path in bundler plugin index
         plugin_index = GEM_HOME.join("vmdb/.bundle/plugin/index")
-        plugin_index.write(plugin_index.read.gsub(BUILD_DIR.join("manageiq").to_s, '/var/www/miq/vmdb'))
+        plugin_index.write(plugin_index.read.gsub(BUILD_DIR.join("manageiq").to_s, '/usr/lib/manageiq/manageiq'))
 
         name = "gemset"
         shell_cmd("tar -C #{BUILD_DIR} -zcf #{tar_full_path(name)} --exclude-vcs -X #{exclude_file(name)} #{tar_basename(name)}")

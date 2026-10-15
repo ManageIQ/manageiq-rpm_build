@@ -1,0 +1,25 @@
+From 1b5e8202614f40fe5d7e666a782012c5e60392ef Mon Sep 17 00:00:00 2001
+From: Brandon Dunne <brandon.dunne@ibm.com>
+Date: Thu, 24 Sep 2026 15:17:47 -0400
+Subject: [PATCH] Update gemfile location
+
+---
+ manageiq-appliance-21.0.0/COPY/etc/default/manageiq.properties | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/manageiq-appliance-21.0.0/COPY/etc/default/manageiq.properties b/manageiq-appliance-21.0.0/COPY/etc/default/manageiq.properties
+index 13d6737..7fe069f 100644
+--- a/manageiq-appliance-21.0.0/COPY/etc/default/manageiq.properties
++++ b/manageiq-appliance-21.0.0/COPY/etc/default/manageiq.properties
+@@ -6,7 +6,7 @@ EXECJS_RUNTIME=Node
+ MALLOC_ARENA_MAX=1
+ # Location of certificates and provider keys (miq-password and appliance console)
+ KEY_ROOT=/var/www/miq/vmdb/certs
+-BUNDLE_GEMFILE=/var/www/miq/vmdb/Gemfile
++BUNDLE_GEMFILE=/usr/lib/manageiq/manageiq/Gemfile
+ 
+ # Force locale
+ LANGUAGE=en_US.UTF-8
+-- 
+2.55.0
+

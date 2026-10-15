@@ -1,0 +1,25 @@
+From a8029b1c878fc381029e8a986985968c40c8bb1a Mon Sep 17 00:00:00 2001
+From: Brandon Dunne <brandon.dunne@ibm.com>
+Date: Mon, 5 Oct 2026 18:31:53 -0400
+Subject: [PATCH] Update rails root
+
+---
+ manageiq-gemset-21.0.0/gems/manageiq-appliance_console-12.0.1/lib/manageiq/appliance_console.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/manageiq-gemset-21.0.0/gems/manageiq-appliance_console-12.0.1/lib/manageiq/appliance_console.rb b/manageiq-gemset-21.0.0/gems/manageiq-appliance_console-12.0.1/lib/manageiq/appliance_console.rb
+index 384b0785..4ae6eca2 100644
+--- a/manageiq-gemset-21.0.0/gems/manageiq-appliance_console-12.0.1/lib/manageiq/appliance_console.rb
++++ b/manageiq-gemset-21.0.0/gems/manageiq-appliance_console-12.0.1/lib/manageiq/appliance_console.rb
+@@ -2,7 +2,7 @@ module ManageIQ
+   module ApplianceConsole
+     require 'pathname'
+     require 'tempfile'
+-    RAILS_ROOT = File.exist?("/var/www/miq/vmdb") ? Pathname.new("/var/www/miq/vmdb") : Pathname.new(Dir.mktmpdir)
++    RAILS_ROOT = File.exist?("/usr/lib/manageiq/manageiq") ? Pathname.new("/usr/lib/manageiq/manageiq") : Pathname.new(Dir.mktmpdir)
+ 
+     class << self
+       attr_writer :logger
+-- 
+2.55.0
+
