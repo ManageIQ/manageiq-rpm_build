@@ -11,5 +11,5 @@ end
 
 spec_dir = Pathname.new("../rpm_spec").expand_path(__dir__)
 Dir.chdir(spec_dir) do
-  ManageIQ::RPMBuild::BuildCopr.new(opts[:release_name].to_s).generate_spec_from_template
+  ManageIQ::RPMBuild::BuildCore.new(opts[:release_name].to_s).generate_spec_from_template
 end

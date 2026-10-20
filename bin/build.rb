@@ -50,7 +50,7 @@ puts "\n\nTARBALL BUILT SUCCESSFULLY"
 
 # Build RPMs
 release_name = build_type == "release" ? git_ref : ""
-ManageIQ::RPMBuild::BuildCopr.new(release_name).generate_rpm
+ManageIQ::RPMBuild::BuildCore.new(release_name).generate_rpm
 
 if opts[:upload]
   ManageIQ::RPMBuild::BuildUploader.new(:release => build_type == "release").upload

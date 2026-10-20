@@ -18,7 +18,6 @@ RUN --mount=type=bind,from=quay.io/manageiq/build_tools:v1,source=/tools,target=
     dnf config-manager --setopt=epel.exclude=*qpid-proton* --save && \
     dnf -y install \
       cmake \
-      copr-cli \
       createrepo \
       glibc-langpack-en \
       libcurl-devel \

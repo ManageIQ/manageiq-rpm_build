@@ -4,16 +4,15 @@ require 'yaml'
 
 module ManageIQ
   module RPMBuild
-    class BuildCopr
+    class BuildCore
       include Helper
 
-      attr_reader :release_name, :rpm_release, :rpm_repo_name, :rpm_spec
+      attr_reader :release_name, :rpm_release, :rpm_spec
 
       def initialize(release_name)
-        @release_name  = release_name
-        @rpm_release   = OPTIONS.rpm.release
-        @rpm_repo_name = OPTIONS.rpm.repo_name
-        @rpm_spec      = "#{OPTIONS.product_name}.spec"
+        @release_name = release_name
+        @rpm_release  = OPTIONS.rpm.release
+        @rpm_spec     = "#{OPTIONS.product_name}.spec"
       end
 
       def generate_rpm
@@ -22,13 +21,8 @@ module ManageIQ
         Dir.chdir(RPM_SPEC_DIR) do
           generate_spec_from_template
 
-          if File.exist?(File.expand_path("~/.config/copr"))
-            shell_cmd("rpmbuild -bs --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{RPM_SPEC_DIR}' #{rpm_spec}")
-            shell_cmd("copr-cli build -r epel-9-x86_64 #{rpm_repo_name} #{OPTIONS.product_name}-*.src.rpm")
-          else
-            arch = RUBY_PLATFORM.split("-").first
-            shell_cmd("rpmbuild -ba --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{BUILD_DIR.join("rpms", arch)}' --define '_rpmdir #{BUILD_DIR.join("rpms")}' #{rpm_spec}")
-          end
+          arch = RUBY_PLATFORM.split("-").first
+          shell_cmd("rpmbuild -ba --define '_sourcedir #{RPM_SPEC_DIR}' --define '_srcrpmdir #{BUILD_DIR.join("rpms", arch)}' --define '_rpmdir #{BUILD_DIR.join("rpms")}' #{rpm_spec}")
         end
       end
 
@@ -69,7 +63,7 @@ module ManageIQ
           BUILD_DATE
         else
           pre_build = release_name.split("-")[2]
-          pre_build ? "#{pre_build}" : "#{rpm_release}"
+          pre_build ? pre_build.to_s : rpm_release.to_s
         end
       end
     end
