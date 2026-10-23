@@ -88,6 +88,9 @@ cd %{_builddir}
 ################
 %{__mkdir} -p %{buildroot}%{app_root}
 %{__cp} -a %{core_builddir}/* %{buildroot}%{app_root}
+%{__mkdir} -p %{buildroot}%{app_state_root}
+%{__chmod} 770 %{buildroot}%{app_state_root}
+%{__chown} 903:root %{buildroot}%{app_state_root}
 %{__mkdir} -p %{buildroot}%{app_state_root}/tmp/{sockets,pids}
 %{__chmod} 6750 %{buildroot}%{app_root}/config
 %{__chmod} 700 %{buildroot}%{app_state_root}/tmp/{,pids,sockets}
@@ -97,6 +100,7 @@ cd %{_builddir}
 %{__mkdir} -p %{app_state_root}/{certs,config,data,db,log,product/conditions,tmp}
 %{__mkdir} -p %{buildroot}/%{app_state_root}/{certs,config,data,data/git_repos,log/apache,db,product/conditions}
 %{__chmod} 6750 %{buildroot}/%{app_state_root}/{certs,data,data/git_repos,log}
+%{__chown} 903:root %{buildroot}%{app_state_root}/log
 touch %{app_state_root}/db/schema.rb
 touch %{app_state_root}/GUID
 # Remove dirs from app_root that will be symlinked at runtime

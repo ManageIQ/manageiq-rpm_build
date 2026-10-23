@@ -50,8 +50,8 @@ done
 [ -e %{app_state_root}/certs/server.cer.key ] && %{__chmod} g+r %{app_state_root}/certs/server.cer.key
 
 %{__mkdir} -p %{app_state_root}/{product/conditions,tmp/cache,tmp/pids,tmp/sockets}
-%{__chown} -R manageiq:manageiq %{app_state_root}/{data,log,product,tmp}
-%{__chmod} -R o-rw %{app_root}/{log,tmp/pids}
+%{__chown} -R manageiq:root %{app_state_root}/{data,log,product,tmp}
+%{__chmod} -R 770 %{app_root}/{log,tmp/cache,tmp/pids}
 
 # Set SELinux contexts to allow podman containers to run from /var/lib/manageiq/containers/storage
 semanage fcontext --add --type container_ro_file_t '%{manageiq_var_lib_root}/containers/storage/overlay(/.*)?'
@@ -70,22 +70,24 @@ restorecon %{manageiq_var_lib_root}/containers/storage/
 %files core
 %defattr(-,root,root,-)
 %{app_root}
-%attr(-,manageiq,manageiq) %{app_state_root}/certs
+%attr(770,manageiq,root) %{app_state_root}
+%attr(770,manageiq,root) %{app_state_root}/certs
 %attr(770,manageiq,root) %{app_state_root}/config
-%attr(-,manageiq,manageiq) %{app_state_root}/data
-%attr(-,manageiq,manageiq) %{app_state_root}/db
-%attr(-,manageiq,manageiq) %{app_state_root}/tmp
-%attr(-,manageiq,manageiq) %{app_root}/certs
-%attr(-,manageiq,manageiq) %{app_root}/config
-%attr(-,manageiq,manageiq) %{app_root}/data
-%attr(-,manageiq,manageiq) %{app_root}/log
-%attr(-,manageiq,manageiq) %{app_root}/tmp
+%attr(770,manageiq,root) %{app_state_root}/data
+%attr(770,manageiq,root) %{app_state_root}/db
+%attr(770,manageiq,root) %{app_state_root}/tmp
+%attr(-,manageiq,root) %{app_root}/certs
+%attr(-,manageiq,root) %{app_root}/config
+%attr(-,manageiq,root) %{app_root}/data
+%attr(-,manageiq,root) %{app_root}/log
+%attr(-,manageiq,root) %{app_root}/tmp
 %config(noreplace) %{app_root}/config/cable.yml
+%exclude %{app_state_root}/log/apache
+%exclude %{app_state_root}/public/pictures
+%exclude %{app_state_root}/public/upload
 %exclude %{app_root}/public/assets
 %exclude %{app_root}/public/packs
-%exclude %{app_root}/public/pictures
 %exclude %{app_root}/public/ui
-%exclude %{app_root}/public/upload
 %{app_root}/db/schema.rb
 %{manifest_root}/BUILD
 %{manifest_root}/BUILD_RPM_BUILD
