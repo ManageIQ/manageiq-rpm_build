@@ -21,6 +21,7 @@ RUN --mount=type=bind,from=quay.io/manageiq/build_tools:v1,source=/tools,target=
       copr-cli \
       createrepo \
       glibc-langpack-en \
+      golang \
       libcurl-devel \
       libpq-devel \
       librdkafka \
