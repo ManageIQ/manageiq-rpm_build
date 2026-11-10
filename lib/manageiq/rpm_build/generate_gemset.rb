@@ -28,10 +28,10 @@ module ManageIQ
         ENV["RAILS_USE_MEMORY_STORE"] = "true"
         ENV["GEM_HOME"]  = nil
         ENV["GEM_PATH"]  = nil
-        ENV["PATH"]      = "/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/root/bin:~/bin"
+        ENV["PATH"]      = "/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:/root/bin:~/bin:/root/.local/share/gem/ruby/bin"
 
         ENV["GEM_HOME"] = GEM_HOME.to_s
-        ENV["GEM_PATH"] = "#{GEM_HOME}:/usr/share/gems:/usr/local/share/gems"
+        ENV["GEM_PATH"] = "#{GEM_HOME}:/usr/share/gems:/usr/local/share/gems:/root/.local/share/gem/ruby"
         ENV["PATH"]     = "#{GEM_HOME}/bin:#{ENV["PATH"]}"
 
         shell_cmd("gem env")
@@ -107,7 +107,6 @@ module ManageIQ
 
         FileUtils.mkdir_p(manifest_dir)
 
-        shell_cmd("gem install license_finder -v '~> 7.0.1'")
         generate_gem_manifest
         generate_npm_manifest
       end
