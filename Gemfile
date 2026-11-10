@@ -5,6 +5,7 @@ gem 'awesome_spawn',  ">=1.3.0"
 gem 'aws-sdk-s3'
 gem 'config'
 gem 'droplet_kit',    "~>3.7",    :require => false
+gem 'license_finder', "= 7.0.1"
 gem 'manageiq-style'
 gem 'more_core_extensions'
 gem 'optimist'
