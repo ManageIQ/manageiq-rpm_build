@@ -46,3 +46,4 @@ Requires: libsodium-devel
 %{gemset_root}/specifications
 %{gemset_root}/vmdb
 %{manifest_root}/gem_manifest.csv
+%{manifest_root}/go_manifest.csv
