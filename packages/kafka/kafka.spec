@@ -1,7 +1,7 @@
 Name:             kafka
 Summary:          Apache Kafka is an open-source stream-processing software platform
 Version:          3.9.2
-Release:          1%{?dist}
+Release:          2%{?dist}
 License:          Apache (v2)
 Group:            Applications
 URL:              https://kafka.apache.org
@@ -66,6 +66,7 @@ cp config/log4j.properties %{buildroot}%{etc_kafka}/config
 cp config/server.properties %{buildroot}%{etc_kafka}/config
 cp config/tools-log4j.properties %{buildroot}%{etc_kafka}/config
 cp config/zookeeper.properties %{buildroot}%{etc_kafka}/config
+
 cp -n */build/libs/* %{buildroot}%{kafka_home}/libs
 cp -n */build/dependant-libs*/* %{buildroot}%{kafka_home}/libs
 cp -n */*/build/libs/* %{buildroot}%{kafka_home}/libs
@@ -113,6 +114,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Nov 02 2026 "Adam Grare" <adam@grare.com> - 3.9.2-2
+- Pass kafka.security to the kafka service via KAFKA_OPTS
+
 * Tue Aug 04 2026 "Brandon Dunne" <brandondunne@hotmail.com> - 3.9.2-1
 - Update to v3.9.2
 
